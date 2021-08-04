@@ -1,4 +1,4 @@
-# AmiCusco
+# AmiCusco (Agora vai)
 
 # Comandos Git:
 ### git pull (baixar os arquivos do repositório)
