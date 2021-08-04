@@ -28,12 +28,21 @@ export default function Login(){
             <Image source={face} style={[styles.icon,{ width: 35, height: 40 , marginTop: 4 }]} />
             <Text style={styles.text}>Login Com Facebook</Text>  
             <Text style={styles.text}></Text>   
-        </TouchableOpacity>    
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.inputGoogle}>
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Login Com Google</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
+
+        <View style={{flexDirection:'row'}}>
+        <Text style={{marginTop:20}}>Não tem uma conta?</Text>
+        
+        <TouchableOpacity>
+        <Text style={styles.accountText}>Clique aqui</Text>
+        </TouchableOpacity>
+        </View>
     </View> 
     </LinearGradient>
     );
@@ -95,10 +104,16 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight:'bold',
         fontSize: 16,
-        textAlign: 'center',
+        textAlign: 'center'
         },
 
     icon: {
         marginLeft: 5   
+    },
+
+    accountText: {
+        textDecorationLine: 'underline',
+        marginTop:20,
+        marginLeft:10
     }
 });
