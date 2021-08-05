@@ -38,9 +38,9 @@ export default function Login(){
 
         <View style={{flexDirection:'row'}}>
         <Text style={{marginTop:20}}>Não tem uma conta?</Text>
-        
+
         <TouchableOpacity>
-        <Text style={styles.accountText}>Clique aqui</Text>
+            <Text style={styles.accountText}>Clique aqui</Text>
         </TouchableOpacity>
         </View>
     </View> 
