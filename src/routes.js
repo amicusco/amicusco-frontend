@@ -1,8 +1,6 @@
 import { createSwitchNavigator } from '@react-navigation/native';
 import { Switch } from 'react-native';
 
-
-
 import Login from './pages/Login';
 import Main from './pages/Main';
 

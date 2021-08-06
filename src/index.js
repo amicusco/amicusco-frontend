@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from './pages/Login';
+import Main from './pages/Main';
 
 
 
@@ -35,10 +36,11 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator>
+      <Tab.Screen name="Login" component={Login} />
       <Tab.Screen name="Main" component={MainScreen} />
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
+    </Tab.Navigator>
   );
 }
 
