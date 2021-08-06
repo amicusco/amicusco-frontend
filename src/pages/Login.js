@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { View,Text, StyleSheet, Image, TextInput, Button, TouchableOpacity, Dimensions } from 'react-native';
+import { View,Text, StyleSheet, Image, TextInput, Button, TouchableOpacity, Dimensions, SwitchNavigator } from 'react-native';
 
 import plus from '../assets/plus.png'; 
 import logo from '../assets/logo.png';
@@ -73,7 +73,7 @@ export default function Login(){
 }
 
 export function LoginAmicusco(){
-    
+    <view>LoginAmicusco</view>
 }
 
 const styles = StyleSheet.create({
