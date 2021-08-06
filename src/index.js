@@ -46,7 +46,6 @@ function MyTabs() {
 
 export default function App() {
   return (
-    <Login />,
     <NavigationContainer>
       <MyTabs />
     </NavigationContainer>
