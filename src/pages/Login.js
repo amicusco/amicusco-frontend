@@ -1,11 +1,13 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { View,Text, StyleSheet, Image, TextInput, Button, TouchableOpacity, Dimensions, SwitchNavigator } from 'react-native';
+import { View,Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 import plus from '../assets/plus.png'; 
 import logo from '../assets/logo.png';
 import face from '../assets/face.png';
 import google from '../assets/google.png';
+
+import Main from './Main';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -21,7 +23,7 @@ function test(windowHeight){
     }
 }
 
-export default function Login(){
+export default function Login({navigation}){
     return (
     <LinearGradient 
     locations={[0,1,1.5]}
@@ -34,7 +36,9 @@ export default function Login(){
     </View>
 
     <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.inputAmicusco}>
+        <TouchableOpacity 
+            style={styles.inputAmicusco}
+            onPress={()=>navigation.navigate('Main')}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Conta AmisCusco</Text>
             <Text style={styles.text}></Text>      
