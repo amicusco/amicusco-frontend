@@ -11,3 +11,5 @@
 # npm install @react-navigation/bottom-tabs
 # npm install @react-navigation/elements@1.0.1
 
+
+IMPORTANTE, APENAS USAR GIT ADD NOS ARQUIVOS DE CODIGO
