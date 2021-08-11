@@ -37,8 +37,7 @@ export default function Login({navigation}){
 
     <View style={styles.containerButton}>
         <TouchableOpacity 
-            style={styles.inputAmicusco}
-            onPress={()=>navigation.navigate('Main')}>
+            style={styles.inputAmicusco}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Conta AmisCusco</Text>
             <Text style={styles.text}></Text>      
@@ -59,7 +58,8 @@ export default function Login({navigation}){
         <View style={{flexDirection:'row'}}>
         <Text style={{marginTop:20}}>Não tem uma conta?</Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+            onPress={()=>navigation.navigate('Main')}>
             <Text style={styles.accountText}>Clique aqui</Text>
         </TouchableOpacity>
         </View>
