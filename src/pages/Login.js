@@ -1,13 +1,13 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { View,Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 import plus from '../assets/plus.png'; 
 import logo from '../assets/logo.png';
 import face from '../assets/face.png';
 import google from '../assets/google.png';
 
-import Main from './Main';
+
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -37,7 +37,8 @@ export default function Login({navigation}){
 
     <View style={styles.containerButton}>
         <TouchableOpacity 
-            style={styles.inputAmicusco}>
+            style={styles.inputAmicusco}
+            onPress={()=>navigation.navigate('LoginAmicusco')}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Conta AmisCusco</Text>
             <Text style={styles.text}></Text>      
@@ -76,9 +77,6 @@ export default function Login({navigation}){
     );
 }
 
-export function LoginAmicusco(){
-    <view>LoginAmicusco</view>
-}
 
 const styles = StyleSheet.create({
     gradient: {

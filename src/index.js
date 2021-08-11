@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from './pages/Login';
 import Main from './pages/Main';
+import LoginAmicusco from './pages/LoginAmicusco';
 
 function HomeScreen({ navigation }) {
   return (
@@ -30,9 +31,10 @@ const Stack = createNativeStackNavigator();
 
 function MyStack(){
   return(
-    <Stack.Navigator initialRouteName="Main">
+    <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
         <Stack.Screen name="Main" component={Main} options={{headerShown: false}} />
+        <Stack.Screen name="LoginAmicusco" component={LoginAmicusco} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }
