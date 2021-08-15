@@ -60,7 +60,7 @@ export default function Login({navigation}){
         <Text style={{marginTop:20}}>Não tem uma conta?</Text>
 
         <TouchableOpacity
-            onPress={()=>navigation.navigate('Main')}>
+            onPress={()=>navigation.navigate('AccountAmicusco')}>
             <Text style={styles.accountText}>Clique aqui</Text>
         </TouchableOpacity>
         </View>
@@ -68,7 +68,8 @@ export default function Login({navigation}){
         <View style={{flexDirection:'row'}}>
         <Text style={{marginTop:20}}>Problemas para fazer Login?</Text>
         
-        <TouchableOpacity>
+        <TouchableOpacity
+            onPress={()=>navigation.navigate('AccountRecovery')}>
             <Text style={styles.accountText}>Clique aqui para resolver</Text>
         </TouchableOpacity>
         </View>
