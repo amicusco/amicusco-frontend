@@ -1,6 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 
+async function LoginAccount (data) {
+    //So esperar o Augusto fazer a função
+
+    //console.log("teste")
+    //await axios.post("https://amicusco-auth.herokuapp.com/user", data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+}
+
 export default function LoginAmicusco({ navigation }){
     return(
     <View styles={styles.container}>

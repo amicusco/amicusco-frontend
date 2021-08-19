@@ -2,6 +2,8 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from 'axios';
+
 
 import Login from './pages/Login';
 import AccountAmicusco from './pages/AccountAmicusco';
@@ -42,6 +44,7 @@ function MyStack(){
 }
 
 function App() {
+  axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp));
   return (
     <NavigationContainer>
       <MyStack/>
