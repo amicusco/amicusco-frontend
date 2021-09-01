@@ -32,8 +32,8 @@ export default function LoginAmicusco({ navigation }){
 
         <View style={styles.containerInput}>
         <TouchableOpacity 
-            style={styles.inputSubmitButton}>
-            {/* <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/> */}
+            style={styles.inputSubmitButton}
+            onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>
             <Text style={styles.inputSubmitButtonTxt}>Entrar</Text>     
         </TouchableOpacity>
         </View>

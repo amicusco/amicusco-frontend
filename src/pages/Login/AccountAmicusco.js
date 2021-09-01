@@ -10,6 +10,8 @@ export default function AccountAmicusco({ navigation }) {
     // 
     const [data, setData] = React.useState({});
 
+
+    
     console.log(data);
     return(
     <ScrollView style={styles.container}>
@@ -20,7 +22,7 @@ export default function AccountAmicusco({ navigation }) {
             autoFocus={true}
             keyboardType={'default'}
             placeholder="Digite o seu nome completo"
-            onChange={(e) => setData({...data, 'name': e.target.value})}
+            onChange={(e) => setData({...data, 'name': e.target.value})} 
             />
         </View>
         
@@ -57,7 +59,7 @@ export default function AccountAmicusco({ navigation }) {
             style={styles.input}
             keyboardType={'url'}
             placeholder="Digite o seu telefone"
-            onChange={(e) => setData({...data, 'telefone': e.target.value})}/>
+            onChange={(e) => setData({...data, 'numberPhone': e.target.value})}/>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -68,17 +70,17 @@ export default function AccountAmicusco({ navigation }) {
             style={styles.input}
             keyboardType={'email-address'}
             placeholder="Digite o seu e-mail"
-            onChange={(e) => setData({...data, 'e-mail': e.target.value})}/>
+            onChange={(e) => setData({...data, 'email': e.target.value})}/>
         </View>
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
+        
         <View style={styles.containerInput}>
         <TouchableOpacity 
+            //Quando o botão fizer duas coisas é so chamar em sequencia onPress
             style={styles.inputSubmitButton}
             onPress={() => Submit(data)}
-        >
-            {/* <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/> */}
+            onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>  
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>

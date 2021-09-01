@@ -2,13 +2,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
-import plus from '../assets/plus.png'; 
-import logo from '../assets/logo.png';
-import face from '../assets/face.png';
-import google from '../assets/google.png';
+import plus from '../../assets/plus.png'; 
+import logo from '../../assets/logo.png';
+import face from '../../assets/face.png';
+import google from '../../assets/google.png';
 
 
-
+//teste de responsividade (que não funciona)
 const windowHeight = Dimensions.get('window').height;
 
 function test(windowHeight){
@@ -35,22 +35,29 @@ export default function Login({navigation}){
         <Image source={logo} style={{resizeMode:"contain", width: 134, height: 136 }} />
     </View>
 
+    <View>
+        <Text style={styles.tittleText}>Encontre um parceiro {"\n"} para o seu petmigo</Text>
+        <Text style={[styles.text,{color: "#fff", fontWeight:'normal'}]}>Vamos encontrar um parceiro {"\n"} ideal para o seu Pet!</Text>
+    </View>
+
     <View style={styles.containerButton}>
         <TouchableOpacity 
             style={styles.inputAmicusco}
             onPress={()=>navigation.navigate('LoginAmicusco')}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
-            <Text style={styles.text}>Entrar Com Conta AmisCusco</Text>
+            <Text style={styles.text}>Entrar Com Conta AmiCusco</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.inputGoogle}>
+        <TouchableOpacity style={styles.inputGoogle}
+        onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>        
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Google</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.inputFace}>
+        <TouchableOpacity style={styles.inputFace}
+        onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>
             <Image source={face} style={[styles.icon,{ width: 35, height: 40 , marginTop: 4 }]} />
             <Text style={styles.text}>Entrar Com Facebook</Text>  
             <Text style={styles.text}></Text>   
@@ -151,5 +158,18 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         marginTop:20,
         marginLeft:10
+    },
+
+    tittleText: {
+        color: '#fff',
+        fontSize: 30,
+        textAlign: 'center',
+        paddingBottom: 10,
+        textShadowColor: "#111",
+        textShadowOffset: {
+            height: 4,
+            width: 0
+        },
+        textShadowRadius: 9
     }
 });
