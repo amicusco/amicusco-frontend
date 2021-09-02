@@ -1,12 +1,21 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import axios from 'axios';
 
 import plus from '../../assets/plus.png'; 
 import logo from '../../assets/logo.png';
 import face from '../../assets/face.png';
 import google from '../../assets/google.png';
 
+
+async function SubmitGoogle (data) {
+    await axios.get("https://amicusco-auth.herokuapp.com/auth/google").then(resp => console.log(resp.data)).catch(err => console.log(err));
+}
+
+async function SubmitFacebook (data) {
+    await axios.get("https://amicusco-auth.herokuapp.com/auth/facebook").then(resp => console.log(resp.data)).catch(err => console.log(err));
+}
 
 //teste de responsividade (que não funciona)
 const windowHeight = Dimensions.get('window').height;
@@ -24,6 +33,9 @@ function test(windowHeight){
 }
 
 export default function Login({navigation}){
+    const [data, setData] = React.useState({});
+
+
     return (
     <LinearGradient 
     locations={[0,1,1.5]}
@@ -50,14 +62,14 @@ export default function Login({navigation}){
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputGoogle}
-        onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>        
+        onPress={()=>{SubmitGoogle();navigation.navigate('StackMain', {screen: 'PetLogin'})}}>        
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Google</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputFace}
-        onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>
+        onPress={()=>{SubmitFacebook();navigation.navigate('StackMain', {screen: 'PetLogin'})}}>
             <Image source={face} style={[styles.icon,{ width: 35, height: 40 , marginTop: 4 }]} />
             <Text style={styles.text}>Entrar Com Facebook</Text>  
             <Text style={styles.text}></Text>   

@@ -1,14 +1,16 @@
 import React from 'react';
+import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 
-async function LoginAccount (data) {
-    //So esperar o Augusto fazer a função
-
-    //console.log("teste")
-    //await axios.post("https://amicusco-auth.herokuapp.com/user", data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+async function Submit (data) {
+    console.log("qualquer coisa")
+    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => console.log(resp.data)).catch(err => alert(err));
 }
 
+
 export default function LoginAmicusco({ navigation }){
+    const [data, setData] = React.useState({});
+
     return(
     <View styles={styles.container}>
         <View style={styles.containerInput}>
@@ -18,7 +20,9 @@ export default function LoginAmicusco({ navigation }){
             autoFocus={true}
             keyboardType={'email-address'}
             autoCompleteType={'email'}
-            placeholder="Digite o seu e-mail"/>
+            placeholder="Digite o seu e-mail"
+            //Fica para depois para colocar a expressão regular
+            onChange={(e) => setData({...data, 'email': e.target.value})} />
         </View>
 
         <View style={styles.containerInput}>
@@ -27,13 +31,14 @@ export default function LoginAmicusco({ navigation }){
             style={styles.input}
             keyboardType={'default'}
             secureTextEntry={'true'}
-            placeholder="Digite a sua senha"/>
+            placeholder="Digite a sua senha"
+            onChange={(e) => setData({...data, 'password': e.target.value})} />
         </View>
 
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>
+            onPress={() => {Submit(data); navigation.navigate('StackMain', {screen: 'PetLogin'})}}>
             <Text style={styles.inputSubmitButtonTxt}>Entrar</Text>     
         </TouchableOpacity>
         </View>
