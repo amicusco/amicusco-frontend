@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
+import plusS from '../../assets/plusS.png'; 
 import plus from '../../assets/plus.png'; 
 import logo from '../../assets/logo.png';
 
@@ -34,7 +35,7 @@ export default function PetLogin({navigation}){
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputGoogle} blurRadius={90}>
-            <Image source={plus} style={[styles.icon,{ width: 35, height: 35 }]}/>
+            <Image source={plusS} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={[styles.text, {fontWeight: 'normal'}]}>Novo Perfil</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
