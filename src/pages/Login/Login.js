@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Linking } from 'react-native';
 import axios from 'axios';
 
 import plus from '../../assets/plus.png'; 
@@ -9,12 +9,12 @@ import face from '../../assets/face.png';
 import google from '../../assets/google.png';
 
 
-async function SubmitGoogle (data) {
-    await axios.get("https://amicusco-auth.herokuapp.com/auth/google").then(resp => console.log(resp.data)).catch(err => console.log(err));
+async function SubmitGoogle () {
+    await axios.get("https://amicusco-auth.herokuapp.com/auth/google").then(resp => Linking.addEventListener('url', handleOpenURL)).catch(err => console.log(err));
 }
 
-async function SubmitFacebook (data) {
-    await axios.get("https://amicusco-auth.herokuapp.com/auth/facebook").then(resp => console.log(resp.data)).catch(err => console.log(err));
+async function SubmitFacebook () {
+    await axios.get("https://amicusco-auth.herokuapp.com/auth/facebook").then(resp => Linking.addEventListener('url', handleOpenURL)).catch(err => console.log(err));
 }
 
 //teste de responsividade (que não funciona)
@@ -34,7 +34,18 @@ function test(windowHeight){
 
 export default function Login({navigation}){
     const [data, setData] = React.useState({});
-
+    
+    const handleOpenURL = ({ url }) => {
+        if (url.indexOf("?id") !== -1) {
+          if (url)
+            setData(url);
+        }
+      };
+    
+    useEffect(() => {
+        // Your code here
+        Linking.addEventListener('url', handleOpenURL);
+      }, []);
 
     return (
     <LinearGradient 
@@ -62,14 +73,14 @@ export default function Login({navigation}){
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputGoogle}
-        onPress={()=>{SubmitGoogle();navigation.navigate('StackMain', {screen: 'PetLogin'})}}>        
+        onPress={()=>{Linking.openURL('https://amicusco-auth.herokuapp.com/auth/google');navigation.navigate('StackMain', {screen: 'PetLogin'})}}>        
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Google</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputFace}
-        onPress={()=>{SubmitFacebook();navigation.navigate('StackMain', {screen: 'PetLogin'})}}>
+        onPress={()=>{Linking.openURL('https://amicusco-auth.herokuapp.com/auth/facebook');navigation.navigate('StackMain', {screen: 'PetLogin'})}}>
             <Image source={face} style={[styles.icon,{ width: 35, height: 40 , marginTop: 4 }]} />
             <Text style={styles.text}>Entrar Com Facebook</Text>  
             <Text style={styles.text}></Text>   

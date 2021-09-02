@@ -45,7 +45,6 @@ function StackLogin(){
         <LoginStack.Screen name="AccountRecovery" component={AccountRecovery} />
         <LoginStack.Screen name="StackMain" component={StackMain} options={{ headerShown: false }}/>
         <LoginStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
-        <LoginStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
     </LoginStack.Navigator>
   );
 }
