@@ -10,8 +10,6 @@ export default function AccountAmicusco({ navigation }) {
     // 
     const [data, setData] = React.useState({});
 
-
-    
     console.log(data);
     return(
     <ScrollView style={styles.container}>
