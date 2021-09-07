@@ -14,6 +14,7 @@
 # npm install @react-navigation/bottom-tabs --save
 # npm install @react-navigation/elements@1.0.1 --save
 # npm install @react-native-community/slider@3.0.3 --save
+# npm install react-native-image-picker --save
 
 
 #npm install axios --save

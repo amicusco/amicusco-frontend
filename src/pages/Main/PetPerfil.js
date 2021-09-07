@@ -1,8 +1,11 @@
-import React from 'react';
-import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
-import face from '../../assets/face@3x.png'; 
+import * as ImagePicker from 'expo-image-picker';
+
+import Place_Holder from '../../assets/Place_Holder.png'; 
+import Camera from '../../assets/camera.png'; 
 
 async function Submit (data) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data).then(resp => console.log(resp.data)).catch(err => console.log(err));
@@ -19,6 +22,7 @@ export default function PetPerfil({ navigation }) {
     // }
     
     console.log(data);
+
     return(
     <ScrollView style={styles.container}>
         <View>
@@ -26,7 +30,11 @@ export default function PetPerfil({ navigation }) {
         </View>
 
         <View style={styles.imagePerfil}>
-            <Image source={face} style={{resizeMode:"contain", width: 230, height: 160 }} />
+            <Image source={Place_Holder} style={{resizeMode:"contain", width: 230, height: 160 }} />
+            <TouchableOpacity 
+            style={styles.inputImage}>
+            <Image source={Camera} style={{resizeMode:"contain", width: 20, height: 160 }} />       
+            </TouchableOpacity>
         </View>
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
@@ -105,15 +113,12 @@ export default function PetPerfil({ navigation }) {
         
         <View style={styles.containerInput}>
         <TouchableOpacity 
-            //Quando o botão fizer duas coisas é so chamar em sequencia onPress
             style={styles.inputSubmitButton}
             onPress={() => Submit(data)}
             onPress={()=>navigation.navigate('StackMain', {screen: 'PetLogin'})}>  
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>
-      
-    
     </ScrollView>  
     );
 }
@@ -158,6 +163,13 @@ const styles = StyleSheet.create({
     inputSubmitButtonTxt: {
         color: "white",
         fontWeight:'bold'
+    },
+
+    inputImage:{
+        backgroundColor: '#65D2EB',
+        borderRadius: 180,
+        height: 30,
+        width:30
     },
 
     txt:{

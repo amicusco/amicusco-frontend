@@ -7,7 +7,7 @@ async function Submit (data) {
 }
 
 export default function AccountAmicusco({ navigation }) {
-    // 
+    //Bruno, faz diferença eu criar varaiveis dentro dessa constante? ajuda a gente a fazer as verificações para o front.
     const [data, setData] = React.useState({});
 
     console.log(data);
@@ -55,7 +55,7 @@ export default function AccountAmicusco({ navigation }) {
             <Text style={styles.txt}>Telefone:</Text>  
             <TextInput
             style={styles.input}
-            keyboardType={'url'}
+            keyboardType={'name-phone-pad'}
             placeholder="Digite o seu telefone"
             onChange={(e) => setData({...data, 'numberPhone': e.target.value})}/>
         </View>
@@ -72,6 +72,17 @@ export default function AccountAmicusco({ navigation }) {
         </View>
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>Senha:</Text>  
+            <TextInput
+            //colocar possibilidade de ver a senha
+            style={styles.input}
+            keyboardType={'password'}
+            secureTextEntry={'true'}
+            placeholder="Digite a sua senha"
+            onChange={(e) => setData({...data, 'password': e.target.value})}/>
+        </View>
         
         <View style={styles.containerInput}>
         <TouchableOpacity 

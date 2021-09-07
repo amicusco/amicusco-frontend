@@ -38,7 +38,7 @@ const MainStack = createNativeStackNavigator();
 
 function StackLogin(){
   return(
-    <LoginStack.Navigator initialRouteName="Login">
+    <LoginStack.Navigator initialRouteName="PetPerfil">
         <LoginStack.Screen name="Login" component={Login} options={{headerShown: false}}/>
         <LoginStack.Screen name="AccountAmicusco" component={AccountAmicusco}/>
         <LoginStack.Screen name="LoginAmicusco" component={LoginAmicusco} />
