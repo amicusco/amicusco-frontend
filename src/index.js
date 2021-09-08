@@ -38,13 +38,12 @@ const MainStack = createNativeStackNavigator();
 
 function StackLogin(){
   return(
-    <LoginStack.Navigator initialRouteName="PetPerfil">
+    <LoginStack.Navigator initialRouteName="Login">
         <LoginStack.Screen name="Login" component={Login} options={{headerShown: false}}/>
         <LoginStack.Screen name="AccountAmicusco" component={AccountAmicusco}/>
         <LoginStack.Screen name="LoginAmicusco" component={LoginAmicusco} />
         <LoginStack.Screen name="AccountRecovery" component={AccountRecovery} />
         <LoginStack.Screen name="StackMain" component={StackMain} options={{ headerShown: false }}/>
-        <LoginStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
     </LoginStack.Navigator>
   );
 }
@@ -53,6 +52,7 @@ function StackMain(){
   return(
     <MainStack.Navigator initialRouteName="PetLogin">
         <MainStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
+        <LoginStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
     </MainStack.Navigator>
   );
 }

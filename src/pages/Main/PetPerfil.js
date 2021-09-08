@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
@@ -30,19 +30,21 @@ export default function PetPerfil({ navigation }) {
         </View>
 
         <View style={styles.imagePerfil}>
-            <Image source={Place_Holder} style={{resizeMode:"contain", width: 230, height: 160 }} />
-            <TouchableOpacity 
-            style={styles.inputImage}>
-            <Image source={Camera} style={{resizeMode:"contain", width: 20, height: 160 }} />       
-            </TouchableOpacity>
+            <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 120, height: 120}}>
+                <TouchableOpacity style={ styles.inputImage }>
+                    <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
+                </TouchableOpacity>
+            </ImageBackground>
         </View>
         
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
+        <View style={{paddingTop:20, alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome Completo</Text>
             <Text style={styles.txt}>Rahul Roy</Text>  
         </View>
+
+        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome do Pet</Text>  
@@ -97,7 +99,7 @@ export default function PetPerfil({ navigation }) {
             <Text style={styles.txt}>Distância Máxima</Text>
             {/* <Text style={[styles.txt, paddingLeft: 10]}>{this.state.sliderValue}</Text> */}
             <Slider 
-            style={{width: '90%', height: '4%', paddingTop: 10}}
+            style={{width: '100%', height: '5%', paddingTop: 10}}
             minimumValue={1}
             maximumValue={50}
             step={1}
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
 
     input: {
         height: 46,
-        width:'90%',
+        width:'100%',
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
@@ -154,22 +156,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#65D2EB',
         borderRadius: 40,
         marginTop:10,
-        flexDirection: "row",
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20
     },
 
     inputSubmitButtonTxt: {
-        color: "white",
+        color: 'white',
         fontWeight:'bold'
     },
 
     inputImage:{
+        direction: 'ltr',
+        justifyContent:'flex-end',
+        alignSelf:'flex-end',
         backgroundColor: '#65D2EB',
-        borderRadius: 180,
-        height: 30,
-        width:30
+        borderRadius: 360,
+        height: 40,
+        width: 40,
+        alignItems: 'center', 
+        justifyContent: 'center'
     },
 
     txt:{
@@ -183,8 +190,6 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-        adjustsFontSizeToFit:true,
-        maxFontSizeMultiplier:'100',
         fontSize:40,
         fontWeight:'bold',
         paddingLeft: 20

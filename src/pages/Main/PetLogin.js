@@ -5,6 +5,7 @@ import { View, ScrollView, Text, StyleSheet, Image, TouchableOpacity} from 'reac
 import plusS from '../../assets/plusS.png'; 
 import plus from '../../assets/plus.png'; 
 import logo from '../../assets/logo.png';
+import Place_Holder from '../../assets/Place_Holder.png'; 
 
 export default function PetLogin({navigation}){
     return (
@@ -25,19 +26,20 @@ export default function PetLogin({navigation}){
         </View>
 
         <TouchableOpacity style={styles.input}>
+            <Image source={Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35 }]}/>
             <Text style={styles.text}>Nome do Pet</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.input}>
+            <Image source={Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35 }]}/>
             <Text style={styles.text}>Nome do Pet</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.input} blurRadius={90}>
-            <Image source={plusS} style={[styles.icon,{ width: 35, height: 35 }]}/>
-            <Text style={[styles.text, {fontWeight: 'normal'}]}>Novo Perfil</Text>
-            <Text style={styles.text}></Text>      
+        <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('StackMain', {screen: 'PetPerfil'})}}>
+            <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
+            <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Novo Perfil</Text>      
         </TouchableOpacity>
     </View> 
     </LinearGradient>
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderRadius: 40,
         marginTop:10,
-        justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: "row"
         
@@ -83,7 +84,8 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight:'bold',
         fontSize: 16,
-        textAlign: 'center'
+        textAlign: 'right',
+        paddingLeft:10
         },
 
     tittleText: {

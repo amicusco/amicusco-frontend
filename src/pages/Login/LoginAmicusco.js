@@ -3,13 +3,18 @@ import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 
 async function Submit (data) {
-    console.log("qualquer coisa")
-    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => console.log(resp.data)).catch(err => alert(err));
+    //console.log("qualquer coisa")
+    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => console.log(resp.data)).catch(err => console.error(err));
 }
 
 
 export default function LoginAmicusco({ navigation }){
-    const [data, setData] = React.useState({});
+    const [data, setData] = React.useState({
+        password: '',
+        email: '',
+        isValidUser: true,
+        isValidPassword: true,
+    });
 
     return(
     <View styles={styles.container}>
@@ -30,7 +35,7 @@ export default function LoginAmicusco({ navigation }){
             <TextInput
             style={styles.input}
             keyboardType={'default'}
-            secureTextEntry={'true'}
+            secureTextEntry={true}
             placeholder="Digite a sua senha"
             onChange={(e) => setData({...data, 'password': e.target.value})} />
         </View>

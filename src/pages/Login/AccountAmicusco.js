@@ -79,7 +79,7 @@ export default function AccountAmicusco({ navigation }) {
             //colocar possibilidade de ver a senha
             style={styles.input}
             keyboardType={'password'}
-            secureTextEntry={'true'}
+            secureTextEntry={true}
             placeholder="Digite a sua senha"
             onChange={(e) => setData({...data, 'password': e.target.value})}/>
         </View>
