@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import axios from 'axios';
 
 import plusS from '../../assets/plusS.png'; 
 import plus from '../../assets/plus.png'; 
@@ -8,6 +9,17 @@ import logo from '../../assets/logo.png';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 
 export default function PetLogin({navigation}){
+
+    const [pets, setPets] = React.useState([]);
+
+    async function Submit (userid) {
+        await axios.get(`https://amicusco-pet-api.herokuapp.com/specie/${userid}/pet`).then(resp => setPets(resp.data)).catch(err => console.log(err));
+    }
+
+    // useEffect(() =>{
+    //     Submit(userid);
+    // },[]);
+    
     return (
     <LinearGradient
     locations={[0,1,1.5]}
@@ -25,18 +37,16 @@ export default function PetLogin({navigation}){
             <Text style={styles.tittleText}>Selecione o perfil desejado</Text>
         </View>
 
-        <TouchableOpacity style={styles.input}>
-            <Image source={Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35 }]}/>
-            <Text style={styles.text}>Nome do Pet</Text>
-            <Text style={styles.text}></Text>      
-        </TouchableOpacity>
+        {pets.map((pet, index) => {
+            return(
+            <TouchableOpacity style={styles.input} key={index}>
+                <Image source={Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35 }]}/>
+                <Text style={styles.text}>{pet.name}</Text>
+                <Text style={styles.text}></Text>      
+            </TouchableOpacity>
+            )
+        })} 
         
-        <TouchableOpacity style={styles.input}>
-            <Image source={Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35 }]}/>
-            <Text style={styles.text}>Nome do Pet</Text>
-            <Text style={styles.text}></Text>      
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('StackMain', {screen: 'PetPerfil'})}}>
             <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
             <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Novo Perfil</Text>      

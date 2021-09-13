@@ -7,13 +7,18 @@ import * as ImagePicker from 'expo-image-picker';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 import Camera from '../../assets/camera.png'; 
 
-async function Submit (data) {
-    await axios.post("https://amicusco-auth.herokuapp.com/user", data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+async function Submit (data, specieid) {
+    await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 }
 
+
 export default function PetPerfil({ navigation }) {
+
+
     // 
     const [data, setData] = React.useState({});
+
+    const [species, setSpecies] = React.useState([]);
     // constructor(props){
     //     super(props);
     //     this.state = {
@@ -23,6 +28,46 @@ export default function PetPerfil({ navigation }) {
     
     console.log(data);
 
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        const GetSpecies = async () => {
+            let resp = await axios.get("https://amicusco-pet-api.herokuapp.com/species");
+            setSpecies(resp.data);
+        }
+      
+        GetSpecies();
+
+      }, []);
+
+    console.log(species);
+
+    useEffect(() => {
+        (async () => {
+        if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+            alert('Desculpe, nós precisamos da permissão da sua câmera!');
+            }
+        }
+        })();
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+    };
+
     return(
     <ScrollView style={styles.container}>
         <View>
@@ -31,9 +76,10 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.imagePerfil}>
             <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 120, height: 120}}>
-                <TouchableOpacity style={ styles.inputImage }>
+                <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
                 </TouchableOpacity>
+            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
             </ImageBackground>
         </View>
         
@@ -93,7 +139,18 @@ export default function PetPerfil({ navigation }) {
             onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
         </View>
 
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>Sexo</Text>  
+            <TextInput
+            style={styles.input}
+            keyboardType={'default'}
+            placeholder="Selecione o sexo do pet"
+            onChange={(e) => setData({...data, 'petSex': e.target.value})}/>
+        </View>
+
+        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Distância Máxima</Text>
@@ -110,8 +167,6 @@ export default function PetPerfil({ navigation }) {
             // onValueChange={value => this.setState({sliderValue: value})}
             />  
         </View>
-        
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
         
         <View style={styles.containerInput}>
         <TouchableOpacity 
