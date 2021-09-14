@@ -129,6 +129,16 @@ export default function PetPerfil({ navigation }) {
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>Idade</Text>  
+            <TextInput
+            style={styles.input}
+            keyboardType={'numeric'}
+            placeholder="Digite a idade do seu pet"
+            onChange={(e) => setData({...data, 'age': e.target.value})}/>
+        </View>
+
+        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Rede Social</Text>  
@@ -148,6 +158,17 @@ export default function PetPerfil({ navigation }) {
             keyboardType={'default'}
             placeholder="Selecione o sexo do pet"
             onChange={(e) => setData({...data, 'petSex': e.target.value})}/>
+        </View>
+
+        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>Opção Sexual</Text>  
+            <TextInput
+            style={styles.input}
+            keyboardType={'default'}
+            placeholder="Selecione o sexo dos pets que você deseja visualizar"
+            onChange={(e) => setData({...data, 'petSexOption': e.target.value})}/>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
