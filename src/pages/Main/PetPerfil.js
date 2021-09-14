@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch } from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
@@ -14,21 +14,19 @@ async function Submit (data, specieid) {
 
 export default function PetPerfil({ navigation }) {
 
-
-    // 
+    const [isMale, setIsMale] = useState(false);
+    const toggleSwitch = () => setIsMale(previousState => !previousState);
+    
     const [data, setData] = React.useState({});
 
-    const [species, setSpecies] = React.useState([]);
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //         sliderValue: 1,
-    //     };
-    // }
-    
     console.log(data);
 
+    const [species, setSpecies] = React.useState([]);
+
     const [image, setImage] = useState(null);
+
+    const [dist, setDist] = useState(1);
+   
 
     useEffect(() => {
         const GetSpecies = async () => {
@@ -66,6 +64,8 @@ export default function PetPerfil({ navigation }) {
     if (!result.cancelled) {
       setImage(result.uri);
     }
+
+    //console.log(isEnabled);
     };
 
     return(
@@ -152,12 +152,16 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Sexo</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'default'}
-            placeholder="Selecione o sexo do pet"
-            onChange={(e) => setData({...data, 'petSex': e.target.value})}/>
+            <Text style={styles.txt}>Sexo do Pet</Text>
+            <Switch
+            style = {styles.switch}
+            disabled = {false}
+            trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
+            thumbColor={isMale ? "#000fff"  : "#ff007f"}
+            onValueChange={toggleSwitch}
+            onChange={(isMale) => setData({...data, 'petSex': isMale.target.value})}
+            value={isMale}/>
+            <Text style={styles.txt}>{isMale ? "Macho" : "Fêmea"}</Text>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -175,7 +179,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Distância Máxima</Text>
-            {/* <Text style={[styles.txt, paddingLeft: 10]}>{this.state.sliderValue}</Text> */}
+            <Text style={[styles.txt, {paddingLeft:10}]}>{dist} Km</Text>
             <Slider 
             style={{width: '100%', height: '5%', paddingTop: 10}}
             minimumValue={1}
@@ -184,8 +188,8 @@ export default function PetPerfil({ navigation }) {
             minimumTrackTintColor="#E8C9AE"
             maximumTrackTintColor="#999999"
             thumbTintColor="#E8C9AE"
-            // value={this.state.sliderValue}
-            // onValueChange={value => this.setState({sliderValue: value})}
+            value={dist}
+            onValueChange={value => setDist(value)}
             />  
         </View>
         
@@ -269,5 +273,9 @@ const styles = StyleSheet.create({
         fontSize:40,
         fontWeight:'bold',
         paddingLeft: 20
+    },
+    
+    switch:{
+        marginTop:15
     }
 });
