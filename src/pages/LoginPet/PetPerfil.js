@@ -8,6 +8,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 import Camera from '../../assets/camera.png'; 
 
+
 async function Submit (data, specieid) {
     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 }

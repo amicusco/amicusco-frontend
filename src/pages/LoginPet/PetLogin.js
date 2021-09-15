@@ -8,6 +8,7 @@ import plus from '../../assets/plus.png';
 import logo from '../../assets/logo.png';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 
+
 export default function PetLogin({navigation}){
 
     const [pets, setPets] = React.useState([]);
@@ -47,7 +48,7 @@ export default function PetLogin({navigation}){
             )
         })} 
         
-        <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('TabMain', {screen: 'Main'})}}>
+        <TouchableOpacity style={styles.input} blurRadius={90}>
             <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
             <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Pet1</Text>      
         </TouchableOpacity>

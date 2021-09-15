@@ -19,6 +19,7 @@ import Chat from './pages/Main/Chat';
 import Profile from './pages/Main/Profile';
 
 
+
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -60,7 +61,6 @@ function StackLoginPet(){
     <LoginPetStack.Navigator initialRouteName="PetLogin">
         <LoginPetStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
         <LoginPetStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: true}}/>
-        <LoginPetStack.Screen name="TabMain" component={TabMain} options={{headerShown: false}}/>
     </LoginPetStack.Navigator>
   );
 }
@@ -82,7 +82,16 @@ function TabMain(){
 
 function App() {
   axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp));
-  return (
+  const logged = false;
+
+  return logged ? 
+  (
+    <NavigationContainer>
+      <TabMain/>
+    </NavigationContainer>
+  )
+  :
+  (
     <NavigationContainer>
       <StackLogin/>
     </NavigationContainer>
