@@ -1,0 +1,19 @@
+import * as React from 'react';
+import { View, Text, Button } from 'react-native';
+
+
+
+
+
+export default function Chat({ navigation }) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Chat</Text>
+        <Button 
+        title="Details"
+        />
+      </View>
+    );
+  }
+
+  

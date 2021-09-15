@@ -47,7 +47,12 @@ export default function PetLogin({navigation}){
             )
         })} 
         
-        <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('StackMain', {screen: 'PetPerfil'})}}>
+        <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('TabMain', {screen: 'Main'})}}>
+            <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
+            <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Pet1</Text>      
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('StackLoginPet', {screen: 'PetPerfil'})}}>
             <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
             <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Novo Perfil</Text>      
         </TouchableOpacity>

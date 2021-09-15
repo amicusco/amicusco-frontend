@@ -88,7 +88,7 @@ export default function AccountAmicusco({ navigation }) {
         <TouchableOpacity 
             //Quando o botão fizer duas coisas é so chamar em sequencia onPress
             style={styles.inputSubmitButton}
-            onPress={() => {Submit(data); navigation.navigate('StackMain', {screen: 'PetLogin'})}}> 
+            onPress={() => {Submit(data); navigation.navigate('StackLoginPet', {screen: 'PetLogin'})}}> 
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>

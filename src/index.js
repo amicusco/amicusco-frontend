@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import axios from 'axios';
 
 
@@ -10,8 +11,13 @@ import AccountAmicusco from './pages/Login/AccountAmicusco';
 import LoginAmicusco from './pages/Login/LoginAmicusco';
 import AccountRecovery from './pages/Login/AccountRecovery';
 
-import PetLogin from './pages/Main/PetLogin'
-import PetPerfil from './pages/Main/PetPerfil';
+import PetLogin from './pages/LoginPet/PetLogin';
+import PetPerfil from './pages/LoginPet/PetPerfil';
+
+import Main from './pages/Main/Main';
+import Chat from './pages/Main/Chat';
+import Profile from './pages/Main/Profile';
+
 
 function HomeScreen({ navigation }) {
   return (
@@ -34,7 +40,8 @@ function DetailsScreen({ navigation }) {
 }
 
 const LoginStack = createNativeStackNavigator();
-const MainStack = createNativeStackNavigator();
+const LoginPetStack = createNativeStackNavigator();
+const MainTab = createBottomTabNavigator();
 
 function StackLogin(){
   return(
@@ -43,17 +50,33 @@ function StackLogin(){
         <LoginStack.Screen name="AccountAmicusco" component={AccountAmicusco}/>
         <LoginStack.Screen name="LoginAmicusco" component={LoginAmicusco} />
         <LoginStack.Screen name="AccountRecovery" component={AccountRecovery} />
-        <LoginStack.Screen name="StackMain" component={StackMain} options={{ headerShown: false }}/>
+        <LoginStack.Screen name="StackLoginPet" component={StackLoginPet} options={{headerShown: false}}/>
     </LoginStack.Navigator>
   );
 }
 
-function StackMain(){
+function StackLoginPet(){
   return(
-    <MainStack.Navigator initialRouteName="PetLogin">
-        <MainStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
-        <LoginStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
-    </MainStack.Navigator>
+    <LoginPetStack.Navigator initialRouteName="PetLogin">
+        <LoginPetStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
+        <LoginPetStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: true}}/>
+        <LoginPetStack.Screen name="TabMain" component={TabMain} options={{headerShown: false}}/>
+    </LoginPetStack.Navigator>
+  );
+}
+
+function TabMain(){
+  return(
+    <MainTab.Navigator 
+    tabBarPosition="bottom"
+    tabBarOptions={{
+      activeTintColor: '#9C27B0',
+      inactiveTintColor: '#777'
+    }}>
+        <MainTab.Screen name="Main" component={Main} options={{headerShown: false}} />
+        <MainTab.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+        <MainTab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
+    </MainTab.Navigator>
   );
 }
 
