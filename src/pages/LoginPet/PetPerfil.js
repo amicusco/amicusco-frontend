@@ -212,7 +212,7 @@ export default function PetPerfil({ navigation }) {
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => Submit(data)}
-            onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetLogin'})}>  
+            onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetAdd'})}>  
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>

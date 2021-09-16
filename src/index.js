@@ -13,6 +13,7 @@ import AccountRecovery from './pages/Login/AccountRecovery';
 
 import PetLogin from './pages/LoginPet/PetLogin';
 import PetPerfil from './pages/LoginPet/PetPerfil';
+import PetAdd from './pages/LoginPet/PetAdd';
 
 import Main from './pages/Main/Main';
 import Chat from './pages/Main/Chat';
@@ -58,9 +59,10 @@ function StackLogin(){
 
 function StackLoginPet(){
   return(
-    <LoginPetStack.Navigator initialRouteName="PetLogin">
+    <LoginPetStack.Navigator initialRouteName="PetAdd">
         <LoginPetStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
         <LoginPetStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: true}}/>
+        <LoginPetStack.Screen name="PetAdd" component={PetAdd} options={{headerShown: false}}/>
     </LoginPetStack.Navigator>
   );
 }
@@ -68,7 +70,6 @@ function StackLoginPet(){
 function TabMain(){
   return(
     <MainTab.Navigator 
-    tabBarPosition="bottom"
     tabBarOptions={{
       activeTintColor: '#9C27B0',
       inactiveTintColor: '#777'
@@ -93,7 +94,7 @@ function App() {
   :
   (
     <NavigationContainer>
-      <StackLogin/>
+      <StackLoginPet/>
     </NavigationContainer>
   );
 }
