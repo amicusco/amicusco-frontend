@@ -3,8 +3,8 @@ import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 
 async function Submit (data) {
-    //console.log("qualquer coisa")
     await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => console.log(resp.data)).catch(err => console.error(err));
+    console.log(data)
 }
 
 
