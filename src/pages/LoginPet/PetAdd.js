@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     },
 
     inputImage:{
-        direction: 'ltr',
+        writingDirection: 'ltr',
         justifyContent:'space-around',
         alignSelf:'flex-end',
         backgroundColor: '#65D2EB',

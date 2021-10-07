@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch } from 'react-native';
+import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch, Pressable } from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
 
-import Place_Holder from '../../assets/Place_Holder.png'; 
-import Camera from '../../assets/camera.png'; 
+import Camera from '../../../assets/camera.png'; 
+import Place_Holder from '../../../assets/Place_Holder.png';
 
 
-async function Submit (data, specieid) {
-    await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
-}
+// async function Submit (data, specieid) {
+//     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+// }
 
 
 export default function PetPerfil({ navigation }) {
+
+    const[petName, onChangePetName] = React.useState("Batatinha");
+    const[animal, onChangeAnimal] = React.useState("Cachorro");
+    const[race, onChangeRace] = React.useState("Vira-lata");
+    const[age, onChangeAge] = React.useState("8 anos");
+    const[social, onChangeSocial] = React.useState("fb.com/amarelinho");
 
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
@@ -96,7 +102,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome Completo</Text>
-            <Text style={styles.txt}>Rahul Roy</Text>  
+            <Text style={styles.txt}>Roy</Text>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -108,6 +114,10 @@ export default function PetPerfil({ navigation }) {
             autoFocus={true}
             keyboardType={'default'}
             placeholder="Digite o nome do Pet"
+            
+            //isso daqui faz com que tenha ja tenha texto escrito na box do input
+            value={petName}
+            onChangeText={onChangePetName}
             onChange={(e) => setData({...data, 'petName': e.target.value})} 
             />
         </View>
@@ -120,6 +130,8 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'default'}
             placeholder="Digite que animal é o seu Pet"
+            value={animal}
+            onChangeText={onChangeAnimal}
             onChange={(e) => setData({...data, 'animal': e.target.value})}
             />            
         </View>
@@ -132,6 +144,8 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'default'}
             placeholder="Digite a raça do seu Pet"
+            onChangeText={onChangeRace}
+            value={race}
             onChange={(e) => setData({...data, 'race': e.target.value})}
             />
         </View>
@@ -144,6 +158,8 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'numeric'}
             placeholder="Digite a idade do seu pet"
+            onChangeText={onChangeAge}
+            value={age}
             onChange={(e) => setData({...data, 'age': e.target.value})}/>
         </View>
 
@@ -155,25 +171,12 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'url'}
             placeholder="Digite o link da rede social do seu Pet"
+            onChangeText={onChangeSocial}
+            value={social}
             onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Sexo do Pet</Text>
-            <Switch
-            style = {styles.switch}
-            disabled = {false}
-            trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
-            thumbColor={isMale ? "#000fff"  : "#ff007f"}
-            onValueChange={toggleSwitch}
-            onChange={(isMale) => setData({...data, 'petSex': isMale.target.value})}
-            value={isMale}/>
-            <Text style={styles.txt}>{isMale ? "Macho" : "Fêmea"}</Text>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Encontrar Pets</Text>  

@@ -17,7 +17,7 @@ import PetAdd from './pages/LoginPet/PetAdd';
 
 import Main from './pages/Main/Main';
 import Chat from './pages/Main/Chat';
-import Profile from './pages/Main/Profile';
+import Profile from './pages/Main/Profile/Profile';
 
 
 
@@ -59,9 +59,9 @@ function StackLogin(){
 
 function StackLoginPet(){
   return(
-    <LoginPetStack.Navigator initialRouteName="PetAdd">
+    <LoginPetStack.Navigator initialRouteName="PetPerfil">
         <LoginPetStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
-        <LoginPetStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: true}}/>
+        <LoginPetStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
         <LoginPetStack.Screen name="PetAdd" component={PetAdd} options={{headerShown: false}}/>
     </LoginPetStack.Navigator>
   );
@@ -70,9 +70,15 @@ function StackLoginPet(){
 function TabMain(){
   return(
     <MainTab.Navigator 
-    tabBarOptions={{
-      activeTintColor: '#9C27B0',
-      inactiveTintColor: '#777'
+    screenOptions={{
+      "tabBarActiveTintColor": "#9C27B0",
+      "tabBarInactiveTintColor": "#777",
+      "tabBarStyle": [
+        {
+          "display": "flex"
+        },
+        null
+      ]
     }}>
         <MainTab.Screen name="Main" component={Main} options={{headerShown: false}} />
         <MainTab.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
@@ -81,9 +87,10 @@ function TabMain(){
   );
 }
 
+const logged = true;
+
 function App() {
   axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp));
-  const logged = false;
 
   return logged ? 
   (
