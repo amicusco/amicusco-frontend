@@ -101,7 +101,7 @@ export default function PetPerfil({ navigation }) {
         <View style={{paddingTop:20, alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Nome Completo</Text>
+            <Text style={styles.txt}>Nome do Dono</Text>
             <Text style={styles.txt}>Roy</Text>
         </View>
 
@@ -216,7 +216,7 @@ export default function PetPerfil({ navigation }) {
             style={styles.inputSubmitButton}
             onPress={() => Submit(data)}
             onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetAdd'})}>  
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
+            <Text style={styles.inputSubmitButtonTxt}>Atualizar</Text>     
         </TouchableOpacity>
         </View>
     </ScrollView>  
