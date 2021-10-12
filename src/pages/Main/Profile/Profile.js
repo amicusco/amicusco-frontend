@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch, Pressable } from 'react-native';
+import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions } from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
+
 
 import Camera from '../../../assets/camera.png'; 
 import Place_Holder from '../../../assets/Place_Holder.png';
@@ -83,8 +84,11 @@ export default function PetPerfil({ navigation }) {
     //console.log(isEnabled);
     };
 
+    const screenHeight = Dimensions.get('window').height;
+     
+
     return(
-    <ScrollView style={styles.container}>
+    <ScrollView style={{height: screenHeight}}>
         <View>
             <Text style={styles.headerText}>Perfil</Text>
         </View>
@@ -98,7 +102,7 @@ export default function PetPerfil({ navigation }) {
             </ImageBackground>
         </View>
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
+        <View style={{paddingTop:20, alignSelf:'center', width:'90%',borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome do Dono</Text>
@@ -215,7 +219,7 @@ export default function PetPerfil({ navigation }) {
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => Submit(data)}
-            onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetAdd'})}>  
+            onPress={()=>navigation.navigate('ProfileAdd')}>  
             <Text style={styles.inputSubmitButtonTxt}>Atualizar</Text>     
         </TouchableOpacity>
         </View>
@@ -257,7 +261,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: 20,
+        marginBottom: 20
     },
 
     inputSubmitButtonTxt: {

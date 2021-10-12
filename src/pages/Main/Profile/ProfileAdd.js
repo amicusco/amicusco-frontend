@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform} from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -59,8 +59,10 @@ export default function PetAdd({ navigation }) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     };
 
+    const screenHeight = Dimensions.get('window').height;
+
     return(
-    <ScrollView style={styles.container}>
+    <ScrollView style={{height: screenHeight}}>
         <View>
             <Text style={styles.headerText}>Informações Adicionais de Perfil</Text>
         </View>
@@ -160,7 +162,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: 10,
+        marginBottom: 80
     },
 
     inputSubmitButtonTxt: {

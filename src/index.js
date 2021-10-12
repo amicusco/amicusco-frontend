@@ -18,6 +18,7 @@ import PetAdd from './pages/LoginPet/PetAdd';
 import Main from './pages/Main/Main';
 import Chat from './pages/Main/Chat';
 import Profile from './pages/Main/Profile/Profile';
+import ProfileAdd from './pages/Main/Profile/ProfileAdd';
 
 
 
@@ -82,8 +83,19 @@ function TabMain(){
     }}>
         <MainTab.Screen name="Main" component={Main} options={{headerShown: false}} />
         <MainTab.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
-        <MainTab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
+        <MainTab.Screen name="Profile" component={StackProfile} options={{headerShown: false}} />
     </MainTab.Navigator>
+  );
+}
+
+const ProfileStack = createNativeStackNavigator();
+
+function StackProfile(){
+  return(
+    <ProfileStack.Navigator initialRouteName="Profile">
+        <ProfileStack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+        <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
+    </ProfileStack.Navigator>
   );
 }
 
