@@ -1,14 +1,35 @@
+//react imports
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions } from 'react-native';
-import axios from 'axios';
+import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
 
+//import fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_200ExtraLight_Italic,
+    Nunito_300Light,
+    Nunito_300Light_Italic,
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+    Nunito_800ExtraBold,
+    Nunito_800ExtraBold_Italic,
+    Nunito_900Black,
+    Nunito_900Black_Italic 
+  } from '@expo-google-fonts/nunito'
 
-import Camera from '../../../assets/camera.png'; 
+//Back-end Imports
+import axios from 'axios';
+
+//Import Imagens
+import Pen from '../../../assets/pen.png'; 
 import Place_Holder from '../../../assets/Place_Holder.png';
-
 
 // async function Submit (data, specieid) {
 //     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
@@ -16,6 +37,23 @@ import Place_Holder from '../../../assets/Place_Holder.png';
 
 
 export default function PetPerfil({ navigation }) {
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_200ExtraLight_Italic,
+        Nunito_300Light,
+        Nunito_300Light_Italic,
+        Nunito_400Regular,
+        Nunito_400Regular_Italic,
+        Nunito_600SemiBold,
+        Nunito_600SemiBold_Italic,
+        Nunito_700Bold,
+        Nunito_700Bold_Italic,
+        Nunito_800ExtraBold,
+        Nunito_800ExtraBold_Italic,
+        Nunito_900Black,
+        Nunito_900Black_Italic 
+    })
 
     const[petName, onChangePetName] = React.useState("Batatinha");
     const[animal, onChangeAnimal] = React.useState("Cachorro");
@@ -83,8 +121,8 @@ export default function PetPerfil({ navigation }) {
 
     //console.log(isEnabled);
     };
-
-    const screenHeight = Dimensions.get('window').height;
+    //não ta funfando tão bem assim
+    const screenHeight = Dimensions.get('window').height -30;
      
 
     return(
@@ -94,9 +132,9 @@ export default function PetPerfil({ navigation }) {
         </View>
 
         <View style={styles.imagePerfil}>
-            <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 120, height: 120}}>
-                <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
-                    <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
+            <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 180, height: 180}}>
+                <TouchableOpacity style={ styles.inputImage } onPress={()=>navigation.navigate('ProfileAdd')}>
+                    <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
                 </TouchableOpacity>
             {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
             </ImageBackground>
@@ -214,15 +252,6 @@ export default function PetPerfil({ navigation }) {
             onValueChange={value => setDist(value)}
             />  
         </View>
-        
-        <View style={styles.containerInput}>
-        <TouchableOpacity 
-            style={styles.inputSubmitButton}
-            onPress={() => Submit(data)}
-            onPress={()=>navigation.navigate('ProfileAdd')}>  
-            <Text style={styles.inputSubmitButtonTxt}>Atualizar</Text>     
-        </TouchableOpacity>
-        </View>
     </ScrollView>  
     );
 }
@@ -284,7 +313,8 @@ const styles = StyleSheet.create({
 
     txt:{
         paddingTop: 20,
-        textAlign: 'left'
+        textAlign: 'left',
+        fontFamily:"Nunito-Light"
     },
 
     imagePerfil:{
@@ -293,9 +323,10 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
+        fontFamily: 'Nunito_600SemiBold',
         fontSize:40,
         fontWeight:'bold',
-        paddingLeft: 20
+        paddingLeft: 20,
     },
     
     switch:{

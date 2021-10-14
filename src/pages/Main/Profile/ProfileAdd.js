@@ -1,7 +1,29 @@
+//react imports
 import React, { useState, useEffect } from 'react';
 import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
-import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
+
+//import fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_200ExtraLight_Italic,
+    Nunito_300Light,
+    Nunito_300Light_Italic,
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+    Nunito_800ExtraBold,
+    Nunito_800ExtraBold_Italic,
+    Nunito_900Black,
+    Nunito_900Black_Italic 
+  } from '@expo-google-fonts/nunito'
+
+//back-end import
+import axios from 'axios';
 
 import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
@@ -13,25 +35,39 @@ import Place_Holder from '../../../assets/Place_Holder.png';
 
 
 export default function PetAdd({ navigation }) {
+    //import fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_200ExtraLight_Italic,
+        Nunito_300Light,
+        Nunito_300Light_Italic,
+        Nunito_400Regular,
+        Nunito_400Regular_Italic,
+        Nunito_600SemiBold,
+        Nunito_600SemiBold_Italic,
+        Nunito_700Bold,
+        Nunito_700Bold_Italic,
+        Nunito_800ExtraBold,
+        Nunito_800ExtraBold_Italic,
+        Nunito_900Black,
+        Nunito_900Black_Italic 
+    })
+    
     //console.log(isEnabled);
 
     //configurações do banco
     const [data, setData] = React.useState({});
     console.log(data);
 
-    
-
     //Funções para tags de interesse
-    const [interests, setInterests] = React.useState(["1","2"]);
+    const [interests, setInterests] = React.useState(["Ração","Passear na Praia", "Banho", "Brincar", "Escovar o pelo"]);
 
-    //interests = ["1", "2"];
-
-
-    
+    const[bio, onChangeBio] = React.useState("Sou felpudinho");
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(Place_Holder);
 
+    //Para adicionar as fotos
     useEffect(() => {
         (async () => {
         if (Platform.OS !== 'web') {
@@ -43,6 +79,7 @@ export default function PetAdd({ navigation }) {
         })();
     }, []);
 
+    //
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -58,19 +95,20 @@ export default function PetAdd({ navigation }) {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     };
-
-    const screenHeight = Dimensions.get('window').height;
+    
+    //Corrigir tamanho da tela (não funciona para os interesses ja avisando)
+    const screenHeight = Dimensions.get('window').height - 120;
 
     return(
     <ScrollView style={{height: screenHeight}}>
         <View>
-            <Text style={styles.headerText}>Informações Adicionais de Perfil</Text>
+            <Text style={styles.headerText}>Informações Adicionais</Text>
         </View>
         
         {/* Tem que arrumar a inserção de imagem por causa do background */}
         <View style={styles.imagePerfil}>
-            <ImageBackground style={{ resizeMode:"contain", width: '100%', height: 200}}>
-                <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
+            <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 400}}>
+                <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                     <View/>      
                 </TouchableOpacity>
@@ -78,7 +116,7 @@ export default function PetAdd({ navigation }) {
             </ImageBackground>
         </View>
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/>  
+        <View style={{paddingTop:20, alignSelf:'center', width:'90%' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/>  
 
         <View style={styles.containerInput}>
             <Text style={styles.name}>Amarelinho</Text>  
@@ -91,12 +129,14 @@ export default function PetAdd({ navigation }) {
             <TextInput
             style={styles.inputMultiline}
             autoFocus={true}
+            value={bio}
             keyboardType={'default'}
             placeholder="Digite uma breve descrição do seu pet"
             onSubmitEditing={true}
             autoComplete={false}
             underlineColor='#ffffff'
             multiline={true}
+            onChangeText={onChangeBio}
             onChange={(e) => setData({...data, 'petDescription': e.target.value})} 
             />
         </View>
@@ -105,24 +145,16 @@ export default function PetAdd({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Interesses</Text>
+
             {interests.map((interest, index) => {
             return(
-            <TouchableOpacity style={styles.input} key={index} onPress={setInterests}>
-                <Text style={styles.text}>{interest}</Text>
-                <Text style={styles.text}></Text>      
+            <TouchableOpacity style={styles.input} key={index} onPress={()=>{setInterests[interest]}}>
+                <Text style={styles.textTags}> {interest} </Text>   
             </TouchableOpacity>
             )
         })}  
+        {console.log(setInterests)}
                        
-        </View>
-        
-        <View style={styles.containerInput}>
-        <TouchableOpacity 
-            style={styles.inputSubmitButton}
-            onPress={() => Submit(data)}>
-            {/* onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetLogin'})}   */}
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text>     
-        </TouchableOpacity>
         </View>
     </ScrollView>  
     );
@@ -138,7 +170,8 @@ const styles = StyleSheet.create({
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 50,
+        marginTop:'2%',
+        marginBottom: '3%',
         paddingHorizontal: 15
 
     },
@@ -187,17 +220,29 @@ const styles = StyleSheet.create({
         height:176,
         width:'100%',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: '2%'
 
     },
 
     txt:{
-        paddingTop: 20,
-        textAlign: 'left'
+        fontFamily:"Nunito_300Light",
+        paddingTop: '2%',
+        paddingLeft:'2%',
+        textAlign: 'left',
+        fontSize:30
+    },
+
+    textTags:{
+        fontFamily:"Nunito_600SemiBold",
+        paddingLeft:'2%',
+        textAlign: 'left',
+        fontSize:15
     },
 
     name:{
-        paddingTop: 20,
+        fontFamily:"Nunito_400Regular_Italic",
+        paddingTop: '2%',
+        paddingLeft:'2%',
         textAlign: 'left',
         fontSize: 25
     },
@@ -207,6 +252,8 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
+        fontFamily: 'Nunito_700Bold',
+        textAlign:'center',
         fontSize:30,
         fontWeight:'bold',
         paddingLeft: 20,

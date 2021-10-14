@@ -21,8 +21,45 @@ import Profile from './pages/Main/Profile/Profile';
 import ProfileAdd from './pages/Main/Profile/ProfileAdd';
 
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_200ExtraLight_Italic,
+    Nunito_300Light,
+    Nunito_300Light_Italic,
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+    Nunito_800ExtraBold,
+    Nunito_800ExtraBold_Italic,
+    Nunito_900Black,
+    Nunito_900Black_Italic 
+  } from '@expo-google-fonts/nunito'
+
 
 function HomeScreen({ navigation }) {
+  //Import Fonts
+  let [fontsLoaded]=useFonts({
+    Nunito_200ExtraLight,
+    Nunito_200ExtraLight_Italic,
+    Nunito_300Light,
+    Nunito_300Light_Italic,
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+    Nunito_800ExtraBold,
+    Nunito_800ExtraBold_Italic,
+    Nunito_900Black,
+    Nunito_900Black_Italic 
+})
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
@@ -92,8 +129,8 @@ const ProfileStack = createNativeStackNavigator();
 
 function StackProfile(){
   return(
-    <ProfileStack.Navigator initialRouteName="Profile">
-        <ProfileStack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+    <ProfileStack.Navigator initialRouteName="ModProfile">
+        <ProfileStack.Screen name="ModProfile" component={Profile} options={{headerShown: false}}/>
         <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
     </ProfileStack.Navigator>
   );
