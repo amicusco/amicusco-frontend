@@ -1,10 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import AsyncStorage from "@react-native-community/async-storage";
 
-async function Submit (data) {
-    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => console.log(resp.data)).catch(err => console.error(err));
-    console.log(data)
+//
+async function Submit (data, navigation) {
+    //await AsyncStorage.removeItem('user');
+    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
+        AsyncStorage.setItem('user', JSON.stringify(resp.data));
+        navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
+    }).catch(err => {
+        console.log(err);
+        alert(err);
+    });
 }
 
 
@@ -43,7 +51,7 @@ export default function LoginAmicusco({ navigation }){
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => {Submit(data); navigation.navigate('StackMain', {screen: 'PetLogin'})}}>
+            onPress={() => {Submit(data, navigation)}}>
             <Text style={styles.inputSubmitButtonTxt}>Entrar</Text>     
         </TouchableOpacity>
         </View>

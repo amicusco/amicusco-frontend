@@ -136,7 +136,8 @@ function StackProfile(){
   );
 }
 
-const logged = true;
+//procurar localstorage para isso daqui 
+const logged = false;
 
 function App() {
   axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp));
@@ -150,7 +151,7 @@ function App() {
   :
   (
     <NavigationContainer>
-      <StackLoginPet/>
+      <StackLogin/>
     </NavigationContainer>
   );
 }

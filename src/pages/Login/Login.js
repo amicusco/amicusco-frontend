@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Linking } from 'react-native';
+import AsyncStorage from "@react-native-community/async-storage";
 import axios from 'axios';
 
 import plus from '../../assets/plus.png'; 
@@ -32,6 +33,14 @@ function test(windowHeight){
     }
 }
 
+async function getUser (navigation){
+    //await AsyncStorage.removeItem('user');
+    const user = await AsyncStorage.getItem('user');
+    if (user !== null){
+        navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
+    }
+}
+
 export default function Login({navigation}){
     const [data, setData] = React.useState({});
     
@@ -46,6 +55,8 @@ export default function Login({navigation}){
         // Your code here
         Linking.addEventListener('url', handleOpenURL);
       }, []);
+    
+    getUser(navigation);
 
     return (
     <LinearGradient 

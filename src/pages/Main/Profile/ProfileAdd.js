@@ -61,6 +61,7 @@ export default function PetAdd({ navigation }) {
 
     //Funções para tags de interesse
     const [interests, setInterests] = React.useState(["Ração","Passear na Praia", "Banho", "Brincar", "Escovar o pelo"]);
+    const [listInterests, setListInterests]=React.useState([]);
 
     const[bio, onChangeBio] = React.useState("Sou felpudinho");
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,12 +149,18 @@ export default function PetAdd({ navigation }) {
 
             {interests.map((interest, index) => {
             return(
-            <TouchableOpacity style={styles.input} key={index} onPress={()=>{setInterests[interest]}}>
+            
+            //Lista de interesses
+            <TouchableOpacity style={styles.input} key={index} onPress={()=>{
+                if (listInterests.indexOf(interest) === -1){
+                    setListInterests([...listInterests, interest]);
+                    console.log(listInterests);
+                }
+                }}>
                 <Text style={styles.textTags}> {interest} </Text>   
             </TouchableOpacity>
             )
         })}  
-        {console.log(setInterests)}
                        
         </View>
     </ScrollView>  

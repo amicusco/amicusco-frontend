@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import axios from 'axios';
+import AsyncStorage from "@react-native-community/async-storage";
 
 import plusS from '../../assets/plusS.png'; 
 import plus from '../../assets/plus.png'; 
@@ -13,13 +14,14 @@ export default function PetLogin({navigation}){
 
     const [pets, setPets] = React.useState([]);
 
-    async function Submit (userid) {
-        await axios.get(`https://amicusco-pet-api.herokuapp.com/specie/${userid}/pet`).then(resp => setPets(resp.data)).catch(err => console.log(err));
+    async function Submit () {
+        const userId = await JSON.parse(AsyncStorage.getItem('user'))['id'];
+        await axios.get(`https://amicusco-pet-api.herokuapp.com/pets/${userId}`).then(resp => setPets(resp.data)).catch(err => console.log(err));
     }
 
-    // useEffect(() =>{
-    //     Submit(userid);
-    // },[]);
+     useEffect(() =>{
+        Submit();
+     },[]);
     
     return (
     <LinearGradient
