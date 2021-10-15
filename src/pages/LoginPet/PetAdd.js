@@ -19,15 +19,9 @@ export default function PetAdd({ navigation }) {
     const [data, setData] = React.useState({});
     console.log(data);
 
-    
-
     //Funções para tags de interesse
     const [interests, setInterests] = React.useState(["1","2"]);
 
-    //interests = ["1", "2"];
-
-
-    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(Place_Holder);
@@ -136,8 +130,8 @@ const styles = StyleSheet.create({
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15
+        marginBottom: '4%',
+        paddingHorizontal: '1%'
 
     },
 
@@ -148,7 +142,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: '2%'
     },
 
     inputSubmitButton: {
@@ -156,11 +150,11 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'1%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: '2%'
     },
 
     inputSubmitButtonTxt: {
@@ -184,12 +178,12 @@ const styles = StyleSheet.create({
         height:176,
         width:'100%',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: '2%'
 
     },
 
     txt:{
-        paddingTop: 20,
+        paddingTop: '2%',
         textAlign: 'left'
     },
 

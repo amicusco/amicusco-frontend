@@ -3,6 +3,7 @@ import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from "@react-native-community/async-storage";
 import axios from 'axios';
 
 
@@ -129,30 +130,28 @@ const ProfileStack = createNativeStackNavigator();
 
 function StackProfile(){
   return(
-    <ProfileStack.Navigator initialRouteName="ModProfile">
-        <ProfileStack.Screen name="ModProfile" component={Profile} options={{headerShown: false}}/>
+    <ProfileStack.Navigator initialRouteName="ProfileMain">
+        <ProfileStack.Screen name="ProfileMain" component={Profile} options={{headerShown: false}}/>
         <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
     </ProfileStack.Navigator>
   );
 }
-
-//procurar localstorage para isso daqui 
+//tentar arrumar essa merda depois porra kek w
 const logged = false;
 
 function App() {
-  axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp));
-
-  return logged ? 
-  (
-    <NavigationContainer>
-      <TabMain/>
-    </NavigationContainer>
+  axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp)); 
+  return (
+  (logged == true) ? 
+  (  
+  <NavigationContainer>
+    <StackLogin/>
+  </NavigationContainer>
   )
   :
-  (
-    <NavigationContainer>
-      <StackLogin/>
-    </NavigationContainer>
+  <NavigationContainer>
+    <TabMain/>
+  </NavigationContainer>
   );
 }
 

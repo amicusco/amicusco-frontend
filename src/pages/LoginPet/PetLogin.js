@@ -14,14 +14,16 @@ export default function PetLogin({navigation}){
 
     const [pets, setPets] = React.useState([]);
 
-    async function Submit () {
-        const userId = await JSON.parse(AsyncStorage.getItem('user'))['id'];
-        await axios.get(`https://amicusco-pet-api.herokuapp.com/pets/${userId}`).then(resp => setPets(resp.data)).catch(err => console.log(err));
-    }
+    console.log(pets);
+    
+    //async function Submit () {
+        //const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
+        //await axios.get(`https://amicusco-pet-api.herokuapp.com/pets/${userId}`).then(resp => setPets(resp.data)).catch(err => console.log(err));
+    //}
 
-     useEffect(() =>{
-        Submit();
-     },[]);
+    //  useEffect(() =>{
+    //     Submit();
+    //  },[]);
     
     return (
     <LinearGradient
@@ -50,7 +52,7 @@ export default function PetLogin({navigation}){
             )
         })} 
         
-        <TouchableOpacity style={styles.input} blurRadius={90}>
+        <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('TabMain', {screen: 'Main'})}}>
             <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
             <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Pet1</Text>      
         </TouchableOpacity>

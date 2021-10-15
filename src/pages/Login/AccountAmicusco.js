@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-
+//aqui
 async function Submit (data) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 }
@@ -57,7 +57,7 @@ export default function AccountAmicusco({ navigation }) {
             style={styles.input}
             keyboardType={'name-phone-pad'}
             placeholder="Digite o seu telefone"
-            onChange={(e) => setData({...data, 'numberPhone': e.target.value})}/>
+            onChange={(e) => setData({...data, 'phoneNumber': e.target.value})}/>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 

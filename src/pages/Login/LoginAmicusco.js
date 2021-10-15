@@ -2,11 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
+import RadioForm from 'react-native-simple-radio-button';
 
 //
 async function Submit (data, navigation) {
-    //await AsyncStorage.removeItem('user');
-    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
+        await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
         AsyncStorage.setItem('user', JSON.stringify(resp.data));
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
     }).catch(err => {
@@ -16,26 +16,50 @@ async function Submit (data, navigation) {
 }
 
 
-export default function LoginAmicusco({ navigation }){
+export default function LoginAmicusco({ navigation }){ 
+
     const [data, setData] = React.useState({
         password: '',
-        email: '',
         isValidUser: true,
         isValidPassword: true,
     });
 
+    const [type, setType] = React.useState('');
+
+    const radioProps = [
+        { label: 'E-mail', value: 'email' },
+        { label: 'Telefone', value: 'phoneNumber' }];
+
     return(
     <View styles={styles.container}>
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>E-mail:</Text>  
+            <Text style={styles.txt}>Selecione a sua forma de Login</Text>  
+            <RadioForm
+                buttonColor="#E8C9AE"
+                buttonSize={15}
+                radioStyle={{paddingLeft:25, paddingTop:25}}
+                selectedButtonColor="#E8C9AE"
+                radio_props={radioProps}
+                initial={1}
+                animation={true}
+                formHorizontal={true}
+                onPress={value => setType(value)}
+                />
+        </View>
+
+    
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>{type === 'email' ? 'E-mail' : 'Número de Telefone'}</Text>  
             <TextInput
             style={styles.input}
             autoFocus={true}
-            keyboardType={'email-address'}
-            autoCompleteType={'email'}
-            placeholder="Digite o seu e-mail"
+            keyboardType={'default'}
+            autoCompleteType={type === 'email' ? 'email' : 'number'}
+            placeholder={type === 'email' ? ' Digite o seu E-mail' : 'Digite o seu Telefone'}
             //Fica para depois para colocar a expressão regular
-            onChange={(e) => setData({...data, 'email': e.target.value})} />
+            onChange={(e) => setData(
+                type === 'email' ? {...data, 'email': e.target.value } : {...data, 'phoneNumber': e.target.value }
+            )} />
         </View>
 
         <View style={styles.containerInput}>

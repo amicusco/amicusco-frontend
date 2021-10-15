@@ -106,7 +106,6 @@ export default function PetAdd({ navigation }) {
             <Text style={styles.headerText}>Informações Adicionais</Text>
         </View>
         
-        {/* Tem que arrumar a inserção de imagem por causa do background */}
         <View style={styles.imagePerfil}>
             <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 400}}>
                 <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
@@ -154,7 +153,6 @@ export default function PetAdd({ navigation }) {
             <TouchableOpacity style={styles.input} key={index} onPress={()=>{
                 if (listInterests.indexOf(interest) === -1){
                     setListInterests([...listInterests, interest]);
-                    console.log(listInterests);
                 }
                 }}>
                 <Text style={styles.textTags}> {interest} </Text>   
@@ -263,8 +261,8 @@ const styles = StyleSheet.create({
         textAlign:'center',
         fontSize:30,
         fontWeight:'bold',
-        paddingLeft: 20,
-        paddingBottom: 10
+        paddingLeft: '2%',
+        paddingBottom: '1%'
     },
     
     switch:{
