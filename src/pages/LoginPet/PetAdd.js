@@ -70,7 +70,7 @@ export default function PetAdd({ navigation }) {
             </ImageBackground>
         </View>
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/>  
+        <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
 
         <View style={styles.containerInput}>
             <Text style={styles.name}>Amarelinho</Text>  

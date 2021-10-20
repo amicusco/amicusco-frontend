@@ -5,6 +5,8 @@ import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
 
+import raul from '../../../assets/raul.png'
+
 //import fonts
 import { useFonts } from 'expo-font';
 import { 
@@ -27,7 +29,7 @@ import {
 //Back-end Imports
 import axios from 'axios';
 
-//Import Imagens
+//Import Images
 import Pen from '../../../assets/pen.png'; 
 import Place_Holder from '../../../assets/Place_Holder.png';
 
@@ -126,7 +128,7 @@ export default function PetPerfil({ navigation }) {
      
 
     return(
-    <ScrollView style={{height: screenHeight}}>
+    <ScrollView style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
         <View>
             <Text style={styles.headerText}>Perfil</Text>
         </View>
@@ -140,11 +142,11 @@ export default function PetPerfil({ navigation }) {
             </ImageBackground>
         </View>
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'90%',borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/> 
+        <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome do Dono</Text>
-            <Text style={styles.txt}>Roy</Text>
+            <Text style={styles.txt}> Rahul Roy</Text>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -252,6 +254,16 @@ export default function PetPerfil({ navigation }) {
             onValueChange={value => setDist(value)}
             />  
         </View>
+
+        <View style={styles.containerInput}>
+            <TouchableOpacity 
+                style={styles.inputOwner}
+                onPress={()=>navigation.navigate('ProfileOwner')}>
+                <Image source={raul} style={[styles.icon,{ width: 35, height: 35 }]}/>
+                <Text style={styles.text}>Dono</Text>
+                <Text style={styles.text}></Text>      
+            </TouchableOpacity>
+        </View>
     </ScrollView>  
     );
 }
@@ -331,5 +343,30 @@ const styles = StyleSheet.create({
     
     switch:{
         marginTop:15
-    }
+    },
+
+    inputOwner: {
+        height: 46,
+        width: '70%',
+        alignSelf: 'center',
+        backgroundColor: '#E8C9AE',
+        borderRadius: 40,
+        marginTop:10,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: "row"
+        
+    },
+
+    text: {
+        color: '#000',
+        fontWeight:'bold',
+        fontSize: 16,
+        textAlign: 'center',
+        fontFamily:"Nunito-Light"
+        },
+
+    icon: {
+        marginLeft: 5   
+    },
 });

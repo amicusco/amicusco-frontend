@@ -34,7 +34,7 @@ function test(windowHeight){
 }
 
 async function getUser (navigation){
-    //await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('user');
     const user = await AsyncStorage.getItem('user');
     if (user !== null){
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});

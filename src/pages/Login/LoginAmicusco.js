@@ -55,7 +55,7 @@ export default function LoginAmicusco({ navigation }){
             autoFocus={true}
             keyboardType={'default'}
             autoCompleteType={type === 'email' ? 'email' : 'number'}
-            placeholder={type === 'email' ? ' Digite o seu E-mail' : 'Digite o seu Telefone'}
+            placeholder={type === 'email' ? 'Digite o seu E-mail' : 'Digite o seu Telefone'}
             //Fica para depois para colocar a expressão regular
             onChange={(e) => setData(
                 type === 'email' ? {...data, 'email': e.target.value } : {...data, 'phoneNumber': e.target.value }

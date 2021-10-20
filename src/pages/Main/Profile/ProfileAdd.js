@@ -98,16 +98,16 @@ export default function PetAdd({ navigation }) {
     };
     
     //Corrigir tamanho da tela (não funciona para os interesses ja avisando)
-    const screenHeight = Dimensions.get('window').height - 120;
+    const screenHeight = Dimensions.get('window').height - 110;
 
     return(
-    <ScrollView style={{height: screenHeight}}>
+    <ScrollView style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
         <View>
             <Text style={styles.headerText}>Informações Adicionais</Text>
         </View>
         
         <View style={styles.imagePerfil}>
-            <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 400}}>
+            <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 300}}>
                 <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                     <View/>      
@@ -116,7 +116,7 @@ export default function PetAdd({ navigation }) {
             </ImageBackground>
         </View>
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'90%' ,borderBottomColor: '#E8C9AE', borderBottomWidth: 3}}/>  
+        <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
 
         <View style={styles.containerInput}>
             <Text style={styles.name}>Amarelinho</Text>  
