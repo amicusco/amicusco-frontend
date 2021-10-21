@@ -83,7 +83,8 @@ function DetailsScreen({ navigation }) {
 
 const LoginStack = createNativeStackNavigator();
 const LoginPetStack = createNativeStackNavigator();
-const MainTab = createBottomTabNavigator();
+const MainStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 function StackLogin(){
   return(
@@ -99,35 +100,25 @@ function StackLogin(){
 
 function StackLoginPet(){
   return(
-    <LoginPetStack.Navigator initialRouteName="PetPerfil">
+    <LoginPetStack.Navigator initialRouteName="PetLogin">
         <LoginPetStack.Screen name="PetLogin" component={PetLogin} options={{headerShown: false}}/>
         <LoginPetStack.Screen name="PetPerfil" component={PetPerfil} options={{headerShown: false}}/>
         <LoginPetStack.Screen name="PetAdd" component={PetAdd} options={{headerShown: false}}/>
+        <LoginPetStack.Screen name="StackMain" component={StackMain} options={{headerShown: false}}/>
     </LoginPetStack.Navigator>
   );
 }
 
-function TabMain(){
+function StackMain(){
   return(
-    <MainTab.Navigator 
-    screenOptions={{
-      "tabBarActiveTintColor": "#9C27B0",
-      "tabBarInactiveTintColor": "#777",
-      "tabBarStyle": [
-        {
-          "display": "flex"
-        },
-        null
-      ]
-    }}>
-        <MainTab.Screen name="Main" component={Main} options={{headerShown: false}} />
-        <MainTab.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
-        <MainTab.Screen name="Profile" component={StackProfile} options={{headerShown: false}} />
-    </MainTab.Navigator>
+    <MainStack.Navigator initialRouteName="Profile">
+        <MainStack.Screen name="Main" component={Main} options={{headerShown: false}} />
+        <MainStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+        <MainStack.Screen name="Profile" component={StackProfile} options={{headerShown: false}} />
+    </MainStack.Navigator>
   );
 }
 
-const ProfileStack = createNativeStackNavigator();
 
 function StackProfile(){
   return(
@@ -138,21 +129,29 @@ function StackProfile(){
     </ProfileStack.Navigator>
   );
 }
-//tentar arrumar essa merda depois porra kek w
-const logged = false;
 
+//vamos tirar o tabmain e transformar em botões (tem que fazer um arquivo novo ja que vai ser chamado por paginas diferentes)
 function App() {
-  axios.get('https://amicusco-auth.herokuapp.com/').then((resp) => console.log(resp)); 
+  const [logged, setLogged] = React.useState(false);
+  
+  React.useEffect(() => {
+    AsyncStorage.getItem('user').then(resp => {
+      console.log(!!resp);
+      if (!!resp){
+        setLogged(true);
+      } 
+    });
+  },[]);
   return (
-  (logged == true) ? 
+  (logged) ? 
   (  
   <NavigationContainer>
-    <StackLogin/>
+    <StackLoginPet/>
   </NavigationContainer>
   )
   :
   <NavigationContainer>
-    <TabMain/>
+    <StackLogin/>
   </NavigationContainer>
   );
 }

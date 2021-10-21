@@ -4,13 +4,21 @@ import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Place_Holder from '../../assets/Place_Holder.png'; 
 import Camera from '../../assets/camera.png'; 
 
 
 async function Submit (data, specieid) {
-    await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+    try{
+        const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
+        data = {...data, userId};
+        console.log(data);
+        const resp = await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data);
+    }catch(err) {
+        console.log(err);
+    }
 }
 
 
@@ -96,7 +104,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome Completo</Text>
-            <Text style={styles.txt}>Rahul Roy</Text>  
+            <Text style={styles.txt}>Teste</Text>  
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -108,7 +116,7 @@ export default function PetPerfil({ navigation }) {
             autoFocus={true}
             keyboardType={'default'}
             placeholder="Digite o nome do Pet"
-            onChange={(e) => setData({...data, 'petName': e.target.value})} 
+            onChange={(e) => setData({...data, 'name': e.target.value})} 
             />
         </View>
         
@@ -120,7 +128,7 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'default'}
             placeholder="Digite que animal é o seu Pet"
-            onChange={(e) => setData({...data, 'animal': e.target.value})}
+            onChange={(e) => setData({...data, 'specie': e.target.value})}
             />            
         </View>
 
@@ -132,7 +140,7 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'default'}
             placeholder="Digite a raça do seu Pet"
-            onChange={(e) => setData({...data, 'race': e.target.value})}
+            onChange={(e) => setData({...data, 'breed': e.target.value})}
             />
         </View>
 
@@ -168,7 +176,7 @@ export default function PetPerfil({ navigation }) {
             trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
             thumbColor={isMale ? "#000fff"  : "#ff007f"}
             onValueChange={toggleSwitch}
-            onChange={(isMale) => setData({...data, 'petSex': isMale.target.value})}
+            onChange={() => setData({...data, 'gender': isMale ? "M" : "F"})}
             value={isMale}/>
             <Text style={styles.txt}>{isMale ? "Macho" : "Fêmea"}</Text>
         </View>
@@ -211,8 +219,7 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(data)}
-            onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetAdd'})}>  
+            onPress={() => Submit(data, 1)}>  
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>

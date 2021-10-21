@@ -3,10 +3,11 @@ import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
 import RadioForm from 'react-native-simple-radio-button';
+import index from '../../index.js';
 
 //
 async function Submit (data, navigation) {
-        await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
+    await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
         AsyncStorage.setItem('user', JSON.stringify(resp.data));
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
     }).catch(err => {
