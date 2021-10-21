@@ -4,6 +4,7 @@ import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, Touchab
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import raul from '../../../assets/raul.png'
 
@@ -37,6 +38,11 @@ import Place_Holder from '../../../assets/Place_Holder.png';
 //     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 // }
 
+async function Logout( navigation ){
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('pet');
+    navigation.navigate('StackLogin', {screen: 'Login'});
+}
 
 export default function PetPerfil({ navigation }) {
     //Import Fonts
@@ -253,6 +259,14 @@ export default function PetPerfil({ navigation }) {
             value={dist}
             onValueChange={value => setDist(value)}
             />  
+        </View>
+
+        <View style={styles.containerInput}>
+            <TouchableOpacity 
+                style={styles.inputOwner}
+                onPress={()=>Logout(navigation)}>
+                <Text style={styles.text}>Logout</Text>      
+            </TouchableOpacity>
         </View>
 
         <View style={styles.containerInput}>

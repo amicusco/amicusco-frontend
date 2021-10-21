@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch } from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch, Picker} from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,17 +10,19 @@ import Place_Holder from '../../assets/Place_Holder.png';
 import Camera from '../../assets/camera.png'; 
 
 
-async function Submit (data, specieid) {
+async function Submit (data, specieid, navigation) {
     try{
         const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
         data = {...data, userId};
         console.log(data);
         const resp = await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data);
+        await AsyncStorage.setItem('pet', JSON.stringify(data));
+        navigation.navigate('PetAdd');
+
     }catch(err) {
         console.log(err);
     }
 }
-
 
 export default function PetPerfil({ navigation }) {
 
@@ -39,6 +41,8 @@ export default function PetPerfil({ navigation }) {
 
     const [value, setGender] = useState({});
 
+    const [userName, setUserName] = useState(null);
+
     const radioProps = [
         { label: 'Machos', value: 0 },
         { label: 'Fêmeas', value: 1 },
@@ -50,12 +54,15 @@ export default function PetPerfil({ navigation }) {
             let resp = await axios.get("https://amicusco-pet-api.herokuapp.com/species");
             setSpecies(resp.data);
         }
+
+        const GetName = async () => {
+            setUserName(JSON.parse(await AsyncStorage.getItem('user'))['name']);
+        }
       
         GetSpecies();
+        GetName();
 
       }, []);
-
-    console.log(species);
 
     useEffect(() => {
         (async () => {
@@ -104,7 +111,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome Completo</Text>
-            <Text style={styles.txt}>Teste</Text>  
+            <Text style={styles.txt}>{userName}</Text>  
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -123,13 +130,15 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Animal</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'default'}
-            placeholder="Digite que animal é o seu Pet"
-            onChange={(e) => setData({...data, 'specie': e.target.value})}
-            />            
+            <Text style={styles.txt}>Animal</Text>
+            <Picker
+                onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
+            >
+                <Picker.Item label="Selecione o Animal" />
+                {species.map((el, index) => (
+                    <Picker.Item label={el.specie} value={el.id} key={index} />
+                ))}
+            </Picker>           
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -219,7 +228,7 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(data, 1)}>  
+            onPress={() => Submit(data, 1, navigation)}>  
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>

@@ -2,29 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform} from 'react-native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Camera from '../../assets/camera.png';
 import Place_Holder from '../../assets/Place_Holder.png';  
 
 
-// async function Submit (data, specieid) {
-//     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
-// }
-
+async function Submit (petId, data) {
+    await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+}
 
 export default function PetAdd({ navigation }) {
     //console.log(isEnabled);
 
     //configurações do banco
-    const [data, setData] = React.useState({});
-    console.log(data);
+    const [data, setData] = useState({});
 
     //Funções para tags de interesse
-    const [interests, setInterests] = React.useState(["1","2"]);
+    const [interests, setInterests] = useState(["1","2"]);
 
+    const [pet, setPet] = useState(null);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(Place_Holder);
+
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -36,6 +38,16 @@ export default function PetAdd({ navigation }) {
         }
         })();
     }, []);
+
+    useEffect(() => {
+        const getPet = async () => {
+            setPet(JSON.parse(await AsyncStorage.getItem('pet')));
+            setLoading(true);
+        }
+        getPet()
+    }, []);
+
+    console.log(pet);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -55,6 +67,7 @@ export default function PetAdd({ navigation }) {
 
     return(
     <ScrollView style={styles.container}>
+        {loading && <>
         <View>
             <Text style={styles.headerText}>Informações Adicionais de Perfil</Text>
         </View>
@@ -73,7 +86,7 @@ export default function PetAdd({ navigation }) {
         <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
 
         <View style={styles.containerInput}>
-            <Text style={styles.name}>Amarelinho</Text>  
+            <Text style={styles.name}>{pet['name']}</Text>  
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -89,7 +102,7 @@ export default function PetAdd({ navigation }) {
             autoComplete={false}
             underlineColor='#ffffff'
             multiline={true}
-            onChange={(e) => setData({...data, 'petDescription': e.target.value})} 
+            onChange={(e) => setData({...data, 'description': e.target.value})} 
             />
         </View>
         
@@ -111,11 +124,12 @@ export default function PetAdd({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(data)}>
+            onPress={() => Submit(pet['id'], data)}>
             {/* onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetLogin'})}   */}
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text>     
         </TouchableOpacity>
         </View>
+        </>}
     </ScrollView>  
     );
 }

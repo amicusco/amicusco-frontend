@@ -111,7 +111,7 @@ function StackLoginPet(){
 
 function StackMain(){
   return(
-    <MainStack.Navigator initialRouteName="Profile">
+    <MainStack.Navigator initialRouteName="Main">
         <MainStack.Screen name="Main" component={Main} options={{headerShown: false}} />
         <MainStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
         <MainStack.Screen name="Profile" component={StackProfile} options={{headerShown: false}} />
@@ -126,6 +126,7 @@ function StackProfile(){
         <ProfileStack.Screen name="ProfileMain" component={Profile} options={{headerShown: false}}/>
         <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
         <ProfileStack.Screen name="ProfileOwner" component={ProfileOwner} options={{headerShown: true}}/>
+        <ProfileStack.Screen name="StackLogin" component={StackLogin} options={{headerShown: false}} />
     </ProfileStack.Navigator>
   );
 }
@@ -139,14 +140,16 @@ function App() {
       console.log(!!resp);
       if (!!resp){
         setLogged(true);
-      } 
+      } else {
+        setLogged(false);
+      }
     });
   },[]);
   return (
   (logged) ? 
   (  
   <NavigationContainer>
-    <StackLoginPet/>
+    <StackMain/>
   </NavigationContainer>
   )
   :

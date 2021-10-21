@@ -18,7 +18,7 @@ export default function PetLogin({navigation}){
     //tem um warning aqui
     async function getPets () {
         const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
-        await axios.get(`https://amicusco-pet-api.herokuapp.com/pets?userId=${userId}`).then(resp => setPets(resp.data)).catch(err => console.log(err));
+        await axios.get(`https://amicusco-pet-api.herokuapp.com/petsbyuser/${userId}`).then(resp => setPets(resp.data)).catch(err => console.log(err));
     }
 
     useEffect(() =>{

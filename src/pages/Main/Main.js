@@ -15,7 +15,7 @@ export default function Main({ navigation }) {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Main</Text>
         <Button 
-        title="Details" 
+        onPress={()=>navigation.navigate('Profile')}
         />
       </View>
     );
