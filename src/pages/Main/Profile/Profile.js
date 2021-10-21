@@ -63,18 +63,16 @@ export default function PetPerfil({ navigation }) {
         Nunito_900Black_Italic 
     })
 
-    const[petName, onChangePetName] = React.useState("Batatinha");
-    const[animal, onChangeAnimal] = React.useState("Cachorro");
-    const[race, onChangeRace] = React.useState("Vira-lata");
-    const[age, onChangeAge] = React.useState("8 anos");
-    const[social, onChangeSocial] = React.useState("fb.com/amarelinho");
+    const[petName, onChangePetName] = React.useState('');
+    const[animal, onChangeAnimal] = React.useState("");
+    const[race, onChangeRace] = React.useState("");
+    const[age, onChangeAge] = React.useState("");
+    const[social, onChangeSocial] = React.useState("");
 
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
     
     const [data, setData] = React.useState({});
-
-    console.log(data);
 
     const [species, setSpecies] = React.useState([]);
 
@@ -83,6 +81,12 @@ export default function PetPerfil({ navigation }) {
     const [dist, setDist] = useState(1);
 
     const [value, setGender] = useState({});
+    
+    const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);
+
+    const [pet, setPet] = useState(null);
+    const [loadingPet, setLoadingPet] = useState(true);
 
     const radioProps = [
         { label: 'Machos', value: 0 },
@@ -97,10 +101,25 @@ export default function PetPerfil({ navigation }) {
         }
       
         GetSpecies();
+        const getUser = async() => {
+            let userData = JSON.parse(await AsyncStorage.getItem('user'));
+            setUser(userData)
+            setLoadingUser(false);
+
+        }
+        getUser();
+
+        const getPet = async() => {
+            let petData = JSON.parse(await AsyncStorage.getItem('pet'));
+            onChangePetName(petData['name']);
+            onChangeAge(petData['age']);
+            onChangeRace(petData['breed']);
+            onChangeAnimal(petData['specie_pet']['specie']);
+            setLoadingPet(false);
+        }
+        getPet();
 
       }, []);
-
-    console.log(species);
 
     useEffect(() => {
         (async () => {
@@ -135,6 +154,7 @@ export default function PetPerfil({ navigation }) {
 
     return(
     <ScrollView style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+        {!loadingUser && !loadingPet && <>
         <View>
             <Text style={styles.headerText}>Perfil</Text>
         </View>
@@ -152,7 +172,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome do Dono</Text>
-            <Text style={styles.txt}> Rahul Roy</Text>
+            <Text style={styles.txt}>{user['name']}</Text>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -278,6 +298,7 @@ export default function PetPerfil({ navigation }) {
                 <Text style={styles.text}></Text>      
             </TouchableOpacity>
         </View>
+    </>}
     </ScrollView>  
     );
 }

@@ -1,16 +1,20 @@
 import React from 'react';
 import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-//aqui
-async function Submit (data) {
-    await axios.post("https://amicusco-auth.herokuapp.com/user", data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+import AsyncStorage from '@react-native-community/async-storage';
+
+async function Submit (data, navigation) {
+    await axios.post("https://amicusco-auth.herokuapp.com/user", data)
+    .then(resp => {
+        console.log(resp.data);
+        navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
+        AsyncStorage.setItem('user', JSON.stringify(resp.data));
+    }).catch(err => console.log(err));
 }
 
 export default function AccountAmicusco({ navigation }) {
-    //Bruno, faz diferença eu criar varaiveis dentro dessa constante? ajuda a gente a fazer as verificações para o front.
     const [data, setData] = React.useState({});
 
-    console.log(data);
     return(
     <ScrollView style={styles.container}>
         <View style={styles.containerInput}>
@@ -88,7 +92,7 @@ export default function AccountAmicusco({ navigation }) {
         <TouchableOpacity 
             //Quando o botão fizer duas coisas é so chamar em sequencia onPress
             style={styles.inputSubmitButton}
-            onPress={() => {Submit(data); navigation.navigate('StackLoginPet', {screen: 'PetLogin'})}}> 
+            onPress={() => Submit(data, navigation)}> 
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
         </TouchableOpacity>
         </View>

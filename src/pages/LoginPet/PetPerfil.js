@@ -16,7 +16,7 @@ async function Submit (data, specieid, navigation) {
         data = {...data, userId};
         console.log(data);
         const resp = await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data);
-        await AsyncStorage.setItem('pet', JSON.stringify(data));
+        await AsyncStorage.setItem('pet', JSON.stringify(resp.data));
         navigation.navigate('PetAdd');
 
     }catch(err) {

@@ -9,6 +9,7 @@ import Place_Holder from '../../assets/Place_Holder.png';
 
 
 async function Submit (petId, data) {
+    console.log(petId);
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 }
 
@@ -125,7 +126,6 @@ export default function PetAdd({ navigation }) {
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => Submit(pet['id'], data)}>
-            {/* onPress={()=>navigation.navigate('StackLoginPet', {screen: 'PetLogin'})}   */}
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text>     
         </TouchableOpacity>
         </View>
