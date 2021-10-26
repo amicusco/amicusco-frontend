@@ -154,7 +154,7 @@ function App() {
   )
   :
   <NavigationContainer>
-    <StackLogin/>
+    <StackMain/>
   </NavigationContainer>
   );
 }
