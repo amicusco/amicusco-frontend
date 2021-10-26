@@ -149,12 +149,12 @@ function App() {
   (logged) ? 
   (  
   <NavigationContainer>
-    <StackMain/>
+    <StackLoginPet/>
   </NavigationContainer>
   )
   :
   <NavigationContainer>
-    <StackMain/>
+    <StackLogin/>
   </NavigationContainer>
   );
 }
