@@ -98,70 +98,99 @@ export default function PetAdd({ navigation }) {
     };
     
     //Corrigir tamanho da tela (não funciona para os interesses ja avisando)
-    const screenHeight = Dimensions.get('window').height - 110;
+    const screenHeight = Dimensions.get('window').height;
 
     return(
-    <ScrollView style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
-        <View>
-            <Text style={styles.headerText}>Informações Adicionais</Text>
-        </View>
+    <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+        <View style={{flex: 0.9}}>
+            <ScrollView>
+                <View>
+                    <Text style={styles.headerText}>Informações Adicionais</Text>
+                </View>
+                
+                <View style={styles.imagePerfil}>
+                    <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 300}}>
+                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
+                            <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
+                            <View/>      
+                        </TouchableOpacity>
+                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+                    </ImageBackground>
+                </View>
+                
+                <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.name}>Amarelinho</Text>  
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Sobre</Text>  
+                    <TextInput
+                    style={styles.inputMultiline}
+                    autoFocus={true}
+                    value={bio}
+                    keyboardType={'default'}
+                    placeholder="Digite uma breve descrição do seu pet"
+                    onSubmitEditing={true}
+                    autoComplete={false}
+                    underlineColor='#ffffff'
+                    multiline={true}
+                    onChangeText={onChangeBio}
+                    onChange={(e) => setData({...data, 'petDescription': e.target.value})} 
+                    />
+                </View>
+                
+                <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Interesses</Text>
+
+                    {interests.map((interest, index) => {
+                    return(
+                    
+                    //Lista de interesses
+                    <TouchableOpacity style={styles.input} key={index} onPress={()=>{
+                        if (listInterests.indexOf(interest) === -1){
+                            setListInterests([...listInterests, interest]);
+                        }
+                        }}>
+                        <Text style={styles.textTags}> {interest} </Text>   
+                    </TouchableOpacity>
+                    )
+                })}
+                </View>  
+            </ScrollView> 
+        </View>    
+
+        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
-        <View style={styles.imagePerfil}>
-            <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 300}}>
-                <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
-                    <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
-                    <View/>      
-                </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
-            </ImageBackground>
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              onPress={() => navigation.navigate('Main')}>   
+              <Text>Main</Text>
+          </TouchableOpacity>  
+
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              onPress={() => navigation.navigate('Chat')}>   
+              <Text>Chat</Text>
+          </TouchableOpacity>
+  
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"#F4F4F4", alignItems: "center",justifyContent:"center", width:"25%"}}
+              disabled
+              onPress={() => navigation.navigate('Profile')}>   
+              <Text>Profile</Text>
+          </TouchableOpacity>
+         
         </View>
+
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
-
-        <View style={styles.containerInput}>
-            <Text style={styles.name}>Amarelinho</Text>  
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Sobre</Text>  
-            <TextInput
-            style={styles.inputMultiline}
-            autoFocus={true}
-            value={bio}
-            keyboardType={'default'}
-            placeholder="Digite uma breve descrição do seu pet"
-            onSubmitEditing={true}
-            autoComplete={false}
-            underlineColor='#ffffff'
-            multiline={true}
-            onChangeText={onChangeBio}
-            onChange={(e) => setData({...data, 'petDescription': e.target.value})} 
-            />
-        </View>
-        
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Interesses</Text>
-
-            {interests.map((interest, index) => {
-            return(
-            
-            //Lista de interesses
-            <TouchableOpacity style={styles.input} key={index} onPress={()=>{
-                if (listInterests.indexOf(interest) === -1){
-                    setListInterests([...listInterests, interest]);
-                }
-                }}>
-                <Text style={styles.textTags}> {interest} </Text>   
-            </TouchableOpacity>
-            )
-        })}  
-                       
-        </View>
-    </ScrollView>  
+    </View>  
     );
 }
 

@@ -1,6 +1,6 @@
 //react imports
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
+import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, Button} from 'react-native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
@@ -149,157 +149,185 @@ export default function PetPerfil({ navigation }) {
     //console.log(isEnabled);
     };
     //não ta funfando tão bem assim
-    const screenHeight = Dimensions.get('window').height -30;
+    const screenHeight = Dimensions.get('window').height;
      
 
     return(
-    <ScrollView style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+    <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
         {!loadingUser && !loadingPet && <>
-        <View>
-            <Text style={styles.headerText}>Perfil</Text>
-        </View>
+        <View style={{flex: 0.9}}>
+            <ScrollView>
 
-        <View style={styles.imagePerfil}>
-            <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 180, height: 180}}>
-                <TouchableOpacity style={ styles.inputImage } onPress={()=>navigation.navigate('ProfileAdd')}>
-                    <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
-                </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
-            </ImageBackground>
-        </View>
+                <View>
+                    <Text style={styles.headerText}>Perfil</Text>
+                </View>
+
+                <View style={styles.imagePerfil}>
+                    <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 180, height: 180}}>
+                        <TouchableOpacity style={ styles.inputImage } onPress={()=>navigation.navigate('ProfileAdd')}>
+                            <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
+                        </TouchableOpacity>
+                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+                    </ImageBackground>
+                </View>
+                
+                <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Nome do Dono</Text>
+                    <Text style={styles.text, {paddingLeft: 10, fontFamily: 'Nunito_300Light', fontSize: 18, paddingTop:'3%'}}>{user['name']}</Text>
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Nome do Pet</Text>  
+                    <TextInput
+                    style={styles.input}
+                    autoFocus={true}
+                    keyboardType={'default'}
+                    placeholder="Digite o nome do Pet"
+                    
+                    //isso daqui faz com que tenha ja tenha texto escrito na box do input
+                    value={petName}
+                    onChangeText={onChangePetName}
+                    onChange={(e) => setData({...data, 'petName': e.target.value})} 
+                    />
+                </View>
+                
+                <View style={{alignSelf:'center', width:'90%',borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Animal</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'default'}
+                    placeholder="Digite que animal é o seu Pet"
+                    value={animal}
+                    onChangeText={onChangeAnimal}
+                    onChange={(e) => setData({...data, 'animal': e.target.value})}
+                    />            
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Raça</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'default'}
+                    placeholder="Digite a raça do seu Pet"
+                    onChangeText={onChangeRace}
+                    value={race}
+                    onChange={(e) => setData({...data, 'race': e.target.value})}
+                    />
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Idade</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'numeric'}
+                    placeholder="Digite a idade do seu pet"
+                    onChangeText={onChangeAge}
+                    value={age}
+                    onChange={(e) => setData({...data, 'age': e.target.value})}/>
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Rede Social</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'url'}
+                    placeholder="Digite o link da rede social do seu Pet"
+                    onChangeText={onChangeSocial}
+                    value={social}
+                    onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Encontrar Pets</Text>  
+                    <RadioForm
+                        buttonColor="#E8C9AE"
+                        buttonSize={15}
+                        radioStyle={{paddingLeft:25, paddingTop:25}}
+                        selectedButtonColor="#E8C9AE"
+                        radio_props={radioProps}
+                        initial={2}
+                        animation={true}
+                        formHorizontal={true}
+                        onPress={(value) => setGender(value)}
+                        />
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.text}>Distância Máxima</Text>
+                    <Text style={[styles.text, {paddingLeft:10}]}>{dist} Km</Text>
+                    <Slider 
+                    style={{width: '100%', height: '5%', paddingTop: 10}}
+                    minimumValue={1}
+                    maximumValue={50}
+                    step={1}
+                    minimumTrackTintColor="#E8C9AE"
+                    maximumTrackTintColor="#999999"
+                    thumbTintColor="#E8C9AE"
+                    value={dist}
+                    onValueChange={value => setDist(value)}
+                    />  
+                </View>
+
+                <View style={styles.containerInput}>
+                    <TouchableOpacity 
+                        style={styles.inputOwner}
+                        onPress={()=>Logout(navigation)}>
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left'}}>Logout</Text>      
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.containerInput}>
+                    <TouchableOpacity 
+                        style={styles.inputOwner}
+                        onPress={()=>navigation.navigate('ProfileOwner')}>
+                        <Image source={raul} style={[styles.icon,{ width: 35, height: 35 }]}/>
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left'}}>Dono</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </View>     
+
+        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              onPress={() => navigation.navigate('Main')}>   
+              <Text>Main</Text>
+          </TouchableOpacity>  
 
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Nome do Dono</Text>
-            <Text style={styles.txt}>{user['name']}</Text>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Nome do Pet</Text>  
-            <TextInput
-            style={styles.input}
-            autoFocus={true}
-            keyboardType={'default'}
-            placeholder="Digite o nome do Pet"
-            
-            //isso daqui faz com que tenha ja tenha texto escrito na box do input
-            value={petName}
-            onChangeText={onChangePetName}
-            onChange={(e) => setData({...data, 'petName': e.target.value})} 
-            />
-        </View>
-        
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Animal</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'default'}
-            placeholder="Digite que animal é o seu Pet"
-            value={animal}
-            onChangeText={onChangeAnimal}
-            onChange={(e) => setData({...data, 'animal': e.target.value})}
-            />            
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Raça</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'default'}
-            placeholder="Digite a raça do seu Pet"
-            onChangeText={onChangeRace}
-            value={race}
-            onChange={(e) => setData({...data, 'race': e.target.value})}
-            />
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Idade</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'numeric'}
-            placeholder="Digite a idade do seu pet"
-            onChangeText={onChangeAge}
-            value={age}
-            onChange={(e) => setData({...data, 'age': e.target.value})}/>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Rede Social</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'url'}
-            placeholder="Digite o link da rede social do seu Pet"
-            onChangeText={onChangeSocial}
-            value={social}
-            onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Encontrar Pets</Text>  
-            <RadioForm
-                  buttonColor="#E8C9AE"
-                  buttonSize={15}
-                  radioStyle={{paddingLeft:25, paddingTop:25}}
-                  selectedButtonColor="#E8C9AE"
-                  radio_props={radioProps}
-                  initial={2}
-                  animation={true}
-                  formHorizontal={true}
-                  onPress={(value) => setGender(value)}
-                />
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Distância Máxima</Text>
-            <Text style={[styles.txt, {paddingLeft:10}]}>{dist} Km</Text>
-            <Slider 
-            style={{width: '100%', height: '5%', paddingTop: 10}}
-            minimumValue={1}
-            maximumValue={50}
-            step={1}
-            minimumTrackTintColor="#E8C9AE"
-            maximumTrackTintColor="#999999"
-            thumbTintColor="#E8C9AE"
-            value={dist}
-            onValueChange={value => setDist(value)}
-            />  
-        </View>
-
-        <View style={styles.containerInput}>
-            <TouchableOpacity 
-                style={styles.inputOwner}
-                onPress={()=>Logout(navigation)}>
-                <Text style={styles.text}>Logout</Text>      
-            </TouchableOpacity>
-        </View>
-
-        <View style={styles.containerInput}>
-            <TouchableOpacity 
-                style={styles.inputOwner}
-                onPress={()=>navigation.navigate('ProfileOwner')}>
-                <Image source={raul} style={[styles.icon,{ width: 35, height: 35 }]}/>
-                <Text style={styles.text}>Dono</Text>
-                <Text style={styles.text}></Text>      
-            </TouchableOpacity>
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              onPress={() => navigation.navigate('Chat')}>   
+              <Text>Chat</Text>
+          </TouchableOpacity>
+  
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"#F4F4F4", alignItems: "center",justifyContent:"center", width:"25%"}}
+              disabled
+              onPress={() => navigation.navigate('Profile')}>   
+              <Text>Profile</Text>
+          </TouchableOpacity>
+         
         </View>
     </>}
-    </ScrollView>  
+    </View>  
     );
 }
 
@@ -358,19 +386,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
-    txt:{
-        paddingTop: 20,
-        textAlign: 'left',
-        fontFamily:"Nunito-Light"
-    },
-
     imagePerfil:{
         borderRadius: 360,
         alignItems: 'center'
     },
 
     headerText:{
-        fontFamily: 'Nunito_600SemiBold',
+        fontFamily: 'Nunito_700Bold',
         fontSize:40,
         fontWeight:'bold',
         paddingLeft: 20,
@@ -387,18 +409,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#E8C9AE',
         borderRadius: 40,
         marginTop:10,
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        flexDirection: "row"
+        flexDirection: 'row'
         
     },
 
     text: {
         color: '#000',
-        fontWeight:'bold',
-        fontSize: 16,
-        textAlign: 'center',
-        fontFamily:"Nunito-Light"
+        fontSize: 20,
+        textAlign: 'left',
+        fontFamily:'Nunito_600SemiBold',
+        paddingTop:'1%'
         },
 
     icon: {

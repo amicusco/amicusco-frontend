@@ -68,90 +68,120 @@ export default function ProfileOwner({ navigation }) {
     //console.log(isEnabled);
     };
 
-    const screenHeight = Dimensions.get('window').height -100;
+    const screenHeight = Dimensions.get('window').height;
 
     return(
-    <ScrollView style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
-        <View>
-            <Text style={styles.headerText}>Perfil do Dono</Text>
+    <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+        <View style={{flex: 0.9}}>
+            <ScrollView>
+                <View>
+                    <Text style={styles.headerText}>Perfil do Dono</Text>
+                </View>
+
+                <View style={styles.imagePerfil}>
+                    <ImageBackground source={raul} style={{ resizeMode:"contain", width: 120, height: 120}}>
+                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
+                            <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
+                        </TouchableOpacity>
+                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+                    </ImageBackground>
+                </View>
+                
+                <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Nome Completo</Text>
+                    <TextInput
+                    style={styles.input}
+                    autoFocus={true}
+                    keyboardType={'default'}
+                    placeholder="Digite o seu nome completo"
+                    value={name}
+                    onChangeText={onChangeName}
+                    onChange={(e) => setData({...data, 'ownerName': e.target.value})} 
+                    />  
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Idade</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'numeric'}
+                    placeholder="Digite a idade do seu pet"
+                    value={age}
+                    onChangeText={onChangeAge}
+                    onChange={(e) => setData({...data, 'age': e.target.value})}/>
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Rede Social</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'url'}
+                    placeholder="Digite o link da sua rede social"
+                    value={social}
+                    onChangeText={onChangeSocial}
+                    onChange={(e) => setData({...data, 'ownerSocialMedia': e.target.value})}/>
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Telefone</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'numeric'}
+                    placeholder="Digite a idade do seu pet"
+                    value={phone}
+                    onChangeText={onChangePhone}
+                    onChange={(e) => setData({...data, 'phone': e.target.value})}/>
+                </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>E-mail</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'email-address'}
+                    placeholder="Digite o seu e-mail"
+                    value={email}
+                    onChangeText={onChangeEmail}
+                    onChange={(e) => setData({...data, 'email': e.target.value})}/>
+                </View>
+            </ScrollView>
         </View>
 
-        <View style={styles.imagePerfil}>
-            <ImageBackground source={raul} style={{ resizeMode:"contain", width: 120, height: 120}}>
-                <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
-                    <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
-                </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
-            </ImageBackground>
-        </View>
+        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
-        <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              onPress={() => navigation.navigate('Main')}>   
+              <Text>Main</Text>
+          </TouchableOpacity>  
 
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Nome Completo</Text>
-            <TextInput
-            style={styles.input}
-            autoFocus={true}
-            keyboardType={'default'}
-            placeholder="Digite o seu nome completo"
-            value={name}
-            onChangeText={onChangeName}
-            onChange={(e) => setData({...data, 'ownerName': e.target.value})} 
-            />  
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              onPress={() => navigation.navigate('Chat')}>   
+              <Text>Chat</Text>
+          </TouchableOpacity>
+  
+          <TouchableOpacity 
+              style={{borderRadius:50, backgroundColor:"#F4F4F4", alignItems: "center",justifyContent:"center", width:"25%"}}
+              disabled
+              onPress={() => navigation.navigate('Profile')}>   
+              <Text>Profile</Text>
+          </TouchableOpacity>
+         
         </View>
 
-        <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Idade</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'numeric'}
-            placeholder="Digite a idade do seu pet"
-            value={age}
-            onChangeText={onChangeAge}
-            onChange={(e) => setData({...data, 'age': e.target.value})}/>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Rede Social</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'url'}
-            placeholder="Digite o link da sua rede social"
-            value={social}
-            onChangeText={onChangeSocial}
-            onChange={(e) => setData({...data, 'ownerSocialMedia': e.target.value})}/>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Telefone</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'numeric'}
-            placeholder="Digite a idade do seu pet"
-            value={phone}
-            onChangeText={onChangePhone}
-            onChange={(e) => setData({...data, 'phone': e.target.value})}/>
-        </View>
-
-        <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>E-mail</Text>  
-            <TextInput
-            style={styles.input}
-            keyboardType={'email-address'}
-            placeholder="Digite o seu e-mail"
-            value={email}
-            onChangeText={onChangeEmail}
-            onChange={(e) => setData({...data, 'email': e.target.value})}/>
-        </View>
-    </ScrollView>  
+    </View>  
     );
 }
 

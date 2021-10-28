@@ -18,21 +18,6 @@ async function SubmitFacebook () {
     await axios.get("https://amicusco-auth.herokuapp.com/auth/facebook").then(resp => Linking.addEventListener('url', handleOpenURL)).catch(err => console.log(err));
 }
 
-//teste de responsividade (que não funciona)
-const windowHeight = Dimensions.get('window').height;
-
-function test(windowHeight){
-    console.log(windowHeight)
-    if (windowHeight<717){
-        return(
-            <View style={styles.containerPlusLogo}>
-                <Image source={plus} style={{resizeMode:"contain", width: 230, height: 160 }} />
-                <Image source={logo} style={{resizeMode:"contain", width: 134, height: 136 }} />
-            </View>
-        )
-    }
-}
-
 async function getUser (navigation){
     //await AsyncStorage.removeItem('user');
     const user = await AsyncStorage.getItem('user');

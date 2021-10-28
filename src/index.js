@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AsyncStorage from "@react-native-community/async-storage";
 import axios from 'axios';
 
@@ -41,45 +40,6 @@ import {
     Nunito_900Black,
     Nunito_900Black_Italic 
   } from '@expo-google-fonts/nunito'
-
-
-function HomeScreen({ navigation }) {
-  //Import Fonts
-  let [fontsLoaded]=useFonts({
-    Nunito_200ExtraLight,
-    Nunito_200ExtraLight_Italic,
-    Nunito_300Light,
-    Nunito_300Light_Italic,
-    Nunito_400Regular,
-    Nunito_400Regular_Italic,
-    Nunito_600SemiBold,
-    Nunito_600SemiBold_Italic,
-    Nunito_700Bold,
-    Nunito_700Bold_Italic,
-    Nunito_800ExtraBold,
-    Nunito_800ExtraBold_Italic,
-    Nunito_900Black,
-    Nunito_900Black_Italic 
-})
-
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button 
-      title="Details"
-      onPress={()=>navigation.navigate('Login')}
-      />
-    </View>
-  );
-}
-
-function DetailsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-    </View>
-  );
-}
 
 const LoginStack = createNativeStackNavigator();
 const LoginPetStack = createNativeStackNavigator();
@@ -131,9 +91,26 @@ function StackProfile(){
   );
 }
 
-//vamos tirar o tabmain e transformar em botões (tem que fazer um arquivo novo ja que vai ser chamado por paginas diferentes)
 function App() {
   const [logged, setLogged] = React.useState(false);
+
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+      Nunito_200ExtraLight,
+      Nunito_200ExtraLight_Italic,
+      Nunito_300Light,
+      Nunito_300Light_Italic,
+      Nunito_400Regular,
+      Nunito_400Regular_Italic,
+      Nunito_600SemiBold,
+      Nunito_600SemiBold_Italic,
+      Nunito_700Bold,
+      Nunito_700Bold_Italic,
+      Nunito_800ExtraBold,
+      Nunito_800ExtraBold_Italic,
+      Nunito_900Black,
+      Nunito_900Black_Italic 
+  })
   
   React.useEffect(() => {
     AsyncStorage.getItem('user').then(resp => {

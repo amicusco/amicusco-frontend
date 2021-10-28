@@ -9,6 +9,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 import Camera from '../../assets/camera.png'; 
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_200ExtraLight_Italic,
+    Nunito_300Light,
+    Nunito_300Light_Italic,
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+    Nunito_800ExtraBold,
+    Nunito_800ExtraBold_Italic,
+    Nunito_900Black,
+    Nunito_900Black_Italic 
+  } from '@expo-google-fonts/nunito'
 
 async function Submit (data, specieid, navigation) {
     try{
@@ -24,23 +42,34 @@ async function Submit (data, specieid, navigation) {
     }
 }
 
-export default function PetPerfil({ navigation }) {
+export default function PetPerfil({ navigation }) { 
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_200ExtraLight_Italic,
+        Nunito_300Light,
+        Nunito_300Light_Italic,
+        Nunito_400Regular,
+        Nunito_400Regular_Italic,
+        Nunito_600SemiBold,
+        Nunito_600SemiBold_Italic,
+        Nunito_700Bold,
+        Nunito_700Bold_Italic,
+        Nunito_800ExtraBold,
+        Nunito_800ExtraBold_Italic,
+        Nunito_900Black,
+        Nunito_900Black_Italic 
+    })
 
+    //Data
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
     
     const [data, setData] = React.useState({});
-
-    console.log(data);
-
     const [species, setSpecies] = React.useState([]);
-
     const [image, setImage] = useState(null);
-
     const [dist, setDist] = useState(1);
-
-    const [value, setGender] = useState({});
-
+    const [gender, setGender] = useState({});
     const [userName, setUserName] = useState(null);
 
     const radioProps = [
@@ -48,7 +77,7 @@ export default function PetPerfil({ navigation }) {
         { label: 'Fêmeas', value: 1 },
         { label: 'Ambos', value: 2 }];
    
-
+    
     useEffect(() => {
         const GetSpecies = async () => {
             let resp = await axios.get("https://amicusco-pet-api.herokuapp.com/species");
@@ -88,8 +117,6 @@ export default function PetPerfil({ navigation }) {
     if (!result.cancelled) {
       setImage(result.uri);
     }
-
-    //console.log(isEnabled);
     };
 
     return(
@@ -275,6 +302,7 @@ const styles = StyleSheet.create({
 
     inputSubmitButtonTxt: {
         color: 'white',
+        fontFamily:'Nunito_700Bold',
         fontWeight:'bold'
     },
 
@@ -292,6 +320,7 @@ const styles = StyleSheet.create({
 
     txt:{
         paddingTop: 20,
+        fontFamily:'Nunito_200Light',
         textAlign: 'left'
     },
 
@@ -303,6 +332,7 @@ const styles = StyleSheet.create({
     headerText:{
         fontSize:40,
         fontWeight:'bold',
+        fontFamily:'Nunito_300Light',
         paddingLeft: 20
     },
     

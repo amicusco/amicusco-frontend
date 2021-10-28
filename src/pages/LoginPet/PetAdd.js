@@ -9,7 +9,6 @@ import Place_Holder from '../../assets/Place_Holder.png';
 
 
 async function Submit (petId, data) {
-    console.log(petId);
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 }
 
@@ -24,6 +23,7 @@ export default function PetAdd({ navigation }) {
 
     const [pet, setPet] = useState(null);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //Funções para adicionar imagens
     const [image, setImage] = useState(Place_Holder);
 
