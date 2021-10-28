@@ -188,8 +188,6 @@ export default function PetAdd({ navigation }) {
           </TouchableOpacity>
          
         </View>
-
-        
     </View>  
     );
 }

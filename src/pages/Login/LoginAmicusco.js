@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
 import RadioForm from 'react-native-simple-radio-button';
-import index from '../../index.js';
+
+import logo from '../../assets/logo.png';
 
 //
 async function Submit (data, navigation) {
@@ -77,7 +78,9 @@ export default function LoginAmicusco({ navigation }){
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => {Submit(data, navigation)}}>
-            <Text style={styles.inputSubmitButtonTxt}>Entrar</Text>     
+            <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
+            <Text style={styles.inputSubmitButtonTxt}>Entrar</Text> 
+            <Text style={styles.txt}></Text>    
         </TouchableOpacity>
         </View>
 
@@ -115,19 +118,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#65D2EB',
         borderRadius: 40,
         marginTop:10,
-        flexDirection: "row",
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20
+        justifyContent: 'space-between',
     },
 
     inputSubmitButtonTxt: {
-        color: "white",
-        fontWeight:'bold'
+        color: 'white',
+        fontSize: 17,
+        fontFamily:'Nunito_700Bold',
+        fontWeight:'bold',
+        textAlign: 'center'
     },
 
     txt:{
         paddingTop: 20,
         textAlign: 'left'
-    }
+    },
+
+    icon: {
+        marginLeft: 5   
+    },
 });

@@ -60,7 +60,7 @@ export default function PetLogin({navigation}){
         
         <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('PetPerfil')}}>
             <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
-            <Text style={[styles.text, {fontWeight: 'bold', textAlign:'right'}]}>Novo Perfil</Text>      
+            <Text style={[styles.text, {fontWeight: 'bold', textAlign:'left'}]}>Novo PetPerfil</Text>      
         </TouchableOpacity>
     </View> 
     </LinearGradient>

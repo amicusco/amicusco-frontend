@@ -1,44 +1,120 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions } from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, Modal, Pressable, Alert } from 'react-native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Place_Holder from '../../../assets/Place_Holder.png'; 
 import raul from '../../../assets/raul.png'; 
 import Camera from '../../../assets/camera.png'; 
 
+import ModalApp from '../../../Components/Modal';
+//import fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_200ExtraLight_Italic,
+    Nunito_300Light,
+    Nunito_300Light_Italic,
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+    Nunito_800ExtraBold,
+    Nunito_800ExtraBold_Italic,
+    Nunito_900Black,
+    Nunito_900Black_Italic 
+  } from '@expo-google-fonts/nunito'
 
-// async function Submit (data, specieid) {
-//     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
-// }
+async function Submit (data, userid, navigation) {
+    await axios.put(`https://amicusco-auth.herokuapp.com/users/${userId}`, data)
+    .then(resp => {
+        console.log(resp.data);
+        navigation.navigate('StackMain', {screen: 'Profile'});
+    })
+    .catch(err => console.log(err));
+}
+
+function Validation (password1, password2, setModal){
+    if (!!password1 && !!password2){
+        if (password1 === password2) setModal(true);
+        else return "Senhas diferentes!";
+    } else return "";
+}
+
+const getPetsUser = async (userId, setLoading) => {
+    try{
+        const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/petsbyuser/${userId}`);
+        setLoading(false);
+        return resp.data;
+    } catch(err) {
+        console.log(err);
+        return err;
+    }
+}
 
 
 export default function ProfileOwner({ navigation }) {
-
-    const[name, onChangeName] = React.useState("Rahul Roy");
-    const[age, onChangeAge] = React.useState("28 anos");
-    const[email, onChangeEmail] = React.useState("rahul.roy@gmail.com");
-    const[social, onChangeSocial] = React.useState("fb.com/rahulroy");
-    const[phone, onChangePhone] = React.useState("(11)99374-2234");
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_200ExtraLight_Italic,
+        Nunito_300Light,
+        Nunito_300Light_Italic,
+        Nunito_400Regular,
+        Nunito_400Regular_Italic,
+        Nunito_600SemiBold,
+        Nunito_600SemiBold_Italic,
+        Nunito_700Bold,
+        Nunito_700Bold_Italic,
+        Nunito_800ExtraBold,
+        Nunito_800ExtraBold_Italic,
+        Nunito_900Black,
+        Nunito_900Black_Italic 
+    });
     
-    const [data, setData] = React.useState({});
+    const[userId, onChangeUserId] = useState(null);
+    const[name, onChangeName] = useState('');
+    const[age, onChangeAge] = useState('');
+    const[email, onChangeEmail] = useState('');
+    const[phone, onChangePhone] = useState('');
+    const[password, onChangePassword] = useState('');
+    const[pets, setPets] = useState([]);
+    const[loadingUser, setLoadingUser] = useState(true);
+    const[loadingPet, setLoadingPet] = useState(true);
+    const[newPassword1, setnewPassword1] = useState('');
+    const[newPassword2, setnewPassword2] = useState('');
 
-    console.log(data);
+    // pets[0]['Name']
+    // pats.map(pet => (<Text>{pet['name']}</Text>))
+    const [data, setData] = useState({});
 
     const [image, setImage] = useState(null);
-   
 
-    // useEffect(() => {
-    //     const GetSpecies = async () => {
-    //         let resp = await axios.get("https://amicusco-pet-api.herokuapp.com/species");
-    //         setSpecies(resp.data);
-    //     }
-      
-    //     GetSpecies();
+    console.log(userId);
 
-    //   }, []);
+    useEffect(() => {
+        const getUser = async() => {
+            let user = JSON.parse(await AsyncStorage.getItem('user'));
+            console.log(user);
+            onChangeUserId(user['id']);
+            onChangeName(user['name']);
+            onChangeEmail(user['email']);
+            onChangePhone(user['phoneNumber']);
+            onChangePassword(user['password']);
+            setLoadingUser(false);                
+        }
+        getUser();
 
-    // console.log(species);
+        
+    }, []);
+
+    useEffect(() => {
+        if(!!userId)
+            getPetsUser(userId, setLoadingPet).then(resp => setPets(resp));
+    }, [!!userId])
 
     useEffect(() => {
         (async () => {
@@ -59,19 +135,21 @@ export default function ProfileOwner({ navigation }) {
         quality: 1,
         });
 
-    console.log(result);
+        console.log(result);
 
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-
-    //console.log(isEnabled);
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
     };
 
     const screenHeight = Dimensions.get('window').height;
 
+    console.log("USER LOADING: ", loadingUser);
+    console.log("PET LOADING: ",loadingPet);
+
     return(
     <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+        {!loadingUser && !loadingPet && <>
         <View style={{flex: 0.9}}>
             <ScrollView>
                 <View>
@@ -118,19 +196,6 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Rede Social</Text>  
-                    <TextInput
-                    style={styles.input}
-                    keyboardType={'url'}
-                    placeholder="Digite o link da sua rede social"
-                    value={social}
-                    onChangeText={onChangeSocial}
-                    onChange={(e) => setData({...data, 'ownerSocialMedia': e.target.value})}/>
-                </View>
-
-                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
-
-                <View style={styles.containerInput}>
                     <Text style={styles.txt}>Telefone</Text>  
                     <TextInput
                     style={styles.input}
@@ -153,11 +218,48 @@ export default function ProfileOwner({ navigation }) {
                     onChangeText={onChangeEmail}
                     onChange={(e) => setData({...data, 'email': e.target.value})}/>
                 </View>
+
+                <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Trocar senha</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'default'}
+                    placeholder="Digite a sua nova senha"
+                    secureTextEntry={true}
+                    value={newPassword1}
+                    onChangeText={setnewPassword1} />
+                </View>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Digite novamente</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'default'}
+                    placeholder="Digite novamente a sua senha"
+                    secureTextEntry={true}
+                    value={newPassword2}
+                    onChangeText={setnewPassword2} />
+                </View>
+
+                <ModalApp/>
+                    
+                <View style={styles.containerInput}>
+                    <Text style={styles.txt}>Senha para confirmar as alterações</Text>  
+                    <TextInput
+                    style={styles.input}
+                    keyboardType={'default'}
+                    placeholder="Digite a sua senha"
+                    secureTextEntry={true}
+                    onChangeText={onChangePassword} />
+                </View>
+
             </ScrollView>
         </View>
 
         <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-        
+
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
           <TouchableOpacity 
               style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
@@ -176,11 +278,9 @@ export default function ProfileOwner({ navigation }) {
               disabled
               onPress={() => navigation.navigate('Profile')}>   
               <Text>Profile</Text>
-          </TouchableOpacity>
-         
+          </TouchableOpacity> 
         </View>
-
-
+        </>}
     </View>  
     );
 }
@@ -254,5 +354,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         paddingLeft: 20
     },
+    
+    
     
 });

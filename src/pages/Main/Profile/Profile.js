@@ -148,7 +148,6 @@ export default function PetPerfil({ navigation }) {
 
     //console.log(isEnabled);
     };
-    //não ta funfando tão bem assim
     const screenHeight = Dimensions.get('window').height;
      
 
@@ -184,10 +183,8 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Nome do Pet</Text>  
                     <TextInput
                     style={styles.input}
-                    autoFocus={true}
                     keyboardType={'default'}
                     placeholder="Digite o nome do Pet"
-                    
                     //isso daqui faz com que tenha ja tenha texto escrito na box do input
                     value={petName}
                     onChangeText={onChangePetName}
@@ -270,7 +267,7 @@ export default function PetPerfil({ navigation }) {
 
                 <View style={styles.containerInput}>
                     <Text style={styles.text}>Distância Máxima</Text>
-                    <Text style={[styles.text, {paddingLeft:10}]}>{dist} Km</Text>
+                    <Text style={{paddingLeft:10, fontSize: 15}}>{dist} Km</Text>
                     <Slider 
                     style={{width: '100%', height: '5%', paddingTop: 10}}
                     minimumValue={1}
@@ -297,7 +294,7 @@ export default function PetPerfil({ navigation }) {
                         style={styles.inputOwner}
                         onPress={()=>navigation.navigate('ProfileOwner')}>
                         <Image source={raul} style={[styles.icon,{ width: 35, height: 35 }]}/>
-                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left'}}>Dono</Text>
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left', paddingLeft:10}}>Dono</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

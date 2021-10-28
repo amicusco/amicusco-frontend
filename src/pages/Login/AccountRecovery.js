@@ -1,24 +1,39 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
+import axios from 'axios';
+
+import logo from '../../assets/logo.png';
+
+async function Submit (email, setError) {
+    await axios.post('https://amicusco-auth.herokuapp.com/recoverPassword', {email}).then(resp => console.log(resp.data)).catch(err => setError(err.toJSON().message));
+}
 
 export default function AccountRecovery({ navigation }){
+    const [email, setEmail] = React.useState('');
+    const [error, setError] = React.useState('');
+
     return(
     <View styles={styles.container}>
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Digite o seu e-mail cadastrado:</Text>  
             <TextInput
-            style={styles.input}
+            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
             autoFocus={true}
             keyboardType={'email-address'}
             autoCompleteType={'email'}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Digite o seu e-mail"/>
+            {error.slice(-3) === '401' && <Text style={{color: 'red', paddingTop:2}}>Email não encontrado!</Text>}
         </View>
 
         <View style={styles.containerInput}>
         <TouchableOpacity 
-            style={styles.inputSubmitButton}>
-            {/* <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/> */}
-            <Text style={styles.inputSubmitButtonTxt}>Receber código de recuperação</Text>     
+            style={styles.inputSubmitButton}
+            onPress={() => Submit(email, setError)}>
+            <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]} />
+
+            <Text style={styles.inputSubmitButtonTxt}>Receber código de recuperação</Text>
+            <Text style={styles.txt}></Text>     
         </TouchableOpacity>
         </View>
 
@@ -47,7 +62,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: 20, 
     },
 
     inputSubmitButton: {
@@ -56,19 +71,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#65D2EB',
         borderRadius: 40,
         marginTop:10,
-        flexDirection: "row",
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20
+        justifyContent: 'space-between',
     },
 
     inputSubmitButtonTxt: {
-        color: "white",
-        fontWeight:'bold'
+        color: 'white',
+        fontSize: 17,
+        fontFamily:'Nunito_700Bold',
+        fontWeight:'bold',
+        textAlign: 'center'
     },
 
     txt:{
         paddingTop: 20,
         textAlign: 'left'
-    }
+    },
+
+    icon: {
+        marginLeft: 5   
+    },
 });

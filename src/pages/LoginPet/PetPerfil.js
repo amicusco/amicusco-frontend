@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Place_Holder from '../../assets/Place_Holder.png'; 
 import Camera from '../../assets/camera.png'; 
+import logo from '../../assets/logo.png';
 
 //Import Fonts
 import { useFonts } from 'expo-font';
@@ -158,7 +159,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Animal</Text>
-            <Picker
+            <Picker style={styles.input}
                 onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
             >
                 <Picker.Item label="Selecione o Animal" />
@@ -256,7 +257,9 @@ export default function PetPerfil({ navigation }) {
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => Submit(data, 1, navigation)}>  
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
+            <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
+            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
+            <Text style={styles.txt}></Text>     
         </TouchableOpacity>
         </View>
     </ScrollView>  
@@ -296,14 +299,15 @@ const styles = StyleSheet.create({
         marginTop:10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20
+        justifyContent: 'space-between',
     },
 
     inputSubmitButtonTxt: {
         color: 'white',
+        fontSize: 17,
         fontFamily:'Nunito_700Bold',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        textAlign: 'center'
     },
 
     inputImage:{
@@ -338,5 +342,9 @@ const styles = StyleSheet.create({
     
     switch:{
         marginTop:15
-    }
+    },
+
+    icon: {
+        marginLeft: 5   
+    },
 });

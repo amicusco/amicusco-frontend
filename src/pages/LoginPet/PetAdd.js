@@ -5,7 +5,8 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Camera from '../../assets/camera.png';
-import Place_Holder from '../../assets/Place_Holder.png';  
+import Place_Holder from '../../assets/Place_Holder.png';
+import logo from '../../assets/logo.png';  
 
 
 async function Submit (petId, data) {
@@ -126,7 +127,9 @@ export default function PetAdd({ navigation }) {
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => Submit(pet['id'], data)}>
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text>     
+            <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
+            <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text> 
+            <Text style={styles.txt}></Text>     
         </TouchableOpacity>
         </View>
         </>}
@@ -164,16 +167,18 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:'1%',
+        marginTop:10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: '2%'
+        justifyContent: 'space-between',
     },
 
     inputSubmitButtonTxt: {
         color: 'white',
-        fontWeight:'bold'
+        fontSize: 17,
+        fontFamily:'Nunito_700Bold',
+        fontWeight:'bold',
+        textAlign: 'center'
     },
 
     inputImage:{
@@ -220,6 +225,10 @@ const styles = StyleSheet.create({
     
     switch:{
         marginTop:15
+    },
+
+    icon: {
+        marginLeft: 5   
     },
 
 });

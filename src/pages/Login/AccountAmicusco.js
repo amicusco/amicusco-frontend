@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import logo from '../../assets/logo.png';
 
 async function Submit (data, navigation) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data)
@@ -92,8 +94,10 @@ export default function AccountAmicusco({ navigation }) {
         <TouchableOpacity 
             //Quando o botão fizer duas coisas é so chamar em sequencia onPress
             style={styles.inputSubmitButton}
-            onPress={() => Submit(data, navigation)}> 
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>     
+            onPress={() => Submit(data, navigation)}>
+            <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>     
+            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
+            <Text style={styles.txt}></Text>       
         </TouchableOpacity>
         </View>
       
@@ -133,19 +137,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#65D2EB',
         borderRadius: 40,
         marginTop:10,
-        flexDirection: "row",
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20
+        justifyContent: 'space-between',
     },
 
     inputSubmitButtonTxt: {
-        color: "white",
-        fontWeight:'bold'
+        color: 'white',
+        fontSize: 17,
+        fontFamily:'Nunito_700Bold',
+        fontWeight:'bold',
+        textAlign: 'center'
     },
 
     txt:{
         paddingTop: 20,
         textAlign: 'left'
-    }
+    },
+
+    icon: {
+        marginLeft: 5   
+    },
 });
