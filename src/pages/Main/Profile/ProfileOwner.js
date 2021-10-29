@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Place_Holder from '../../../assets/Place_Holder.png'; 
 import raul from '../../../assets/raul.png'; 
 import Camera from '../../../assets/camera.png'; 
+import { Ionicons } from '@expo/vector-icons';
 
 import ModalApp from '../../../Components/Modal';
 //import fonts
@@ -84,8 +85,8 @@ export default function ProfileOwner({ navigation }) {
     const[pets, setPets] = useState([]);
     const[loadingUser, setLoadingUser] = useState(true);
     const[loadingPet, setLoadingPet] = useState(true);
-    const[newPassword1, setnewPassword1] = useState('');
-    const[newPassword2, setnewPassword2] = useState('');
+    // const[newPassword1, setnewPassword1] = useState('');
+    // const[newPassword2, setnewPassword2] = useState('');
 
     // pets[0]['Name']
     // pats.map(pet => (<Text>{pet['name']}</Text>))
@@ -144,8 +145,13 @@ export default function ProfileOwner({ navigation }) {
 
     const screenHeight = Dimensions.get('window').height;
 
-    console.log("USER LOADING: ", loadingUser);
-    console.log("PET LOADING: ",loadingPet);
+    
+    const [newPass1, setnewPass1] = React.useState('');
+    const [newPass2, setnewPass2] = React.useState('');
+    const [pass, setPass] = React.useState('');
+    const [hidenewPass1, sethidenewPass1] = React.useState(true);
+    const [hidenewPass2, sethidenewPass2] = React.useState(true);
+    const [hidePass, sethidePass] = React.useState(true);
 
     return(
     <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
@@ -222,39 +228,59 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Trocar senha</Text>  
-                    <TextInput
-                    style={styles.input}
-                    keyboardType={'default'}
-                    placeholder="Digite a sua nova senha"
-                    secureTextEntry={true}
-                    value={newPassword1}
-                    onChangeText={setnewPassword1} />
+                    <Text style={styles.txt}>Trocar Senha</Text>
+                    <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
+                        <TextInput
+                        style={{width:'100%', height: 46, paddingHorizontal:10}}
+                        keyboardType={'default'}
+                        placeholder="Digite a sua senha"
+                        onChangeText={(newPass1) => setnewPass1(newPass1)}
+                        secureTextEntry={hidenewPass1}
+                        value={newPass1}
+                        onChangeText={setnewPass1} />
+                        <TouchableOpacity onPress={() => sethidenewPass1(!hidenewPass1)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                            <Ionicons name="eye" size={22} color='#111'/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Digite novamente</Text>  
-                    <TextInput
-                    style={styles.input}
-                    keyboardType={'default'}
-                    placeholder="Digite novamente a sua senha"
-                    secureTextEntry={true}
-                    value={newPassword2}
-                    onChangeText={setnewPassword2} />
+                    <Text style={styles.txt}>Digite novamente</Text>
+                    <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
+                        <TextInput
+                        style={{width:'100%', height: 46, paddingHorizontal:10}}
+                        keyboardType={'default'}
+                        placeholder="Digite novamente a sua senha"
+                        onChangeText={(newPass2) => setnewPass2(newPass2)}
+                        secureTextEntry={hidenewPass2}
+                        value={newPass2}
+                        onChangeText={setnewPass2} />
+                        <TouchableOpacity onPress={() => sethidenewPass2(!hidenewPass2)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                            <Ionicons name="eye" size={22} color='#111'/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 <ModalApp/>
                     
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Senha para confirmar as alterações</Text>  
-                    <TextInput
-                    style={styles.input}
-                    keyboardType={'default'}
-                    placeholder="Digite a sua senha"
-                    secureTextEntry={true}
-                    onChangeText={onChangePassword} />
+                    <Text style={styles.txt}>Senha para confirmar alterações</Text>
+                    <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
+                        <TextInput
+                        style={{width:'100%', height: 46, paddingHorizontal:10}}
+                        keyboardType={'default'}
+                        placeholder="Digite a sua senha"
+                        onChangeText={(pass) => setPass(pass)}
+                        secureTextEntry={hidePass}
+                        value={pass}
+                        onChangeText={setPass} />
+                        <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                            <Ionicons name="eye" size={22} color='#111'/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
+                
             </ScrollView>
         </View>
 

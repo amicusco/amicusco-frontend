@@ -3,10 +3,12 @@ import axios from 'axios';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
 import RadioForm from 'react-native-simple-radio-button';
+import {TextInputMask} from 'react-native-masked-text';
 
 import logo from '../../assets/logo.png';
+import { Ionicons } from '@expo/vector-icons';
 
-//
+
 async function Submit (data, navigation) {
     await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
         AsyncStorage.setItem('user', JSON.stringify(resp.data));
@@ -32,8 +34,14 @@ export default function LoginAmicusco({ navigation }){
         { label: 'E-mail', value: 'email' },
         { label: 'Telefone', value: 'phoneNumber' }];
 
+    const [pass, setPass] = React.useState('');
+    const [hidePass, sethidePass] = React.useState(true);
+
+    const [mail, setMail] = React.useState('');
+    const [phone, setPhone] = React.useState('');
+
     return(
-    <View styles={styles.container}>
+    <View style={styles.container}>
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Selecione a sua forma de Login</Text>  
             <RadioForm
@@ -51,27 +59,37 @@ export default function LoginAmicusco({ navigation }){
 
     
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>{type === 'email' ? 'E-mail' : 'Número de Telefone'}</Text>  
-            <TextInput
+            <Text style={styles.txt}>{type === 'email' ? 'E-mail:' : 'Número de Telefone:'}</Text>  
+            <TextInputMask
             style={styles.input}
+            type={type === 'email' ? 'custom' : 'cel-phone'}
             autoFocus={true}
-            keyboardType={'default'}
-            autoCompleteType={type === 'email' ? 'email' : 'number'}
-            placeholder={type === 'email' ? 'Digite o seu E-mail' : 'Digite o seu Telefone'}
-            //Fica para depois para colocar a expressão regular
+            keyboardType={type === 'email' ? 'email-address' : 'phone-pad'}
+            placeholder={type === 'email' ? '   Digite o seu E-mail' : '   Digite o seu Telefone'}
+            value={type === 'email' ? mail : phone}
+            options={type === 'email' ? {mask:'   ******************************'} : {maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
+            onChangeText={ type === 'email' ? (mail)=> setMail(mail) : (phone)=> setPhone(phone)}
             onChange={(e) => setData(
                 type === 'email' ? {...data, 'email': e.target.value } : {...data, 'phoneNumber': e.target.value }
             )} />
         </View>
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Senha:</Text>  
+            <Text style={styles.txt}>Senha:</Text>
+            <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
             <TextInput
-            style={styles.input}
-            keyboardType={'default'}
-            secureTextEntry={true}
+            //colocar possibilidade de ver a senha
+            style={{width:'100%', height: 46, paddingHorizontal:10}}
+            keyboardType={'password'}
+            secureTextEntry={hidePass}
             placeholder="Digite a sua senha"
-            onChange={(e) => setData({...data, 'password': e.target.value})} />
+            value={pass}
+            onChangeText={(pass) => setPass(pass)}
+            onChange={(e) => setData({...data, 'password': e.target.value})}/>
+            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                <Ionicons name="eye" size={22} color='#111'/>
+            </TouchableOpacity>
+            </View>
         </View>
 
         <View style={styles.containerInput}>
@@ -118,6 +136,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#65D2EB',
         borderRadius: 40,
         marginTop:10,
+        marginBottom:10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -128,7 +147,8 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontFamily:'Nunito_700Bold',
         fontWeight:'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingRight:10
     },
 
     txt:{

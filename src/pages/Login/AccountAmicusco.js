@@ -4,6 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import logo from '../../assets/logo.png';
+import { Ionicons } from '@expo/vector-icons';
 
 async function Submit (data, navigation) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data)
@@ -16,6 +17,8 @@ async function Submit (data, navigation) {
 
 export default function AccountAmicusco({ navigation }) {
     const [data, setData] = React.useState({});
+    const [pass, setPass] = React.useState('');
+    const [hidePass, sethidePass] = React.useState(true);
 
     return(
     <ScrollView style={styles.container}>
@@ -80,14 +83,21 @@ export default function AccountAmicusco({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Senha:</Text>  
+            <Text style={styles.txt}>Senha:</Text>
+            <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
             <TextInput
             //colocar possibilidade de ver a senha
-            style={styles.input}
+            style={{width:'100%', height: 46, paddingHorizontal:10}}
             keyboardType={'password'}
-            secureTextEntry={true}
+            secureTextEntry={hidePass}
             placeholder="Digite a sua senha"
+            value={pass}
+            onChangeText={(pass) => setPass(pass)}
             onChange={(e) => setData({...data, 'password': e.target.value})}/>
+            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                <Ionicons name="eye" size={22} color='#111'/>
+            </TouchableOpacity>
+            </View>
         </View>
         
         <View style={styles.containerInput}>
