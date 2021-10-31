@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
+import logo from '../../assets/logo.png'
+import {Ionicons} from "@expo/vector-icons"
 
 export default function Main({ navigation }) {
     async function test (){
@@ -70,22 +71,22 @@ export default function Main({ navigation }) {
         
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
           <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"#F4F4F4", alignItems: "center",justifyContent:"center", width:"25%"}}
+              style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:50, height:50}}
               disabled
               onPress={() => navigation.navigate('Main')}>   
-              <Text>Main</Text>
+              <Image source={logo} style={ {width: 40, height: 40}} />
           </TouchableOpacity>  
 
           <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
               onPress={() => navigation.navigate('Chat')}>   
-              <Text>Chat</Text>
+              <Ionicons name="chatbubbles-outline" size={40} color='#E8C9AE'/>
           </TouchableOpacity>
 
           <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
+              style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
               onPress={() => navigation.navigate('Profile')}>   
-              <Text>Profile</Text>
+              <Ionicons name="person-circle-outline" size={45} color='#E8C9AE'/>
           </TouchableOpacity>
          
         </View>

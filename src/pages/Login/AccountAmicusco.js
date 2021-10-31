@@ -2,6 +2,7 @@ import React from 'react';
 import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import {TextInputMask} from 'react-native-masked-text';
 
 import logo from '../../assets/logo.png';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,6 +20,8 @@ export default function AccountAmicusco({ navigation }) {
     const [data, setData] = React.useState({});
     const [pass, setPass] = React.useState('');
     const [hidePass, sethidePass] = React.useState(true);
+    const [phone, setPhone] = React.useState('');
+    const [mail, setMail] = React.useState('');
 
     return(
     <ScrollView style={styles.container}>
@@ -62,22 +65,31 @@ export default function AccountAmicusco({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Telefone:</Text>  
-            <TextInput
+            <TextInputMask
             style={styles.input}
-            keyboardType={'name-phone-pad'}
-            placeholder="Digite o seu telefone"
-            onChange={(e) => setData({...data, 'phoneNumber': e.target.value})}/>
+            type={'cel-phone'}
+            keyboardType={'phone-pad'}
+            placeholder={'   Digite o seu Telefone'}
+            value={phone}
+            options={{maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
+            onChangeText={(phone)=> setPhone(phone)}
+            onChange={(e) => setData({...data, 'phoneNumber': e.target.value }
+            )} />
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>E-mail:</Text>  
-            <TextInput
+            <TextInputMask
             style={styles.input}
-            keyboardType={'email-address'}
-            placeholder="Digite o seu e-mail"
-            onChange={(e) => setData({...data, 'email': e.target.value})}/>
+            type={ 'custom' }
+            keyboardType={ 'email-address' }
+            placeholder={'   Digite o seu E-mail'}
+            value={mail}
+            options={{mask:'*****************************'}}
+            onChangeText={(mail)=> setMail(mail)}
+            onChange={(e) => setData({...data, 'email': e.target.value })} />
         </View>
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -86,7 +98,6 @@ export default function AccountAmicusco({ navigation }) {
             <Text style={styles.txt}>Senha:</Text>
             <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
             <TextInput
-            //colocar possibilidade de ver a senha
             style={{width:'100%', height: 46, paddingHorizontal:10}}
             keyboardType={'password'}
             secureTextEntry={hidePass}
@@ -138,7 +149,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: '#F6E9DF'
     },
 
     inputSubmitButton: {

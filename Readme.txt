@@ -18,6 +18,7 @@
 # npm install react-native-simple-radio-button --save
 # npm install @expo-google-fonts/nunito --save 
 # npm install @react-native-community/async-storage --save
+# npm install react-native-masked-text --save
 
 
 #npm install axios --save

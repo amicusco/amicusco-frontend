@@ -6,7 +6,9 @@ import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import raul from '../../../assets/raul.png'
+import raul from '../../../assets/raul.png';
+import logo from '../../../assets/logo.png'
+import {Ionicons} from "@expo/vector-icons"
 
 //import fonts
 import { useFonts } from 'expo-font';
@@ -201,6 +203,7 @@ export default function PetPerfil({ navigation }) {
                     keyboardType={'default'}
                     placeholder="Digite que animal é o seu Pet"
                     value={animal}
+                    disabled
                     onChangeText={onChangeAnimal}
                     onChange={(e) => setData({...data, 'animal': e.target.value})}
                     />            
@@ -303,24 +306,24 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
-              onPress={() => navigation.navigate('Main')}>   
-              <Text>Main</Text>
-          </TouchableOpacity>  
+            <TouchableOpacity 
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                onPress={() => navigation.navigate('Main')}>   
+                <Image source={logo} style={ {width: 40, height: 40}} />
+            </TouchableOpacity>  
 
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
-              onPress={() => navigation.navigate('Chat')}>   
-              <Text>Chat</Text>
-          </TouchableOpacity>
-  
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"#F4F4F4", alignItems: "center",justifyContent:"center", width:"25%"}}
-              disabled
-              onPress={() => navigation.navigate('Profile')}>   
-              <Text>Profile</Text>
-          </TouchableOpacity>
+            <TouchableOpacity 
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                onPress={() => navigation.navigate('Chat')}>   
+                <Ionicons name="chatbubbles-outline" size={40} color='#E8C9AE'/>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:50, height:50}}
+                onPress={() => navigation.navigate('Profile')}
+                disabled>   
+                <Ionicons name="person-circle-sharp" size={45} color='#E8C9AE'/>
+            </TouchableOpacity>
          
         </View>
     </>}
@@ -350,7 +353,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: '#F6E9DF'
     },
 
     inputSubmitButton: {

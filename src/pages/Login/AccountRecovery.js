@@ -14,6 +14,7 @@ export default function AccountRecovery({ navigation }){
 
     return(
     <View styles={styles.container}>
+
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Digite o seu e-mail cadastrado:</Text>  
             <TextInput
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20, 
+        marginTop: 20,
+        backgroundColor: '#F6E9DF' 
     },
 
     inputSubmitButton: {

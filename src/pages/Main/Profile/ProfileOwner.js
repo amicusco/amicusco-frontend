@@ -3,11 +3,13 @@ import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, Touchabl
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import {TextInputMask} from 'react-native-masked-text';
 
 import Place_Holder from '../../../assets/Place_Holder.png'; 
 import raul from '../../../assets/raul.png'; 
 import Camera from '../../../assets/camera.png'; 
-import { Ionicons } from '@expo/vector-icons';
+import logo from '../../../assets/logo.png';
+import {Ionicons} from "@expo/vector-icons";
 
 import ModalApp from '../../../Components/Modal';
 //import fonts
@@ -177,7 +179,6 @@ export default function ProfileOwner({ navigation }) {
                     <Text style={styles.txt}>Nome Completo</Text>
                     <TextInput
                     style={styles.input}
-                    autoFocus={true}
                     keyboardType={'default'}
                     placeholder="Digite o seu nome completo"
                     value={name}
@@ -202,14 +203,17 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Telefone</Text>  
-                    <TextInput
+                    <Text style={styles.txt}>Telefone:</Text>  
+                    <TextInputMask
                     style={styles.input}
-                    keyboardType={'numeric'}
-                    placeholder="Digite a idade do seu pet"
+                    type={'cel-phone'}
+                    keyboardType={'phone-pad'}
+                    placeholder={'   Digite o seu Telefone'}
                     value={phone}
-                    onChangeText={onChangePhone}
-                    onChange={(e) => setData({...data, 'phone': e.target.value})}/>
+                    options={{maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
+                    onChangeText={(phone)=> onChangePhone(phone)}
+                    onChange={(e) => setData({...data, 'phone': e.target.value}
+                    )} />
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
@@ -287,24 +291,24 @@ export default function ProfileOwner({ navigation }) {
         <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
 
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
-              onPress={() => navigation.navigate('Main')}>   
-              <Text>Main</Text>
-          </TouchableOpacity>  
+            <TouchableOpacity 
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                onPress={() => navigation.navigate('Main')}>   
+                <Image source={logo} style={ {width: 40, height: 40}} />
+            </TouchableOpacity>  
 
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"blue", alignItems: "center",justifyContent:"center", width:"25%"}}
-              onPress={() => navigation.navigate('Chat')}>   
-              <Text>Chat</Text>
-          </TouchableOpacity>
-  
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:"#F4F4F4", alignItems: "center",justifyContent:"center", width:"25%"}}
-              disabled
-              onPress={() => navigation.navigate('Profile')}>   
-              <Text>Profile</Text>
-          </TouchableOpacity> 
+            <TouchableOpacity 
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                onPress={() => navigation.navigate('Chat')}>   
+                <Ionicons name="chatbubbles-outline" size={40} color='#E8C9AE'/>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:50, height:50}}
+                onPress={() => navigation.navigate('Profile')}
+                disabled>   
+                <Ionicons name="person-circle-sharp" size={45} color='#E8C9AE'/>
+            </TouchableOpacity>
         </View>
         </>}
     </View>  
@@ -333,7 +337,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: '#F6E9DF'
     },
 
     inputSubmitButton: {

@@ -9,14 +9,11 @@ import logo from '../../assets/logo.png';
 import { Ionicons } from '@expo/vector-icons';
 
 
-async function Submit (data, navigation) {
+async function Submit (data, navigation, setError) {
     await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
         AsyncStorage.setItem('user', JSON.stringify(resp.data));
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
-    }).catch(err => {
-        console.log(err);
-        alert(err);
-    });
+    }).catch(err => setError(err.toJSON().message));
 }
 
 
@@ -39,6 +36,8 @@ export default function LoginAmicusco({ navigation }){
 
     const [mail, setMail] = React.useState('');
     const [phone, setPhone] = React.useState('');
+    const [error, setError] = React.useState('');
+
 
     return(
     <View style={styles.container}>
@@ -57,21 +56,23 @@ export default function LoginAmicusco({ navigation }){
                 />
         </View>
 
-    
+        
         <View style={styles.containerInput}>
             <Text style={styles.txt}>{type === 'email' ? 'E-mail:' : 'Número de Telefone:'}</Text>  
             <TextInputMask
-            style={styles.input}
+            //Bug quando eu erro o telefone, vou para o email e volto para o telefone
+            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
             type={type === 'email' ? 'custom' : 'cel-phone'}
             autoFocus={true}
             keyboardType={type === 'email' ? 'email-address' : 'phone-pad'}
             placeholder={type === 'email' ? '   Digite o seu E-mail' : '   Digite o seu Telefone'}
             value={type === 'email' ? mail : phone}
-            options={type === 'email' ? {mask:'   ******************************'} : {maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
+            options={type === 'email' ? {mask:'   *****************************'} : {maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
             onChangeText={ type === 'email' ? (mail)=> setMail(mail) : (phone)=> setPhone(phone)}
             onChange={(e) => setData(
                 type === 'email' ? {...data, 'email': e.target.value } : {...data, 'phoneNumber': e.target.value }
-            )} />
+            )}/>
+            {error.slice(-3) === '401' && <Text style={{color: 'red', paddingTop:2}}>Credenciais Inválidas! {'\n'}Verifique se o {type === 'email' ? 'E-mail' : 'Número de Telefone'} e Senha estão corretos.</Text>}
         </View>
 
         <View style={styles.containerInput}>
@@ -95,7 +96,7 @@ export default function LoginAmicusco({ navigation }){
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => {Submit(data, navigation)}}>
+            onPress={() => {Submit(data, navigation, setError)}}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.inputSubmitButtonTxt}>Entrar</Text> 
             <Text style={styles.txt}></Text>    
@@ -127,7 +128,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: '#F6E9DF'
     },
 
     inputSubmitButton: {

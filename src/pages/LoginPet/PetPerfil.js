@@ -139,7 +139,9 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome Completo</Text>
-            <Text style={styles.txt}>{userName}</Text>  
+            <TextInput style={styles.input}
+            value={userName}
+            disabled/>  
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -288,7 +290,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: '#F6E9DF'
     },
 
     inputSubmitButton: {
