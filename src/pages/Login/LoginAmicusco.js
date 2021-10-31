@@ -37,6 +37,7 @@ export default function LoginAmicusco({ navigation }){
     const [mail, setMail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [error, setError] = React.useState('');
+    
 
 
     return(

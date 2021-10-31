@@ -50,9 +50,27 @@ function StackLogin(){
   return(
     <LoginStack.Navigator initialRouteName="Login">
         <LoginStack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-        <LoginStack.Screen name="AccountAmicusco" component={AccountAmicusco}/>
-        <LoginStack.Screen name="LoginAmicusco" component={LoginAmicusco} />
-        <LoginStack.Screen name="AccountRecovery" component={AccountRecovery} />
+        <LoginStack.Screen name="AccountAmicusco" component={AccountAmicusco} options={{
+          title: 'Criar conta Amicusco',
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }}/>
+        <LoginStack.Screen name="LoginAmicusco" component={LoginAmicusco} options={{
+          title: 'Login',
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }} />
+        <LoginStack.Screen name="AccountRecovery" component={AccountRecovery} options={{
+          title: 'Recuperação de conta', 
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }} />
         <LoginStack.Screen name="StackLoginPet" component={StackLoginPet} options={{headerShown: false}}/>
     </LoginStack.Navigator>
   );
