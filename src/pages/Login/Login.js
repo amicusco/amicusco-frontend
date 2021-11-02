@@ -101,21 +101,21 @@ export default function Login({navigation}){
         </TouchableOpacity>
 
         <View style={{flexDirection:'row'}}>
-        <Text style={{marginTop:20}}>Não tem uma conta?</Text>
+            <Text style={{marginTop:20}}>Não tem uma conta?</Text>
 
-        <TouchableOpacity
-            onPress={()=>navigation.navigate('AccountAmicusco')}>
-            <Text style={styles.accountText}>Clique aqui</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+                onPress={()=>navigation.navigate('AccountAmicusco')}>
+                <Text style={styles.accountText}>Clique aqui</Text>
+            </TouchableOpacity>
         </View>
 
         <View style={{flexDirection:'row'}}>
-        <Text style={{marginTop:20}}>Problemas para fazer Login?</Text>
-        
-        <TouchableOpacity
-            onPress={()=>navigation.navigate('AccountRecovery')}>
-            <Text style={styles.accountText}>Clique aqui para resolver</Text>
-        </TouchableOpacity>
+            <Text style={{marginTop:20}}>Problemas para fazer Login?</Text>
+            
+            <TouchableOpacity
+                onPress={()=>navigation.navigate('AccountRecovery')}>
+                <Text style={styles.accountText}>Clique aqui para resolver</Text>
+            </TouchableOpacity>
         </View>
     </View> 
     </LinearGradient>
@@ -132,15 +132,15 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 60
+        padding: '10%'
     },
 
     containerButton: {
         flex:2,
         alignItems: 'center',
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15,
+        marginBottom: '5%',
+        paddingHorizontal: '2%',
 
     },
     
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#3B5998',
         borderRadius: 40,
-        marginTop: 10,
+        marginTop: '3%',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: "row"        
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderRadius: 40,
-        marginTop:10,
+        marginTop: '4%',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: "row"
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'4%',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: "row"
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
     accountText: {
         textDecorationLine: 'underline',
         fontFamily: 'Nunito_300Light',
-        marginTop:20,
-        marginLeft:10
+        paddingTop: 20,
+        paddingLeft: 10
     },
 
     tittleText: {
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Nunito_700Bold',
         fontSize: 30,
         textAlign: 'center',
-        paddingBottom: 10,
+        paddingBottom: '1%',
         textShadowColor: "#111",
         textShadowOffset: {
             height: 4,

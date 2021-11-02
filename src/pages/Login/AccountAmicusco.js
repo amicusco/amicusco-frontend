@@ -16,6 +16,8 @@ import {
     Nunito_700Bold,
   } from '@expo-google-fonts/nunito'
 
+
+
 async function Submit (data, navigation) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data)
     .then(resp => {
@@ -42,6 +44,30 @@ export default function AccountAmicusco({ navigation }) {
     const [age, setAge] = React.useState('');
     const [name, setName] = React.useState('');
 
+    function checkFields(data, navigation) {
+        if (name==''){
+            return alert("Insira o seu nome");
+    
+        }
+        else if (age==''){
+            return alert("Insira a sua idade");
+    
+        }
+        else if (phone==''){
+            return alert("Insira um telefone");
+    
+        }
+        else if (mail==''){
+            return alert("Insira um e-mail");
+    
+        }
+        else if (pass==''){
+            return alert("Insira uma senha");
+    
+        }
+        else {
+            Submit(data, navigation);
+      }}
 
     return(
     <ScrollView style={styles.container}>
@@ -138,7 +164,7 @@ export default function AccountAmicusco({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(data, navigation)}>
+            onPress={() => checkFields(data, navigation)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>     
             <Text style={[styles.inputSubmitButtonTxt]}>Cadastrar</Text>
             <Text style={styles.txt}></Text>       
