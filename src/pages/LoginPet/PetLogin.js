@@ -9,8 +9,22 @@ import plus from '../../assets/plus.png';
 import logo from '../../assets/logo.png';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_600SemiBold,
+  } from '@expo-google-fonts/nunito'
+
 
 export default function PetLogin({navigation}){
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_600SemiBold,
+    })
 
     const [pets, setPets] = React.useState([]);
 
@@ -59,8 +73,8 @@ export default function PetLogin({navigation}){
         })} 
         
         <TouchableOpacity style={styles.input} blurRadius={90} onPress={() => { navigation.navigate('PetPerfil')}}>
-            <Image source={plusS} style={[{ resizeMode:"cover", paddingLeft:1, width: 50, height: 50 }]}/>
-            <Text style={[styles.text, {fontWeight: 'bold', textAlign:'left'}]}>Novo PetPerfil</Text>      
+            <Image source={plusS} style={[{ resizeMode: 'cover', width: 50, height: 50 }]}/>
+            <Text style={[styles.text, {paddingLeft: '1%'}]}>Novo PetPerfil</Text>      
         </TouchableOpacity>
     </View> 
     </LinearGradient>
@@ -71,7 +85,6 @@ export default function PetLogin({navigation}){
 const styles = StyleSheet.create({
     gradient: {
         flex:1,
-        borderRadius:50 
     },
 
     containerPlusLogo: {
@@ -85,8 +98,8 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'center',
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15,
+        marginBottom: '5%',
+        paddingHorizontal: '3%',
 
     },
     
@@ -95,7 +108,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderRadius: 40,
-        marginTop:10,
+        marginTop: '2%',
         alignItems: 'center',
         flexDirection: "row"
         
@@ -104,16 +117,18 @@ const styles = StyleSheet.create({
     text: {
         color: '#000',
         fontWeight:'bold',
-        fontSize: 16,
-        textAlign: 'right',
-        paddingLeft:10
+        fontFamily: 'Nunito_400Regular',
+        fontSize: 18,
+        textAlign: 'left',
+        paddingLeft: '2%'
         },
 
     tittleText: {
         color: '#fff',
         fontSize: 25,
+        fontFamily: 'Nunito_700Bold',
         textAlign: 'center',
-        paddingBottom: 20,
+        paddingBottom: '3%',
         textShadowColor: "#111",
         textShadowOffset: {
             height: 4,
@@ -123,12 +138,12 @@ const styles = StyleSheet.create({
     },
           
     icon: {
-        marginLeft: 5   
+        marginLeft: '1%'   
     },
 
     accountText: {
         textDecorationLine: 'underline',
-        marginTop:20,
-        marginLeft:10
+        marginTop: '2%',
+        marginLeft: '2%'
     }
 });

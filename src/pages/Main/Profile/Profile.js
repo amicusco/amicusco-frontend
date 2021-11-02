@@ -5,6 +5,7 @@ import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
 import AsyncStorage from '@react-native-community/async-storage';
+import { TextInputMask } from 'react-native-masked-text';
 
 import raul from '../../../assets/raul.png';
 import logo from '../../../assets/logo.png'
@@ -68,7 +69,7 @@ export default function PetPerfil({ navigation }) {
     const[petName, onChangePetName] = React.useState('');
     const[animal, onChangeAnimal] = React.useState("");
     const[race, onChangeRace] = React.useState("");
-    const[age, onChangeAge] = React.useState("");
+    const[petAge, onChangePetAge] = React.useState("");
     const[social, onChangeSocial] = React.useState("");
 
     const [isMale, setIsMale] = useState(false);
@@ -114,7 +115,7 @@ export default function PetPerfil({ navigation }) {
         const getPet = async() => {
             let petData = JSON.parse(await AsyncStorage.getItem('pet'));
             onChangePetName(petData['name']);
-            onChangeAge(petData['age']);
+            onChangePetAge(petData['age']);
             onChangeRace(petData['breed']);
             onChangeAnimal(petData['specie_pet']['specie']);
             setLoadingPet(false);
@@ -184,12 +185,13 @@ export default function PetPerfil({ navigation }) {
                 <View style={styles.containerInput}>
                     <Text style={styles.text}>Nome do Pet</Text>  
                     <TextInput
-                    style={styles.input}
+                    style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     keyboardType={'default'}
-                    placeholder="Digite o nome do Pet"
+                    placeholder="   Digite o nome do Pet"
+                    disabled
                     //isso daqui faz com que tenha ja tenha texto escrito na box do input
                     value={petName}
-                    onChangeText={onChangePetName}
+                    onChangeText={(petName)=>onChangePetName(petName.replace(/[^A-Za-z ]/g, ''))}
                     onChange={(e) => setData({...data, 'petName': e.target.value})} 
                     />
                 </View>
@@ -199,7 +201,7 @@ export default function PetPerfil({ navigation }) {
                 <View style={styles.containerInput}>
                     <Text style={styles.text}>Animal</Text>  
                     <TextInput
-                    style={styles.input}
+                    style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     keyboardType={'default'}
                     placeholder="Digite que animal é o seu Pet"
                     value={animal}
@@ -214,7 +216,8 @@ export default function PetPerfil({ navigation }) {
                 <View style={styles.containerInput}>
                     <Text style={styles.text}>Raça</Text>  
                     <TextInput
-                    style={styles.input}
+                    style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
+                    disabled
                     keyboardType={'default'}
                     placeholder="Digite a raça do seu Pet"
                     onChangeText={onChangeRace}
@@ -226,20 +229,22 @@ export default function PetPerfil({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.text}>Idade</Text>  
-                    <TextInput
+                    <Text style={styles.text}>Idade:</Text>  
+                    <TextInputMask
                     style={styles.input}
+                    type={ 'custom' }
                     keyboardType={'numeric'}
                     placeholder="Digite a idade do seu pet"
-                    onChangeText={onChangeAge}
-                    value={age}
+                    options={{mask:'99'}}
+                    value={petAge}
+                    onChangeText={(petAge)=> onChangePetAge(petAge)}
                     onChange={(e) => setData({...data, 'age': e.target.value})}/>
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.text}>Rede Social</Text>  
+                    <Text style={styles.text}>Rede Social:</Text>  
                     <TextInput
                     style={styles.input}
                     keyboardType={'url'}

@@ -8,6 +8,14 @@ import {TextInputMask} from 'react-native-masked-text';
 import logo from '../../assets/logo.png';
 import { Ionicons } from '@expo/vector-icons';
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_700Bold,
+  } from '@expo-google-fonts/nunito'
 
 async function Submit (data, navigation, setError) {
     await axios.post("https://amicusco-auth.herokuapp.com/login", data).then(resp => {
@@ -18,6 +26,14 @@ async function Submit (data, navigation, setError) {
 
 
 export default function LoginAmicusco({ navigation }){ 
+
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_700Bold,
+    })
 
     const [data, setData] = React.useState({
         password: '',
@@ -61,7 +77,6 @@ export default function LoginAmicusco({ navigation }){
         <View style={styles.containerInput}>
             <Text style={styles.txt}>{type === 'email' ? 'E-mail:' : 'Número de Telefone:'}</Text>  
             <TextInputMask
-            //Bug quando eu erro o telefone, vou para o email e volto para o telefone
             style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
             type={type === 'email' ? 'custom' : 'cel-phone'}
             autoFocus={true}
@@ -80,7 +95,6 @@ export default function LoginAmicusco({ navigation }){
             <Text style={styles.txt}>Senha:</Text>
             <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
             <TextInput
-            //colocar possibilidade de ver a senha
             style={{width:'100%', height: 46, paddingHorizontal:10}}
             keyboardType={'password'}
             secureTextEntry={hidePass}
@@ -111,25 +125,25 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 30,
-        paddingHorizontal: 15
+        marginBottom: '5%',
+        paddingHorizontal: '5%'
 
     },
 
     input: {
         height: 46,
         width:'90%',
+        fontFamily:'Nunito_400Regular',
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: '2%',
         backgroundColor: '#F6E9DF'
     },
 
@@ -138,8 +152,8 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
-        marginBottom:10,
+        marginTop:'4%',
+        marginBottom:'4%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -151,11 +165,13 @@ const styles = StyleSheet.create({
         fontFamily:'Nunito_700Bold',
         fontWeight:'bold',
         textAlign: 'center',
-        paddingRight:10
+        paddingRight: '1%'
     },
 
     txt:{
-        paddingTop: 20,
+        paddingTop: '2%',
+        fontSize: 18,
+        fontFamily:'Nunito_700Bold',
         textAlign: 'left'
     },
 

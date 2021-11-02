@@ -9,6 +9,15 @@ import logo from '../../assets/logo.png';
 import face from '../../assets/face.png';
 import google from '../../assets/google.png';
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_700Bold,
+    Nunito_800ExtraBold
+  } from '@expo-google-fonts/nunito'
 
 async function SubmitGoogle () {
     await axios.get("https://amicusco-auth.herokuapp.com/auth/google").then(resp => Linking.addEventListener('url', handleOpenURL)).catch(err => console.log(err));
@@ -27,6 +36,15 @@ async function getUser (navigation){
 }
 
 export default function Login({navigation}){
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_700Bold,
+        Nunito_800ExtraBold
+    })
+
     const [data, setData] = React.useState({});
     
     const handleOpenURL = ({ url }) => {
@@ -56,7 +74,7 @@ export default function Login({navigation}){
 
     <View>
         <Text style={styles.tittleText}>Encontre um parceiro {"\n"} para o seu petmigo</Text>
-        <Text style={[styles.text,{color: "#fff", fontWeight:'normal'}]}>Vamos encontrar um parceiro {"\n"} ideal para o seu Pet!</Text>
+        <Text style={[styles.text,{color: "#fff", fontWeight:'normal', fontFamily:'Nunito_300Light'}]}>Vamos encontrar um parceiro {"\n"} ideal para o seu Pet!</Text>
     </View>
 
     <View style={styles.containerButton}>
@@ -108,7 +126,6 @@ export default function Login({navigation}){
 const styles = StyleSheet.create({
     gradient: {
         flex:1,
-        borderRadius:50
     },
 
     containerPlusLogo: {
@@ -165,7 +182,8 @@ const styles = StyleSheet.create({
     text: {
         color: '#000',
         fontWeight:'bold',
-        fontSize: 16,
+        fontFamily: 'Nunito_400Regular',
+        fontSize: 18,
         textAlign: 'center'
         },
 
@@ -175,12 +193,14 @@ const styles = StyleSheet.create({
 
     accountText: {
         textDecorationLine: 'underline',
+        fontFamily: 'Nunito_300Light',
         marginTop:20,
         marginLeft:10
     },
 
     tittleText: {
         color: '#fff',
+        fontFamily: 'Nunito_700Bold',
         fontSize: 30,
         textAlign: 'center',
         paddingBottom: 10,

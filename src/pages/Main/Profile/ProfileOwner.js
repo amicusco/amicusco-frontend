@@ -176,13 +176,13 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Nome Completo</Text>
+                    <Text style={styles.txt}>Nome Completo:</Text>
                     <TextInput
                     style={styles.input}
                     keyboardType={'default'}
-                    placeholder="Digite o seu nome completo"
+                    placeholder="   Digite o seu nome completo"
                     value={name}
-                    onChangeText={onChangeName}
+                    onChangeText={(name)=>onChangeName(name.replace(/[^A-Za-z ]/g, ''))}
                     onChange={(e) => setData({...data, 'ownerName': e.target.value})} 
                     />  
                 </View>
@@ -190,13 +190,15 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Idade</Text>  
-                    <TextInput
+                    <Text style={styles.txt}>Idade:</Text>  
+                    <TextInputMask
                     style={styles.input}
+                    type={ 'custom' }
                     keyboardType={'numeric'}
-                    placeholder="Digite a idade do seu pet"
+                    placeholder="   Digite a sua idade"
+                    options={{mask:'99'}}
                     value={age}
-                    onChangeText={onChangeAge}
+                    onChangeText={(age)=> onChangeAge(age)}
                     onChange={(e) => setData({...data, 'age': e.target.value})}/>
                 </View>
 
@@ -219,11 +221,11 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>E-mail</Text>  
+                    <Text style={styles.txt}>E-mail:</Text>  
                     <TextInput
                     style={styles.input}
                     keyboardType={'email-address'}
-                    placeholder="Digite o seu e-mail"
+                    placeholder="   Digite o seu e-mail"
                     value={email}
                     onChangeText={onChangeEmail}
                     onChange={(e) => setData({...data, 'email': e.target.value})}/>
@@ -232,12 +234,12 @@ export default function ProfileOwner({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Trocar Senha</Text>
+                    <Text style={styles.txt}>Trocar Senha:</Text>
                     <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
                         <TextInput
                         style={{width:'100%', height: 46, paddingHorizontal:10}}
                         keyboardType={'default'}
-                        placeholder="Digite a sua senha"
+                        placeholder="   Digite a sua senha"
                         onChangeText={(newPass1) => setnewPass1(newPass1)}
                         secureTextEntry={hidenewPass1}
                         value={newPass1}
@@ -249,12 +251,12 @@ export default function ProfileOwner({ navigation }) {
                 </View>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Digite novamente</Text>
+                    <Text style={styles.txt}>Digite novamente:</Text>
                     <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
                         <TextInput
                         style={{width:'100%', height: 46, paddingHorizontal:10}}
                         keyboardType={'default'}
-                        placeholder="Digite novamente a sua senha"
+                        placeholder="   Digite novamente a sua senha"
                         onChangeText={(newPass2) => setnewPass2(newPass2)}
                         secureTextEntry={hidenewPass2}
                         value={newPass2}
@@ -268,12 +270,12 @@ export default function ProfileOwner({ navigation }) {
                 <ModalApp/>
                     
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Senha para confirmar alterações</Text>
+                    <Text style={styles.txt}>Senha para confirmar alterações:</Text>
                     <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
                         <TextInput
                         style={{width:'100%', height: 46, paddingHorizontal:10}}
                         keyboardType={'default'}
-                        placeholder="Digite a sua senha"
+                        placeholder="   Digite a sua senha"
                         onChangeText={(pass) => setPass(pass)}
                         secureTextEntry={hidePass}
                         value={pass}
@@ -319,7 +321,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff',
     },
 
@@ -372,6 +373,7 @@ const styles = StyleSheet.create({
 
     txt:{
         paddingTop: 20,
+        fontFamily: 'Nunito_400Regular',
         textAlign: 'left'
     },
 
@@ -385,7 +387,4 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         paddingLeft: 20
     },
-    
-    
-    
 });

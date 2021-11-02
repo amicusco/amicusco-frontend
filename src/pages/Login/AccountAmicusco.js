@@ -7,6 +7,15 @@ import {TextInputMask} from 'react-native-masked-text';
 import logo from '../../assets/logo.png';
 import { Ionicons } from '@expo/vector-icons';
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_700Bold,
+  } from '@expo-google-fonts/nunito'
+
 async function Submit (data, navigation) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data)
     .then(resp => {
@@ -17,11 +26,22 @@ async function Submit (data, navigation) {
 }
 
 export default function AccountAmicusco({ navigation }) {
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_700Bold,
+    })
+    
     const [data, setData] = React.useState({});
     const [pass, setPass] = React.useState('');
     const [hidePass, sethidePass] = React.useState(true);
     const [phone, setPhone] = React.useState('');
     const [mail, setMail] = React.useState('');
+    const [age, setAge] = React.useState('');
+    const [name, setName] = React.useState('');
+
 
     return(
     <ScrollView style={styles.container}>
@@ -31,7 +51,9 @@ export default function AccountAmicusco({ navigation }) {
             style={styles.input}
             autoFocus={true}
             keyboardType={'default'}
-            placeholder="Digite o seu nome completo"
+            placeholder="   Digite o seu nome completo"
+            value={name}
+            onChangeText={(name)=>setName(name.replace(/[^A-Za-z ]/g, ''))}
             onChange={(e) => setData({...data, 'name': e.target.value})} 
             />
         </View>
@@ -40,10 +62,14 @@ export default function AccountAmicusco({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Idade:</Text>  
-            <TextInput
+            <TextInputMask
             style={styles.input}
+            type={ 'custom' }
             keyboardType={'numeric'}
-            placeholder="Digite a sua idade"
+            placeholder="   Digite a sua idade"
+            value={age}
+            options={{mask:'99'}}
+            onChangeText={(age)=> setAge(age)}
             //onChange={(e) => setData({...data, 'idade': e.target.value})}
             />            
         </View>
@@ -55,7 +81,7 @@ export default function AccountAmicusco({ navigation }) {
             <TextInput
             style={styles.input}
             keyboardType={'url'}
-            placeholder="Deixe o link de alguma rede social"
+            placeholder="   Deixe o link de alguma rede social"
             //onChange={(e) => setData({...data, 'rede_social': e.target.value})}
             />
         </View>
@@ -81,14 +107,12 @@ export default function AccountAmicusco({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>E-mail:</Text>  
-            <TextInputMask
+            <TextInput
             style={styles.input}
-            type={ 'custom' }
             keyboardType={ 'email-address' }
-            placeholder={'   Digite o seu E-mail'}
+            placeholder={' Digite o seu E-mail'}
             value={mail}
-            options={{mask:'*****************************'}}
-            onChangeText={(mail)=> setMail(mail)}
+            onChangeText={setMail}
             onChange={(e) => setData({...data, 'email': e.target.value })} />
         </View>
         
@@ -96,16 +120,16 @@ export default function AccountAmicusco({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Senha:</Text>
-            <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
+            <View style={[styles.input, {flexDirection:'row', alignItems:'center'}]}>  
             <TextInput
-            style={{width:'100%', height: 46, paddingHorizontal:10}}
+            style={[styles.input, {width:'100%', height: 46}]}
             keyboardType={'password'}
             secureTextEntry={hidePass}
-            placeholder="Digite a sua senha"
+            placeholder='Digite a sua senha '
             value={pass}
             onChangeText={(pass) => setPass(pass)}
             onChange={(e) => setData({...data, 'password': e.target.value})}/>
-            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{ paddingHorizontal:'5%', alignItems:'center', justifyContent:'center', width:'15%'}}>
                 <Ionicons name="eye" size={22} color='#111'/>
             </TouchableOpacity>
             </View>
@@ -113,11 +137,10 @@ export default function AccountAmicusco({ navigation }) {
         
         <View style={styles.containerInput}>
         <TouchableOpacity 
-            //Quando o botão fizer duas coisas é so chamar em sequencia onPress
             style={styles.inputSubmitButton}
             onPress={() => Submit(data, navigation)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>     
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
+            <Text style={[styles.inputSubmitButtonTxt]}>Cadastrar</Text>
             <Text style={styles.txt}></Text>       
         </TouchableOpacity>
         </View>
@@ -131,25 +154,24 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15
+        marginBottom: '10%',
+        paddingHorizontal: '3%'
 
     },
 
     input: {
         height: 46,
-        width:'90%',
+        width:'100%',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20,
+        fontFamily:'Nunito_300Light',
+        fontSize: 15,
         backgroundColor: '#F6E9DF'
     },
 
@@ -158,7 +180,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'1%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -166,18 +188,20 @@ const styles = StyleSheet.create({
 
     inputSubmitButtonTxt: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 20,
         fontFamily:'Nunito_700Bold',
         fontWeight:'bold',
         textAlign: 'center'
     },
 
     txt:{
-        paddingTop: 20,
+        paddingTop: '2%',
+        fontSize: 18,
+        fontFamily: 'Nunito_400Regular',
         textAlign: 'left'
     },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '1%'   
     },
 });

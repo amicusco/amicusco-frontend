@@ -4,6 +4,15 @@ import axios from 'axios';
 
 import logo from '../../assets/logo.png';
 
+//Import Fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_200ExtraLight,
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_700Bold,
+  } from '@expo-google-fonts/nunito'
+
 async function Submit (email, setError) {
     await axios.post('https://amicusco-auth.herokuapp.com/recoverPassword', {email}).then(resp => console.log(resp.data)).catch(err => setError(err.toJSON().message));
 }
@@ -11,6 +20,14 @@ async function Submit (email, setError) {
 export default function AccountRecovery({ navigation }){
     const [email, setEmail] = React.useState('');
     const [error, setError] = React.useState('');
+
+    //Import Fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_200ExtraLight,
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_700Bold,
+    })
 
     return(
     <View styles={styles.container}>
@@ -45,14 +62,13 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 30,
-        paddingHorizontal: 15
+        marginBottom: '8%',
+        paddingHorizontal: '1%'
 
     },
 
@@ -62,8 +78,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
+        fontSize: 16,
+        fontFamily: 'Nunito_300Light',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: '2%',
         backgroundColor: '#F6E9DF' 
     },
 
@@ -72,7 +90,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop: '1%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -80,14 +98,16 @@ const styles = StyleSheet.create({
 
     inputSubmitButtonTxt: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 20,
         fontFamily:'Nunito_700Bold',
         fontWeight:'bold',
         textAlign: 'center'
     },
 
     txt:{
-        paddingTop: 20,
+        paddingTop: '5%',
+        fontSize: 18,
+        fontFamily: 'Nunito_400Regular',
         textAlign: 'left'
     },
 

@@ -129,7 +129,7 @@ export default function PetAdd({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Sobre</Text>  
+                    <Text style={styles.txt}>Sobre:</Text>  
                     <TextInput
                     style={styles.inputMultiline}
                     autoFocus={true}
@@ -148,7 +148,7 @@ export default function PetAdd({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Interesses</Text>
+                    <Text style={styles.txt}>Interesses:</Text>
 
                     {interests.map((interest, index) => {
                     return(

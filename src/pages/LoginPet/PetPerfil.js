@@ -5,6 +5,7 @@ import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
 import AsyncStorage from '@react-native-community/async-storage';
+import { TextInputMask } from 'react-native-masked-text';
 
 import Place_Holder from '../../assets/Place_Holder.png'; 
 import Camera from '../../assets/camera.png'; 
@@ -14,19 +15,10 @@ import logo from '../../assets/logo.png';
 import { useFonts } from 'expo-font';
 import { 
     Nunito_200ExtraLight,
-    Nunito_200ExtraLight_Italic,
     Nunito_300Light,
-    Nunito_300Light_Italic,
-    Nunito_400Regular,
-    Nunito_400Regular_Italic,
     Nunito_600SemiBold,
     Nunito_600SemiBold_Italic,
     Nunito_700Bold,
-    Nunito_700Bold_Italic,
-    Nunito_800ExtraBold,
-    Nunito_800ExtraBold_Italic,
-    Nunito_900Black,
-    Nunito_900Black_Italic 
   } from '@expo-google-fonts/nunito'
 
 async function Submit (data, specieid, navigation) {
@@ -47,19 +39,10 @@ export default function PetPerfil({ navigation }) {
     //Import Fonts
     let [fontsLoaded]=useFonts({
         Nunito_200ExtraLight,
-        Nunito_200ExtraLight_Italic,
         Nunito_300Light,
-        Nunito_300Light_Italic,
-        Nunito_400Regular,
-        Nunito_400Regular_Italic,
         Nunito_600SemiBold,
         Nunito_600SemiBold_Italic,
         Nunito_700Bold,
-        Nunito_700Bold_Italic,
-        Nunito_800ExtraBold,
-        Nunito_800ExtraBold_Italic,
-        Nunito_900Black,
-        Nunito_900Black_Italic 
     })
 
     //Data
@@ -72,6 +55,9 @@ export default function PetPerfil({ navigation }) {
     const [dist, setDist] = useState(1);
     const [gender, setGender] = useState({});
     const [userName, setUserName] = useState(null);
+    const [petName, setPetName] = useState('');
+    const [petRace, setPetRace] = useState('');
+    const [petAge, setPetAge] = useState('');
 
     const radioProps = [
         { label: 'Machos', value: 0 },
@@ -138,29 +124,33 @@ export default function PetPerfil({ navigation }) {
         <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Nome Completo</Text>
-            <TextInput style={styles.input}
+            <Text style={styles.txt}>Nome Completo:</Text>
+            <TextInput style={[styles.input,{backgroundColor:"#FFFF", borderColor:"#FFFF"}]}
+            editable={false}
             value={userName}
-            disabled/>  
+            disabled
+            />  
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Nome do Pet</Text>  
+            <Text style={styles.txt}>Nome do Pet:</Text>  
             <TextInput
             style={styles.input}
             autoFocus={true}
             keyboardType={'default'}
-            placeholder="Digite o nome do Pet"
+            placeholder="   Digite o nome do Pet"
+            value={petName}
+            onChangeText={(petName)=>setPetName(petName.replace(/[^A-Za-z ]/g, ''))}
             onChange={(e) => setData({...data, 'name': e.target.value})} 
             />
         </View>
-        
+
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Animal</Text>
+            <Text style={styles.txt}>Animal:</Text>
             <Picker style={styles.input}
                 onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
             >
@@ -174,11 +164,13 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Raça</Text>  
+            <Text style={styles.txt}>Raça:</Text>  
             <TextInput
             style={styles.input}
             keyboardType={'default'}
             placeholder="Digite a raça do seu Pet"
+            value={petRace}
+            onChangeText={(petRace)=>setPetRace(petRace.replace(/[^A-Za-z ]/g, ''))}
             onChange={(e) => setData({...data, 'breed': e.target.value})}
             />
         </View>
@@ -186,18 +178,22 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Idade</Text>  
-            <TextInput
+            <Text style={styles.txt}>Idade:</Text>  
+            <TextInputMask
             style={styles.input}
+            type={ 'custom' }
             keyboardType={'numeric'}
             placeholder="Digite a idade do seu pet"
+            options={{mask:'99'}}
+            value={petAge}
+            onChangeText={(petAge)=> setPetAge(petAge)}
             onChange={(e) => setData({...data, 'age': e.target.value})}/>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Rede Social</Text>  
+            <Text style={styles.txt}>Rede Social:</Text>  
             <TextInput
             style={styles.input}
             keyboardType={'url'}
@@ -208,7 +204,7 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Sexo do Pet</Text>
+            <Text style={styles.txt}>Sexo do Pet:</Text>
             <Switch
             style = {styles.switch}
             disabled = {false}
@@ -223,7 +219,7 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Encontrar Pets</Text>  
+            <Text style={styles.txt}>Encontrar Pets:</Text>  
             <RadioForm
                   buttonColor="#E8C9AE"
                   buttonSize={15}
@@ -240,7 +236,7 @@ export default function PetPerfil({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Distância Máxima</Text>
+            <Text style={styles.txt}>Distância Máxima:</Text>
             <Text style={[styles.txt, {paddingLeft:10}]}>{dist} Km</Text>
             <Slider 
             style={{width: '100%', height: '5%', paddingTop: 10}}
