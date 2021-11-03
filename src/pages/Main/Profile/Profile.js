@@ -177,7 +177,15 @@ export default function PetPerfil({ navigation }) {
 
                 <View style={styles.containerInput}>
                     <Text style={styles.text}>Nome do Dono</Text>
-                    <Text style={styles.text, {paddingLeft: 10, fontFamily: 'Nunito_300Light', fontSize: 18, paddingTop:'3%'}}>{user['name']}</Text>
+                    <TextInput
+                    style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
+                    keyboardType={'default'}
+                    placeholder="Digite que animal é o seu Pet"
+                    value={user['name']}
+                    disabled
+                    onChangeText={onChangeAnimal}
+                    onChange={(e) => setData({...data, 'animal': e.target.value})}
+                    />
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -354,6 +362,7 @@ const styles = StyleSheet.create({
     input: {
         height: 46,
         width:'100%',
+        fontFamily: 'Nunito_300Light',
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
