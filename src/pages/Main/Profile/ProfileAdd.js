@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Tag } from '../../../Components/Tags'
 
 //import fonts
 import { useFonts } from 'expo-font';
@@ -58,17 +60,20 @@ export default function PetAdd({ navigation }) {
     //console.log(isEnabled);
 
     //configurações do banco
-    const [data, setData] = React.useState({});
+    const [data, setData] = useState({});
     console.log(data);
 
     //Funções para tags de interesse
-    const [interests, setInterests] = React.useState(["Ração","Passear na Praia", "Banho", "Brincar", "Escovar o pelo"]);
-    const [listInterests, setListInterests]=React.useState([]);
+    const [interests, setInterests] = useState([]);
+    const [selectedInterests, setSelectedInterests] = useState([]);
 
-    const[bio, onChangeBio] = React.useState("Sou felpudinho");
+    const[bio, onChangeBio] = useState('');
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(Place_Holder);
+
+    const [loadingBio, setLoadingBio] = useState(true);
+    const [loadingInterests, setLoadingInterests] = useState(true);
 
     //Para adicionar as fotos
     useEffect(() => {
@@ -81,7 +86,22 @@ export default function PetAdd({ navigation }) {
         }
         })();
     }, []);
+    
+    useEffect(() => {
+        const getPet = async () => {
+            var petData = JSON.parse(await AsyncStorage.getItem('pet'));
+            onChangeBio(petData['description']);
+            setLoadingBio(false);
+        }
+        getPet()
 
+        const getInterests = async () => {
+            let tags = await axios.get("https://amicusco-pet-api.herokuapp.com/tag");
+            setInterests(tags.data);
+            setLoadingInterests(false);
+        }
+        getInterests();
+    }, []);
     //
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -104,6 +124,7 @@ export default function PetAdd({ navigation }) {
 
     return(
     <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+        {!loadingBio && !loadingInterests && <>
         <View style={{flex: 0.9}}>
             <ScrollView>
                 <View>
@@ -146,24 +167,26 @@ export default function PetAdd({ navigation }) {
                 </View>
                 
                 <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-
-                <View style={styles.containerInput}>
-                    <Text style={styles.txt}>Interesses:</Text>
-
+                <Text style={styles.txt}>Interesses:</Text>
+   
+                <View style={styles.containerTags}>
                     {interests.map((interest, index) => {
                     return(
-                    
-                    //Lista de interesses
-                    <TouchableOpacity style={styles.input} key={index} onPress={()=>{
-                        if (listInterests.indexOf(interest) === -1){
-                            setListInterests([...listInterests, interest]);
-                        }
-                        }}>
-                        <Text style={styles.textTags}> {interest} </Text>   
-                    </TouchableOpacity>
+                    <Tag style={styles.tags} key={index} onPress={() => setSelectedInterests([...selectedInterests, interest['id']])} tagText={interest['tag']}/>    
                     )
-                })}
-                </View>  
+                })}  
+                       
+                </View> 
+
+                <View style={styles.containerInput}>
+                    <TouchableOpacity 
+                        style={styles.inputSubmitButton}
+                        onPress={() => Submit(data, selectedInterests)}>
+                        <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
+                        <Text style={styles.inputSubmitButtonTxt}>Atualizar Informações</Text> 
+                        <Text style={styles.txt}></Text>     
+                    </TouchableOpacity>
+                </View>
             </ScrollView> 
         </View>    
 
@@ -191,6 +214,7 @@ export default function PetAdd({ navigation }) {
             </TouchableOpacity>
          
         </View>
+        </>}
     </View>  
     );
 }
@@ -209,6 +233,21 @@ const styles = StyleSheet.create({
         marginBottom: '3%',
         paddingHorizontal: 15
 
+    },
+
+    containerTags: {
+        flexDirection: 'row',
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+
+    tags: {
+        height: 46,
+        width:'100%',
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 4,
+        padding: '2%'
     },
 
     input: {
@@ -230,14 +269,15 @@ const styles = StyleSheet.create({
         marginTop:10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        marginBottom: 80
+        justifyContent: 'space-between',
     },
 
     inputSubmitButtonTxt: {
         color: 'white',
-        fontWeight:'bold'
+        fontSize: 17,
+        fontFamily:'Nunito_700Bold',
+        fontWeight:'bold',
+        textAlign: 'center'
     },
 
     inputImage:{
@@ -299,6 +339,10 @@ const styles = StyleSheet.create({
     
     switch:{
         marginTop:15
+    },
+
+    icon: {
+        marginLeft: 5   
     },
 
 });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch, Picker} from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Switch, Picker, TouchableOpacityBase} from 'react-native';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
@@ -59,6 +59,8 @@ export default function PetPerfil({ navigation }) {
     const [petRace, setPetRace] = useState('');
     const [petAge, setPetAge] = useState('');
 
+    const [error, setError] = useState('');
+
     const radioProps = [
         { label: 'Machos', value: 0 },
         { label: 'Fêmeas', value: 1 },
@@ -106,6 +108,34 @@ export default function PetPerfil({ navigation }) {
     }
     };
 
+    function checkFields(data, navigation) {
+        if (image==''){
+            setError("Insira uma foto do seu amiguinho");
+    
+        }
+        else if (petName==''){
+            setError("Insira o nome do seu amiguinho");
+    
+        }
+        else if (petRace==''){
+            setError("Insira a raça do seu amiguinho");
+    
+        }
+        else if (petAge==''){
+            setError("Insira a idade do seu amiguinho");
+    
+        }
+        else if (data['specie'] === undefined || data['specie'] === '-1'){
+            setError("Selecione o que é o seu amiguinho");
+    
+        }
+        else {
+            Submit(data, data['specie'], navigation);
+        }
+    }
+
+    console.log(error);
+
     return(
     <ScrollView style={styles.container}>
         <View>
@@ -129,7 +159,7 @@ export default function PetPerfil({ navigation }) {
             editable={false}
             value={userName}
             disabled
-            />  
+            />
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -145,6 +175,7 @@ export default function PetPerfil({ navigation }) {
             onChangeText={(petName)=>setPetName(petName.replace(/[^A-Za-z ]/g, ''))}
             onChange={(e) => setData({...data, 'name': e.target.value})} 
             />
+            {error.includes("nome") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>}  
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -154,11 +185,12 @@ export default function PetPerfil({ navigation }) {
             <Picker style={styles.input}
                 onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
             >
-                <Picker.Item label="Selecione o Animal" />
+                <Picker.Item label="Selecione o Animal" value={-1}/>
                 {species.map((el, index) => (
                     <Picker.Item label={el.specie} value={el.id} key={index} />
                 ))}
-            </Picker>           
+            </Picker>
+            {error.includes("Selecione") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>}            
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -173,6 +205,7 @@ export default function PetPerfil({ navigation }) {
             onChangeText={(petRace)=>setPetRace(petRace.replace(/[^A-Za-z ]/g, ''))}
             onChange={(e) => setData({...data, 'breed': e.target.value})}
             />
+            {error.includes("raça") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>} 
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -188,12 +221,13 @@ export default function PetPerfil({ navigation }) {
             value={petAge}
             onChangeText={(petAge)=> setPetAge(petAge)}
             onChange={(e) => setData({...data, 'age': e.target.value})}/>
+            {error.includes("idade") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>} 
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Rede Social:</Text>  
+            <Text style={styles.txt}>Rede Social (opcional):</Text>  
             <TextInput
             style={styles.input}
             keyboardType={'url'}
@@ -254,10 +288,14 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(data, 1, navigation)}>  
+            onPress={() => checkFields(data, navigation)}>  
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
             <Text style={styles.txt}></Text>     
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={()=> navigation.navigate('PetAdd')}>
+                <Text>oi</Text>
         </TouchableOpacity>
         </View>
     </ScrollView>  

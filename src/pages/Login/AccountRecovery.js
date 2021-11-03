@@ -13,13 +13,14 @@ import {
     Nunito_700Bold,
   } from '@expo-google-fonts/nunito'
 
-async function Submit (email, setError) {
-    await axios.post('https://amicusco-auth.herokuapp.com/recoverPassword', {email}).then(resp => console.log(resp.data)).catch(err => setError(err.toJSON().message));
+async function Submit (email, setError, setSuccess) {
+    await axios.post('https://amicusco-auth.herokuapp.com/recoverPassword', {email}).then(resp => setSuccess(resp)).catch(err => setError(err.toJSON().message));
 }
 
 export default function AccountRecovery({ navigation }){
     const [email, setEmail] = React.useState('');
     const [error, setError] = React.useState('');
+    const [success, setSuccess] = React.useState('');
 
     //Import Fonts
     let [fontsLoaded]=useFonts({
@@ -35,19 +36,21 @@ export default function AccountRecovery({ navigation }){
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Digite o seu e-mail cadastrado:</Text>  
             <TextInput
-            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
+            style={[styles.input,{borderColor: error !== '' ? 'red' : (success.status === 200 && '#329542')}]}
             autoFocus={true}
             keyboardType={'email-address'}
             autoCompleteType={'email'}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Digite o seu e-mail"/>
-            {error.slice(-3) === '401' && <Text style={{color: 'red', paddingTop:2}}>Email não encontrado!</Text>}
+            {error.slice(-3) === '401' 
+            ? <Text style={{color: 'red', paddingTop:2}}>Email não encontrado!</Text> 
+            : (success.status === 200 && <Text style={{color: '#329542', paddingTop:2}}>Email enviado!</Text>)}
         </View>
 
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(email, setError)}>
+            onPress={() => Submit(email, setError, setSuccess)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]} />
 
             <Text style={styles.inputSubmitButtonTxt}>Receber código de recuperação</Text>

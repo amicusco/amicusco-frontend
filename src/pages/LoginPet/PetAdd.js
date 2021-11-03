@@ -3,13 +3,15 @@ import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, Touchabl
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Tag } from '../../Components/Tags'
 
 import Camera from '../../assets/camera.png';
 import Place_Holder from '../../assets/Place_Holder.png';
 import logo from '../../assets/logo.png';  
 
 
-async function Submit (petId, data) {
+async function Submit (petId, data, tags) {
+    data = [...data, tags];
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
 }
 
@@ -20,7 +22,9 @@ export default function PetAdd({ navigation }) {
     const [data, setData] = useState({});
 
     //Funções para tags de interesse
-    const [interests, setInterests] = useState(["1","2"]);
+    const [interests, setInterests] = useState([]);
+    
+    const [selectedInterests, setSelectedInterests] = useState([]);
 
     const [pet, setPet] = useState(null);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +33,8 @@ export default function PetAdd({ navigation }) {
     const [image, setImage] = useState(Place_Holder);
 
     const [loading, setLoading] = useState(false);
-
+    const [loadingInterests, setLoadingInterests] = useState(false);
+    
     useEffect(() => {
         (async () => {
         if (Platform.OS !== 'web') {
@@ -47,9 +52,16 @@ export default function PetAdd({ navigation }) {
             setLoading(true);
         }
         getPet()
+
+        const getInterests = async () => {
+            let tags = await axios.get("https://amicusco-pet-api.herokuapp.com/tag");
+            setInterests(tags.data);
+            setLoadingInterests(true);
+        }
+        getInterests();
     }, []);
 
-    console.log(pet);
+    console.log(interests);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -69,7 +81,7 @@ export default function PetAdd({ navigation }) {
 
     return(
     <ScrollView style={styles.container}>
-        {loading && <>
+        {loading && loadingInterests &&<>
         <View>
             <Text style={styles.headerText}>Informações Adicionais de Perfil</Text>
         </View>
@@ -110,14 +122,11 @@ export default function PetAdd({ navigation }) {
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Interesses</Text>
+        <Text style={styles.txt}>Interesses</Text>    
+        <View style={styles.containerTags}>
             {interests.map((interest, index) => {
             return(
-            <TouchableOpacity style={styles.input} key={index} onPress={setInterests}>
-                <Text style={styles.text}>{interest}</Text>
-                <Text style={styles.text}></Text>      
-            </TouchableOpacity>
+            <Tag style={styles.tags} key={index} onPress={() => setSelectedInterests([...selectedInterests, interest['id']])} tagText={interest['tag']}/>    
             )
         })}  
                        
@@ -126,7 +135,7 @@ export default function PetAdd({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(pet['id'], data)}>
+            onPress={() => Submit(pet['id'], data, selectedInterests)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text> 
             <Text style={styles.txt}></Text>     
@@ -152,6 +161,12 @@ const styles = StyleSheet.create({
 
     },
 
+    containerTags: {
+        flexDirection: 'row',
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+
     input: {
         height: 46,
         width:'100%',
@@ -159,8 +174,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: '2%',
+        padding: '5%',
         backgroundColor: '#F6E9DF'
+    },
+
+    tags: {
+        height: 46,
+        width:'100%',
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 4,
+        padding: '2%'
     },
 
     inputSubmitButton: {
@@ -203,7 +227,7 @@ const styles = StyleSheet.create({
     },
 
     txt:{
-        paddingTop: '2%',
+        padding: '2%',
         textAlign: 'left'
     },
 

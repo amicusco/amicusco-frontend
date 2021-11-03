@@ -9,7 +9,8 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import raul from '../../../assets/raul.png';
 import logo from '../../../assets/logo.png'
-import {Ionicons} from "@expo/vector-icons"
+import {Ionicons} from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 //import fonts
 import { useFonts } from 'expo-font';
@@ -66,10 +67,11 @@ export default function PetPerfil({ navigation }) {
         Nunito_900Black_Italic 
     })
 
-    const[petName, onChangePetName] = React.useState('');
+    const[petName, onChangePetName] = React.useState("");
     const[animal, onChangeAnimal] = React.useState("");
     const[race, onChangeRace] = React.useState("");
     const[petAge, onChangePetAge] = React.useState("");
+    const[petAgeBefore, onChangePetAgeBefore] = React.useState("");
     const[social, onChangeSocial] = React.useState("");
 
     const [isMale, setIsMale] = useState(false);
@@ -114,8 +116,9 @@ export default function PetPerfil({ navigation }) {
 
         const getPet = async() => {
             let petData = JSON.parse(await AsyncStorage.getItem('pet'));
+            let age = Number(petData['age'])
             onChangePetName(petData['name']);
-            onChangePetAge(petData['age']);
+            onChangePetAgeBefore(age);
             onChangeRace(petData['breed']);
             onChangeAnimal(petData['specie_pet']['specie']);
             setLoadingPet(false);
@@ -143,8 +146,6 @@ export default function PetPerfil({ navigation }) {
         quality: 1,
         });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
@@ -155,7 +156,7 @@ export default function PetPerfil({ navigation }) {
      
 
     return(
-    <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+    <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
         {!loadingUser && !loadingPet && <>
         <View style={{flex: 0.9}}>
             <ScrollView>
@@ -173,18 +174,14 @@ export default function PetPerfil({ navigation }) {
                     </ImageBackground>
                 </View>
                 
-                <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
+                <View style={{paddingTop:'2%', paddingBottom: '2%', alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 
                 <View style={styles.containerInput}>
                     <Text style={styles.text}>Nome do Dono</Text>
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    keyboardType={'default'}
-                    placeholder="Digite que animal é o seu Pet"
                     value={user['name']}
                     disabled
-                    onChangeText={onChangeAnimal}
-                    onChange={(e) => setData({...data, 'animal': e.target.value})}
                     />
                 </View>
 
@@ -194,13 +191,8 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Nome do Pet</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    keyboardType={'default'}
-                    placeholder="   Digite o nome do Pet"
                     disabled
-                    //isso daqui faz com que tenha ja tenha texto escrito na box do input
                     value={petName}
-                    onChangeText={(petName)=>onChangePetName(petName.replace(/[^A-Za-z ]/g, ''))}
-                    onChange={(e) => setData({...data, 'petName': e.target.value})} 
                     />
                 </View>
                 
@@ -210,12 +202,8 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Animal</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    keyboardType={'default'}
-                    placeholder="Digite que animal é o seu Pet"
                     value={animal}
                     disabled
-                    onChangeText={onChangeAnimal}
-                    onChange={(e) => setData({...data, 'animal': e.target.value})}
                     />            
                 </View>
 
@@ -242,11 +230,11 @@ export default function PetPerfil({ navigation }) {
                     style={styles.input}
                     type={ 'custom' }
                     keyboardType={'numeric'}
-                    placeholder="Digite a idade do seu pet"
                     options={{mask:'99'}}
+                    placeholder={petAgeBefore}
                     value={petAge}
                     onChangeText={(petAge)=> onChangePetAge(petAge)}
-                    onChange={(e) => setData({...data, 'age': e.target.value})}/>
+                    onChange={(e) => setData({...data, 'age': petAge})}/>
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, borderBottomColor: '#999999', borderBottomWidth: 1}}/>
@@ -301,6 +289,7 @@ export default function PetPerfil({ navigation }) {
                     <TouchableOpacity 
                         style={styles.inputOwner}
                         onPress={()=>Logout(navigation)}>
+                        <MaterialIcons style={[styles.icon,{ width: 25, height: 25 }]} name="logout" size={40} color="black" />
                         <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left'}}>Logout</Text>      
                     </TouchableOpacity>
                 </View>
@@ -348,26 +337,26 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15
-
+        marginBottom: '5%',
+        paddingHorizontal: '2%'
     },
 
     input: {
         height: 46,
         width:'100%',
         fontFamily: 'Nunito_300Light',
+        fontSize: 16,
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: '2%',
+        paddingLeft:'2%',
         backgroundColor: '#F6E9DF'
     },
 
@@ -376,12 +365,12 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop: '2%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20,
-        marginBottom: 20
+        marginTop: '2%',
+        marginBottom: '2%'
     },
 
     inputSubmitButtonTxt: {
@@ -410,7 +399,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Nunito_700Bold',
         fontSize:40,
         fontWeight:'bold',
-        paddingLeft: 20,
+        paddingLeft: '3%',
     },
     
     switch:{
@@ -421,13 +410,13 @@ const styles = StyleSheet.create({
         height: 46,
         width: '70%',
         alignSelf: 'center',
+        fontSize: 20,
         backgroundColor: '#E8C9AE',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'2%',
+        paddingLeft:'3%',
         justifyContent: 'flex-start',
-        alignItems: 'center',
         flexDirection: 'row'
-        
     },
 
     text: {
@@ -439,6 +428,6 @@ const styles = StyleSheet.create({
         },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '2%'   
     },
 });
