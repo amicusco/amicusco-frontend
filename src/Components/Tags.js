@@ -1,9 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
-export function Tag({ tagText }) {
+export function Tag({ tagText, setInterests=null }) {
 
-  console.log(tagText);
+  //console.log(tagText);
   var [ isPress, setIsPress ] = React.useState(false);
 
   var touchProps = {
@@ -12,7 +12,8 @@ export function Tag({ tagText }) {
     style: isPress ? styles.btnPress : styles.btnNormal, // <-- but you can still apply other style changes
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
-    onPress: () => setIsPress(!isPress),                 // <-- "onPress" is apparently required
+    onPress: () => {setIsPress(!isPress);
+    setInterests();},                 // <-- "onPress" is apparently required
   };
 
   return (

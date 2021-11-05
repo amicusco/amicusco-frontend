@@ -10,9 +10,9 @@ import Place_Holder from '../../assets/Place_Holder.png';
 import logo from '../../assets/logo.png';  
 
 
-async function Submit (petId, data, tags) {
-    data = [...data, tags];
-    await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
+async function Submit (petId, data, tags, navigation) {
+    data = {...data, tags}; 
+    await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => navigation.navigate('StackMain', {screen: 'Main'})).catch(err => console.log(err));
 }
 
 export default function PetAdd({ navigation }) {
@@ -126,7 +126,7 @@ export default function PetAdd({ navigation }) {
         <View style={styles.containerTags}>
             {interests.map((interest, index) => {
             return(
-            <Tag style={styles.tags} key={index} onPress={() => setSelectedInterests([...selectedInterests, interest['id']])} tagText={interest['tag']}/>    
+            <Tag style={styles.tags} key={index} setInterests={()=>setSelectedInterests([...selectedInterests, interest['id']])} tagText={interest['tag']}/>    
             )
         })}  
                        
@@ -135,7 +135,7 @@ export default function PetAdd({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(pet['id'], data, selectedInterests)}>
+            onPress={() => Submit(pet['id'], data, selectedInterests, navigation)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text> 
             <Text style={styles.txt}></Text>     
