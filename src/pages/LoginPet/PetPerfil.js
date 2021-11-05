@@ -286,17 +286,13 @@ export default function PetPerfil({ navigation }) {
         </View>
         
         <View style={styles.containerInput}>
-        <TouchableOpacity 
-            style={styles.inputSubmitButton}
-            onPress={() => checkFields(data, navigation)}>  
-            <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
-            <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
-            <Text style={styles.txt}></Text>     
-        </TouchableOpacity>
-        <TouchableOpacity
-            onPress={()=> navigation.navigate('PetAdd')}>
-                <Text>oi</Text>
-        </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.inputSubmitButton}
+                onPress={() => checkFields(data, navigation)}>  
+                <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
+                <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
+                <Text style={styles.txt}></Text>     
+            </TouchableOpacity>
         </View>
     </ScrollView>  
     );

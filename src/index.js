@@ -20,6 +20,7 @@ import Chat from './pages/Main/Chat';
 import Profile from './pages/Main/Profile/Profile';
 import ProfileAdd from './pages/Main/Profile/ProfileAdd';
 import ProfileOwner from './pages/Main/Profile/ProfileOwner';
+import ProfilePass from './pages/Main/Profile/ProfilePass';
 
 
 //Import Fonts
@@ -104,6 +105,7 @@ function StackProfile(){
         <ProfileStack.Screen name="ProfileMain" component={Profile} options={{headerShown: false}}/>
         <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
         <ProfileStack.Screen name="ProfileOwner" component={ProfileOwner} options={{headerShown: true}}/>
+        <ProfileStack.Screen name="ProfilePass" component={ProfilePass} options={{headerShown: true}}/>
         <ProfileStack.Screen name="StackLogin" component={StackLogin} options={{headerShown: false}} />
     </ProfileStack.Navigator>
   );
