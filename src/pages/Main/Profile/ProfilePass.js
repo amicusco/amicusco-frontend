@@ -47,7 +47,7 @@ export default function ProfilePass({ navigation }){
     const screenHeight = Dimensions.get('window').height;
 
     return(
-        <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+        <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
 
             <View style={{flex: 0.9}}>  
                 <ScrollView>
@@ -67,7 +67,7 @@ export default function ProfilePass({ navigation }){
                 : (success.status === 200 && <Text style={{color: '#329542', paddingTop:2}}>Email enviado!</Text>)} */}
                     <View style={styles.containerInput}>
                         <Text style={styles.txt}>Senha atual:</Text>
-                        <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
+                        <View style={[styles.input,{flexDirection:'row', alignItems:'center',borderColor: error !== '' ? 'red' : '' }]}>   
                             <TextInput
                             style={{width:'100%', height: 46, paddingHorizontal:10}}
                             keyboardType={'default'}
@@ -76,6 +76,9 @@ export default function ProfilePass({ navigation }){
                             secureTextEntry={hidePass}
                             value={pass}
                             onChangeText={setPass} />
+                            {error.slice(-3) === '401' 
+                            ? <Text style={{color: 'red', paddingTop:2}}>Senha incorreta!</Text> 
+                            : ''} 
                             <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
                                 <Ionicons name="eye" size={22} color='#111'/>
                             </TouchableOpacity>

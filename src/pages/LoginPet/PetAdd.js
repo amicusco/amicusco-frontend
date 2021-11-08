@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 

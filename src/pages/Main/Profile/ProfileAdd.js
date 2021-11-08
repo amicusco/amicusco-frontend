@@ -123,7 +123,7 @@ export default function PetAdd({ navigation }) {
     const screenHeight = Dimensions.get('window').height;
 
     return(
-    <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+    <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
         {!loadingBio && !loadingInterests && <>
         <View style={{flex: 0.9}}>
             <ScrollView>
@@ -223,7 +223,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 

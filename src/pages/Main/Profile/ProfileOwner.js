@@ -6,12 +6,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {TextInputMask} from 'react-native-masked-text';
 
 import Place_Holder from '../../../assets/Place_Holder.png'; 
-import raul from '../../../assets/raul.png'; 
 import Camera from '../../../assets/camera.png'; 
 import logo from '../../../assets/logo.png';
 import {Ionicons} from "@expo/vector-icons";
 
-import ModalApp from '../../../Components/Modal';
 //import fonts
 import { useFonts } from 'expo-font';
 import { 
@@ -156,7 +154,7 @@ export default function ProfileOwner({ navigation }) {
     const [hidePass, sethidePass] = React.useState(true);
 
     return(
-    <View style={{height: screenHeight, borderRadius:50, backgroundColor:'#ffffff'}}>
+    <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
         {!loadingUser && !loadingPet && <>
         <View style={{flex: 0.9}}>
             <ScrollView>
@@ -165,9 +163,9 @@ export default function ProfileOwner({ navigation }) {
                 </View>
 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground source={raul} style={{ resizeMode:"contain", width: 120, height: 120}}>
+                    <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 240, height: 240}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
-                            <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
+                            <Image source={Camera} style={{ resizeMode:"contain", width:'60%', height:'60%' }}/>       
                         </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
                     </ImageBackground>
@@ -223,12 +221,9 @@ export default function ProfileOwner({ navigation }) {
                 <View style={styles.containerInput}>
                     <Text style={styles.txt}>E-mail:</Text>  
                     <TextInput
-                    style={styles.input}
-                    keyboardType={'email-address'}
-                    placeholder="   Digite o seu e-mail"
+                    style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     value={email}
-                    onChangeText={onChangeEmail}
-                    onChange={(e) => setData({...data, 'email': e.target.value})}/>
+                    disabled/>
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
@@ -268,11 +263,11 @@ export default function ProfileOwner({ navigation }) {
                     
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
-                        onPress={() => navigation.navigate('ProfilePass')}
+                        onPress={() => navigation.navigate('ProfileOwner')} // arrumar o envio das informações
                         >
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]} />
     
-                        <Text style={styles.inputSubmitButtonTxt}>Atualizar informações</Text>
+                        <Text style={[styles.inputSubmitButtonTxt,{paddingLeft:'3%'}]}>Atualizar informações</Text>
                         <Text style={styles.txt}></Text>     
                     </TouchableOpacity>
                     
@@ -318,37 +313,38 @@ const styles = StyleSheet.create({
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15
+        marginBottom: '10%',
+        paddingHorizontal: '1%'
 
     },
 
     input: {
         height: 46,
         width:'100%',
-        justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: '2%',
         backgroundColor: '#F6E9DF'
     },
 
     inputSubmitButton: {
         height: 46,
-        alignSelf: 'stretch',
+        width: "70%",
+        alignSelf:'center',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'3%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20
     },
 
     inputSubmitButtonTxt: {
         color: 'white',
-        fontWeight:'bold'
+        fontFamily:'Nunito_400Regular',
+        fontSize: 20,
+        fontWeight:'bold',
+        justifyContent:'center'
     },
 
     inputImage:{
@@ -357,14 +353,14 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
         backgroundColor: '#65D2EB',
         borderRadius: 360,
-        height: 40,
-        width: 40,
+        height: '30%',
+        width: '30%',
         alignItems: 'center', 
         justifyContent: 'center'
     },
 
     txt:{
-        paddingTop: 20,
+        paddingTop: '2%',
         fontFamily: 'Nunito_400Regular',
         textAlign: 'left'
     },
@@ -377,6 +373,12 @@ const styles = StyleSheet.create({
     headerText:{
         fontSize:40,
         fontWeight:'bold',
-        paddingLeft: 20
+        paddingLeft: '2%'
+    },
+
+    icon: {
+        marginLeft: '1%',
+        justifyContent: 'flex-start',
+        alignSelf:'left' 
     },
 });

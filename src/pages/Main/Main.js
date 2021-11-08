@@ -20,49 +20,7 @@ export default function Main({ navigation }) {
         <View style={{flex: 0.9}}>
           <ScrollView>
 
-              <Text>Main1</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main</Text>
-              <Text>Main1</Text>
+          <Text style={{alignSelf: 'center', paddingTop: "70%"}}>EM BREVE ...</Text>
 
           </ScrollView>
         </View>
@@ -97,7 +55,6 @@ export default function Main({ navigation }) {
   const styles = StyleSheet.create({
 
     container: {
-      borderRadius:50,
       backgroundColor:'#ffffff'
 
     },

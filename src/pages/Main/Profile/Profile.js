@@ -289,8 +289,8 @@ export default function PetPerfil({ navigation }) {
                     <TouchableOpacity 
                         style={styles.inputOwner}
                         onPress={()=>Logout(navigation)}>
-                        <MaterialIcons style={[styles.icon,{ width: 25, height: 25 }]} name="logout" size={40} color="black" />
-                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left'}}>Logout</Text>      
+                        <MaterialIcons style={[styles.icon,{ width: 20 }]} name="logout" size={40} color="white" />
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:'white', fontSize: 20, textAlign:'left', paddingLeft:35, justifyContent: 'center', alignSelf:'center' }}>Logout</Text>      
                     </TouchableOpacity>
                 </View>
 
@@ -298,8 +298,8 @@ export default function PetPerfil({ navigation }) {
                     <TouchableOpacity 
                         style={styles.inputOwner}
                         onPress={()=>navigation.navigate('ProfileOwner')}>
-                        <Image source={raul} style={[styles.icon,{ width: 35, height: 35 }]}/>
-                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', fontSize: 20, textAlign:'left', paddingLeft:10}}>Dono</Text>
+                        <Image source={Place_Holder} style={[styles.icon,{ width: 35, height: 35 }]}/>
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:"white", fontSize: 20, textAlign:'left', paddingLeft:20, alignSelf:'center'}}>Dono</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -420,14 +420,15 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: '#000',
+        color: '#111',
         fontSize: 20,
         textAlign: 'left',
         fontFamily:'Nunito_600SemiBold',
-        paddingTop:'1%'
+        paddingTop:'5%'
         },
 
     icon: {
-        marginLeft: '2%'   
+        justifyContent: 'center',
+        alignSelf:'center'   
     },
 });

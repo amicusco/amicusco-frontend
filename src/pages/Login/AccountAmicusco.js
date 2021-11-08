@@ -18,14 +18,41 @@ import {
 
 
 
-async function Submit (data, navigation) {
+async function Submit (data, navigation, setError) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data)
     .then(resp => {
         console.log(resp.data);
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
         AsyncStorage.setItem('user', JSON.stringify(resp.data));
-    }).catch(err => console.log(err));
+    }).catch(err => setError(err.toJSON().message));
 }
+
+//ta bugado
+function checkFields(data, navigation, setError) {
+    console.log(data)
+    if (data['name']==''){
+        return alert("Insira o seu nome");
+
+    }
+    // else if (data['age']==''){
+    //     return alert("Insira a sua idade");
+
+    // }
+    else if (data['phoneNumber']==''){
+        return alert("Insira um telefone");
+
+    }
+    else if (data['email']==''){
+        return alert("Insira um e-mail");
+
+    }
+    else if (data['password']==''){
+        return alert("Insira uma senha");
+
+    }
+    else {
+        Submit(data, navigation, setError);
+  }}
 
 export default function AccountAmicusco({ navigation }) {
     //Import Fonts
@@ -43,31 +70,9 @@ export default function AccountAmicusco({ navigation }) {
     const [mail, setMail] = React.useState('');
     const [age, setAge] = React.useState('');
     const [name, setName] = React.useState('');
+    const [error, setError] = React.useState('');
 
-    function checkFields(data, navigation) {
-        if (name==''){
-            return alert("Insira o seu nome");
     
-        }
-        else if (age==''){
-            return alert("Insira a sua idade");
-    
-        }
-        else if (phone==''){
-            return alert("Insira um telefone");
-    
-        }
-        else if (mail==''){
-            return alert("Insira um e-mail");
-    
-        }
-        else if (pass==''){
-            return alert("Insira uma senha");
-    
-        }
-        else {
-            Submit(data, navigation);
-      }}
 
     return(
     <ScrollView style={styles.container}>
@@ -134,12 +139,13 @@ export default function AccountAmicusco({ navigation }) {
         <View style={styles.containerInput}>
             <Text style={styles.txt}>E-mail:</Text>  
             <TextInput
-            style={styles.input}
+            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
             keyboardType={ 'email-address' }
             placeholder={' Digite o seu E-mail'}
             value={mail}
             onChangeText={setMail}
             onChange={(e) => setData({...data, 'email': e.target.value })} />
+            {error.slice(-3) === '500' && <Text style={{color: 'red', paddingTop:2}}>E-mail já cadastrado!</Text>}
         </View>
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -164,7 +170,7 @@ export default function AccountAmicusco({ navigation }) {
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => checkFields(data, navigation)}>
+            onPress={() => checkFields(data, navigation, setError)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>     
             <Text style={[styles.inputSubmitButtonTxt]}>Cadastrar</Text>
             <Text style={styles.txt}></Text>       

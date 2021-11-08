@@ -16,6 +16,7 @@ import { useFonts } from 'expo-font';
 import { 
     Nunito_200ExtraLight,
     Nunito_300Light,
+    Nunito_400Regular,
     Nunito_600SemiBold,
     Nunito_600SemiBold_Italic,
     Nunito_700Bold,
@@ -40,6 +41,7 @@ export default function PetPerfil({ navigation }) {
     let [fontsLoaded]=useFonts({
         Nunito_200ExtraLight,
         Nunito_300Light,
+        Nunito_400Regular,
         Nunito_600SemiBold,
         Nunito_600SemiBold_Italic,
         Nunito_700Bold,
@@ -155,9 +157,9 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome Completo:</Text>
-            <TextInput style={[styles.input,{backgroundColor:"#FFFF", borderColor:"#FFFF"}]}
+            <TextInput style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
             editable={false}
-            value={userName}
+            value={'   '+userName}
             disabled
             />
         </View>
@@ -185,7 +187,7 @@ export default function PetPerfil({ navigation }) {
             <Picker style={styles.input}
                 onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
             >
-                <Picker.Item label="Selecione o Animal" value={-1}/>
+                <Picker.Item label="   Selecione o Animal" value={-1}/>
                 {species.map((el, index) => (
                     <Picker.Item label={el.specie} value={el.id} key={index} />
                 ))}
@@ -200,7 +202,7 @@ export default function PetPerfil({ navigation }) {
             <TextInput
             style={styles.input}
             keyboardType={'default'}
-            placeholder="Digite a raça do seu Pet"
+            placeholder="   Digite a raça do seu Pet"
             value={petRace}
             onChangeText={(petRace)=>setPetRace(petRace.replace(/[^A-Za-z ]/g, ''))}
             onChange={(e) => setData({...data, 'breed': e.target.value})}
@@ -216,7 +218,7 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             type={ 'custom' }
             keyboardType={'numeric'}
-            placeholder="Digite a idade do seu pet"
+            placeholder="   Digite a idade do seu pet"
             options={{mask:'99'}}
             value={petAge}
             onChangeText={(petAge)=> setPetAge(petAge)}
@@ -231,7 +233,7 @@ export default function PetPerfil({ navigation }) {
             <TextInput
             style={styles.input}
             keyboardType={'url'}
-            placeholder="Digite o link da rede social do seu Pet"
+            placeholder="   Digite o link da rede social do seu Pet"
             onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
         </View>
 
@@ -239,15 +241,17 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Sexo do Pet:</Text>
-            <Switch
-            style = {styles.switch}
-            disabled = {false}
-            trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
-            thumbColor={isMale ? "#000fff"  : "#ff007f"}
-            onValueChange={toggleSwitch}
-            onChange={() => setData({...data, 'gender': isMale ? "M" : "F"})}
-            value={isMale}/>
-            <Text style={styles.txt}>{isMale ? "Macho" : "Fêmea"}</Text>
+            <View style={{flexDirection:'row'}}>
+                <Switch
+                style = {styles.switch}
+                disabled = {false}
+                trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
+                thumbColor={isMale ? "#000fff"  : "#ff007f"}
+                onValueChange={toggleSwitch}
+                onChange={() => setData({...data, 'gender': isMale ? "M" : "F"})}
+                value={isMale}/>
+                <Text style={[styles.txt, { paddingLeft:'4%', fontSize:18}]}>{isMale ? "Macho" : "Fêmea"}</Text>
+            </View>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -258,6 +262,7 @@ export default function PetPerfil({ navigation }) {
                   buttonColor="#E8C9AE"
                   buttonSize={15}
                   radioStyle={{paddingLeft:25, paddingTop:25}}
+                  labelStyle={{fontFamily:'Nunito_400Regular', fontSize:18}}
                   selectedButtonColor="#E8C9AE"
                   radio_props={radioProps}
                   initial={2}
@@ -291,7 +296,7 @@ export default function PetPerfil({ navigation }) {
                 onPress={() => checkFields(data, navigation)}>  
                 <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
                 <Text style={styles.inputSubmitButtonTxt}>Cadastrar</Text>
-                <Text style={styles.txt}></Text>     
+                <Text style={[styles.txt,{alignSelf:'flex-end'}]}></Text>     
             </TouchableOpacity>
         </View>
     </ScrollView>  
@@ -302,7 +307,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex:1,
-        borderRadius:50,
         backgroundColor:'#ffffff'
     },
 
@@ -316,6 +320,7 @@ const styles = StyleSheet.create({
     input: {
         height: 46,
         width:'100%',
+        fontSize: 18,
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'black',
@@ -337,7 +342,8 @@ const styles = StyleSheet.create({
 
     inputSubmitButtonTxt: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 20,
+        paddingRight:'8%',
         fontFamily:'Nunito_700Bold',
         fontWeight:'bold',
         textAlign: 'center'
@@ -357,7 +363,8 @@ const styles = StyleSheet.create({
 
     txt:{
         paddingTop: 20,
-        fontFamily:'Nunito_200Light',
+        fontSize:20,
+        fontFamily:'Nunito_400Regular',
         textAlign: 'left'
     },
 
