@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TextInputMask} from 'react-native-masked-text';
 
 import logo from '../../assets/logo.png';
@@ -28,7 +28,7 @@ async function Submit (data, navigation, setError) {
 }
 
 //ta bugado
-function checkFields(data, navigation, setError) {
+function checkFields(data, navigation, setError, wrongData) {
     console.log(data)
     if (data['name']==''){
         return alert("Insira o seu nome");
@@ -38,7 +38,7 @@ function checkFields(data, navigation, setError) {
     //     return alert("Insira a sua idade");
 
     // }
-    else if (data['phoneNumber']==''){
+    else if (wrongData===1){
         return alert("Insira um telefone");
 
     }
@@ -72,6 +72,7 @@ export default function AccountAmicusco({ navigation }) {
     const [name, setName] = React.useState('');
     const [error, setError] = React.useState('');
 
+    const[wrongData,setWrongData]=React.useState(0)
     
 
     return(
@@ -119,7 +120,7 @@ export default function AccountAmicusco({ navigation }) {
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
-
+        {/* {data['phoneNumber']=''} */}
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Telefone:</Text>  
             <TextInputMask
@@ -132,8 +133,9 @@ export default function AccountAmicusco({ navigation }) {
             onChangeText={(phone)=> setPhone(phone)}
             onChange={(e) => setData({...data, 'phoneNumber': e.target.value }
             )} />
+            {(phone === '' && data['phoneNumber'] != null ) && <Text style={{color: 'red', paddingTop:2}}>Digite telefone!</Text>}
         </View>
-
+            {console.log(phone)}
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
@@ -165,12 +167,13 @@ export default function AccountAmicusco({ navigation }) {
                 <Ionicons name="eye" size={22} color='#111'/>
             </TouchableOpacity>
             </View>
+            {(pass === '' && data['phoneNumber'] != null ) && <Text style={{color: 'red', paddingTop:2}}>Digite telefone!</Text>}
         </View>
         
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => checkFields(data, navigation, setError)}>
+            onPress={() => checkFields(data, navigation, setError, wrongData)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>     
             <Text style={[styles.inputSubmitButtonTxt]}>Cadastrar</Text>
             <Text style={styles.txt}></Text>       

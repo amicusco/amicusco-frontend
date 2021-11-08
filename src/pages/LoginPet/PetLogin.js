@@ -2,7 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import plusS from '../../assets/plusS.png'; 
 import plus from '../../assets/plus.png'; 

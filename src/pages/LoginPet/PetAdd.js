@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform} from 'react-native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Tag } from '../../Components/Tags'
 
 import Camera from '../../assets/camera.png';

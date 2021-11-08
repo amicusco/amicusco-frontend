@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Tag } from '../../../Components/Tags'
 
 //import fonts

@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Linking } from 'react-native';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 
 import plus from '../../assets/plus.png'; 
@@ -20,7 +20,7 @@ import {
   } from '@expo-google-fonts/nunito'
 
 async function SubmitGoogle () {
-    await axios.get("https://amicusco-auth.herokuapp.com/auth/google").then(resp => Linking.addEventListener('url', handleOpenURL)).catch(err => console.log(err));
+    console.log(Linking.openURL('https://amicusco-auth.herokuapp.com/auth/google'));
 }
 
 async function SubmitFacebook () {
@@ -87,7 +87,7 @@ export default function Login({navigation}){
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputGoogle}
-        onPress={()=>{Linking.openURL('https://amicusco-auth.herokuapp.com/auth/google');navigation.navigate('StackMain', {screen: 'PetLogin'})}}>        
+        onPress={()=>{SubmitGoogle(); navigation.navigate('StackMain', {screen: 'PetLogin'})}}>        
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Google</Text>
             <Text style={styles.text}></Text>      
