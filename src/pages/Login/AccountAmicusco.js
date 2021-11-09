@@ -27,28 +27,27 @@ async function Submit (data, navigation, setError) {
     }).catch(err => setError(err.toJSON().message));
 }
 
-//ta bugado
-function checkFields(data, navigation, setError, wrongData) {
+
+function checkFields(data, navigation, setError) {
     console.log(data)
-    if (data['name']==''){
+    if (data['name']==''|| data['name']==null){
         return alert("Insira o seu nome");
 
     }
-    // else if (data['age']==''){
-    //     return alert("Insira a sua idade");
-
-    // }
-    else if (wrongData===1){
+    else if (data['age']=='' || data['age']==null){
+        return alert("Insira a sua idade");
+    }
+    else if (data['phoneNumber']=='' || data['phoneNumber']==null || data['phoneNumber'].length < 10){
         return alert("Insira um telefone");
-
     }
-    else if (data['email']==''){
+    else if (data['email']=='' || data['email']==null){
         return alert("Insira um e-mail");
-
     }
-    else if (data['password']==''){
+    else if (!data['email'].match(/^[a-z0-9._]+@[a-z0-9]+.[a-z]+(.[a-z]+)?$/g)){
+        return alert("Formato de e-mail inválido!");
+    }
+    else if (data['password']=='' || data['password']==null){
         return alert("Insira uma senha");
-
     }
     else {
         Submit(data, navigation, setError);
@@ -67,13 +66,45 @@ export default function AccountAmicusco({ navigation }) {
     const [pass, setPass] = React.useState('');
     const [hidePass, sethidePass] = React.useState(true);
     const [phone, setPhone] = React.useState('');
+    const [social, setSocial] = React.useState('');
     const [mail, setMail] = React.useState('');
     const [age, setAge] = React.useState('');
     const [name, setName] = React.useState('');
     const [error, setError] = React.useState('');
 
-    const[wrongData,setWrongData]=React.useState(0)
     
+    function checkOnChange(type, value){
+        console.log(value);
+        if (type === "name"){
+            const newValue = value.replace(/[^A-Za-z ]/g, '');
+            setName(newValue);
+            setData({...data, 'name': newValue});
+        }
+        if (type === "age"){
+            setAge(value);
+            setData({...data, 'age': value});
+        }
+        if (type === "phone"){
+            const newValue = value.replace(/[^\d]/g, "");
+            setPhone(newValue);
+            setData({...data, 'phoneNumber': newValue});
+        }
+        if (type === "social"){
+            setSocial(value);
+            setData({...data, 'social': value});
+
+        }
+        if (type === "mail"){
+            setMail(value);
+            setData({...data, 'email': value});
+
+        }
+        if (type === "pass"){
+            setPass(value);
+            setData({...data, 'password': value});
+
+        }
+    }
 
     return(
     <ScrollView style={styles.container}>
@@ -85,8 +116,7 @@ export default function AccountAmicusco({ navigation }) {
             keyboardType={'default'}
             placeholder="   Digite o seu nome completo"
             value={name}
-            onChangeText={(name)=>setName(name.replace(/[^A-Za-z ]/g, ''))}
-            onChange={(e) => setData({...data, 'name': e.target.value})} 
+            onChangeText={(name) => checkOnChange('name', name)}
             />
         </View>
         
@@ -101,8 +131,7 @@ export default function AccountAmicusco({ navigation }) {
             placeholder="   Digite a sua idade"
             value={age}
             options={{mask:'99'}}
-            onChangeText={(age)=> setAge(age)}
-            //onChange={(e) => setData({...data, 'idade': e.target.value})}
+            onChangeText={(age) => checkOnChange('age', age)}
             />            
         </View>
 
@@ -114,13 +143,13 @@ export default function AccountAmicusco({ navigation }) {
             style={styles.input}
             keyboardType={'url'}
             placeholder="   Deixe o link de alguma rede social"
-            //onChange={(e) => setData({...data, 'rede_social': e.target.value})}
+            value={social}
+            onChangeText={(social) => checkOnChange('social', social)}
             />
         </View>
 
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
-        {/* {data['phoneNumber']=''} */}
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Telefone:</Text>  
             <TextInputMask
@@ -130,50 +159,45 @@ export default function AccountAmicusco({ navigation }) {
             placeholder={'   Digite o seu Telefone'}
             value={phone}
             options={{maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
-            onChangeText={(phone)=> setPhone(phone)}
-            onChange={(e) => setData({...data, 'phoneNumber': e.target.value }
-            )} />
-            {(phone === '' && data['phoneNumber'] != null ) && <Text style={{color: 'red', paddingTop:2}}>Digite telefone!</Text>}
+            onChangeText={(phone)=> checkOnChange('phone', phone)}/>
         </View>
-            {console.log(phone)}
+            
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>E-mail:</Text>  
             <TextInput
-            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
+            style={[styles.input,{borderColor: error.slice(-3) === '500' ? 'red' : ''}]}
             keyboardType={ 'email-address' }
             placeholder={' Digite o seu E-mail'}
             value={mail}
-            onChangeText={setMail}
-            onChange={(e) => setData({...data, 'email': e.target.value })} />
+            onChangeText={(mail)=> checkOnChange('mail', mail)}/>
             {error.slice(-3) === '500' && <Text style={{color: 'red', paddingTop:2}}>E-mail já cadastrado!</Text>}
         </View>
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Senha:</Text>
+            <Text style={styles.txt}>Senha (mínimo 8 digitos):</Text>
             <View style={[styles.input, {flexDirection:'row', alignItems:'center'}]}>  
             <TextInput
-            style={[styles.input, {width:'100%', height: 46}]}
+            style={[styles.input, {width:'100%', height: 46, borderColor: error.slice(-3) === '406' ? 'red' : ''}]}
             keyboardType={'password'}
             secureTextEntry={hidePass}
             placeholder='Digite a sua senha '
             value={pass}
-            onChangeText={(pass) => setPass(pass)}
-            onChange={(e) => setData({...data, 'password': e.target.value})}/>
+            onChangeText={(pass) => checkOnChange('pass', pass)}/>
             <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{ paddingHorizontal:'5%', alignItems:'center', justifyContent:'center', width:'15%'}}>
                 <Ionicons name="eye" size={22} color='#111'/>
             </TouchableOpacity>
             </View>
-            {(pass === '' && data['phoneNumber'] != null ) && <Text style={{color: 'red', paddingTop:2}}>Digite telefone!</Text>}
+            {error.slice(-3) === '406' && <Text style={{color: 'red', paddingTop:2}}>A senha deverá ter no mínimo 8 digitos!</Text>}
         </View>
         
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => checkFields(data, navigation, setError, wrongData)}>
+            onPress={() => checkFields(data, navigation, setError)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>     
             <Text style={[styles.inputSubmitButtonTxt]}>Cadastrar</Text>
             <Text style={styles.txt}></Text>       

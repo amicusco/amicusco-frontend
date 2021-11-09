@@ -116,7 +116,7 @@ export default function PetAdd({ navigation }) {
             autoComplete={false}
             underlineColor='#ffffff'
             multiline={true}
-            onChange={(e) => setData({...data, 'description': e.target.value})} 
+            onChangeText={(e) => setData({...data, 'description': e.target.value})} 
             />
         </View>
         
@@ -126,7 +126,7 @@ export default function PetAdd({ navigation }) {
         <View style={styles.containerTags}>
             {interests.map((interest, index) => {
             return(
-            <Tag style={styles.tags} key={index} setInterests={()=>setSelectedInterests([...selectedInterests, interest['id']])} tagText={interest['tag']}/>    
+            <Tag style={styles.tags} key={index} selectedInterests = {selectedInterests} setSelectedInterests={setSelectedInterests} tag={interest}/>    
             )
         })}  
                        

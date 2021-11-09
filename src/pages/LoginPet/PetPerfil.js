@@ -22,12 +22,17 @@ import {
     Nunito_700Bold,
   } from '@expo-google-fonts/nunito'
 
-async function Submit (data, specieid, navigation) {
+async function Submit (data, specieid, navigation, species) {
     try{
         const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
         data = {...data, userId};
         console.log(data);
         const resp = await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data);
+        species.forEach(specie => {
+            if (resp.data['specieId']==specie['id'])
+                resp.data['specie_pet'] = {'specie': specie['specie']} 
+        });
+       
         await AsyncStorage.setItem('pet', JSON.stringify(resp.data));
         navigation.navigate('PetAdd');
 
@@ -51,7 +56,7 @@ export default function PetPerfil({ navigation }) {
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
     
-    const [data, setData] = React.useState({});
+    const [data, setData] = React.useState({'gender':'F'});
     const [species, setSpecies] = React.useState([]);
     const [image, setImage] = useState(null);
     const [dist, setDist] = useState(1);
@@ -60,6 +65,7 @@ export default function PetPerfil({ navigation }) {
     const [petName, setPetName] = useState('');
     const [petRace, setPetRace] = useState('');
     const [petAge, setPetAge] = useState('');
+    const [petSocial, setPetSocial] = useState('');
 
     const [error, setError] = useState('');
 
@@ -111,28 +117,50 @@ export default function PetPerfil({ navigation }) {
     };
 
     function checkFields(data, navigation) {
-        if (image==''){
-            setError("Insira uma foto do seu amiguinho");
-    
-        }
-        else if (petName==''){
+         if (petName=='' || petName==null){
             setError("Insira o nome do seu amiguinho");
-    
-        }
-        else if (petRace==''){
-            setError("Insira a raça do seu amiguinho");
-    
-        }
-        else if (petAge==''){
-            setError("Insira a idade do seu amiguinho");
     
         }
         else if (data['specie'] === undefined || data['specie'] === '-1'){
             setError("Selecione o que é o seu amiguinho");
     
         }
+        else if (petRace==''|| petRace==null){
+            setError("Insira a raça do seu amiguinho");
+    
+        }
+        else if (petAge=='' || petAge == null){
+            setError("Insira a idade do seu amiguinho");
+    
+        }
         else {
-            Submit(data, data['specie'], navigation);
+            Submit(data, data['specie'], navigation, species);
+        }
+    }
+
+    function checkOnChange(type, value){
+        console.log(value);
+        if (type === "petName"){
+            const newValue = value.replace(/[^A-Za-z ]/g, '');
+            setPetName(newValue);
+            setData({...data, 'name': newValue});
+        }
+        if (type === "petAge"){
+            const newValue = value.replace(/[^\d]/g, "");
+            setPetAge(newValue);
+            setData({...data, 'age': newValue});
+        }
+       
+        if (type === "petSocial"){
+            setPetSocial(value);
+            setData({...data, 'petSocial': value});
+
+        }
+        if (type === "petRace"){
+            const newValue = value.replace(/[^A-Za-z ]/g, '');
+            setPetRace(newValue);
+            setData({...data, 'breed': newValue});
+
         }
     }
 
@@ -169,13 +197,12 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Nome do Pet:</Text>  
             <TextInput
-            style={styles.input}
+            style={[styles.input,{borderColor: error.includes("nome") ? 'red' : ''}]}
             autoFocus={true}
             keyboardType={'default'}
             placeholder="   Digite o nome do Pet"
             value={petName}
-            onChangeText={(petName)=>setPetName(petName.replace(/[^A-Za-z ]/g, ''))}
-            onChange={(e) => setData({...data, 'name': e.target.value})} 
+            onChangeText={(petName)=>checkOnChange('petName', petName)}
             />
             {error.includes("nome") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>}  
         </View>
@@ -184,7 +211,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Animal:</Text>
-            <Picker style={styles.input}
+            <Picker style={[styles.input,{borderColor: error.includes("Selecione") ? 'red' : ''}]}
                 onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
             >
                 <Picker.Item label="   Selecione o Animal" value={-1}/>
@@ -200,12 +227,11 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Raça:</Text>  
             <TextInput
-            style={styles.input}
+            style={[styles.input,{borderColor: error.includes("raça") ? 'red' : ''}]}
             keyboardType={'default'}
             placeholder="   Digite a raça do seu Pet"
             value={petRace}
-            onChangeText={(petRace)=>setPetRace(petRace.replace(/[^A-Za-z ]/g, ''))}
-            onChange={(e) => setData({...data, 'breed': e.target.value})}
+            onChangeText={(petRace)=>checkOnChange('petRace', petRace)}
             />
             {error.includes("raça") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>} 
         </View>
@@ -215,14 +241,13 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Idade:</Text>  
             <TextInputMask
-            style={styles.input}
+            style={[styles.input,{borderColor: error.includes("idade") ? 'red' : ''}]}
             type={ 'custom' }
             keyboardType={'numeric'}
             placeholder="   Digite a idade do seu pet"
             options={{mask:'99'}}
             value={petAge}
-            onChangeText={(petAge)=> setPetAge(petAge)}
-            onChange={(e) => setData({...data, 'age': e.target.value})}/>
+            onChangeText={(petAge)=> checkOnChange('petAge', petAge)}/>
             {error.includes("idade") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>} 
         </View>
 
@@ -234,7 +259,8 @@ export default function PetPerfil({ navigation }) {
             style={styles.input}
             keyboardType={'url'}
             placeholder="   Digite o link da rede social do seu Pet"
-            onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
+            value={petSocial}
+            onChangeText={(petSocial)=> checkOnChange('petSocial', petSocial)}/>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
@@ -247,8 +273,7 @@ export default function PetPerfil({ navigation }) {
                 disabled = {false}
                 trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
                 thumbColor={isMale ? "#000fff"  : "#ff007f"}
-                onValueChange={toggleSwitch}
-                onChange={() => setData({...data, 'gender': isMale ? "M" : "F"})}
+                onValueChange={()=>{toggleSwitch(); setData({...data, 'gender': isMale ? "F" : "M"})}}
                 value={isMale}/>
                 <Text style={[styles.txt, { paddingLeft:'4%', fontSize:18}]}>{isMale ? "Macho" : "Fêmea"}</Text>
             </View>

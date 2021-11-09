@@ -38,9 +38,18 @@ import axios from 'axios';
 import Pen from '../../../assets/pen.png'; 
 import Place_Holder from '../../../assets/Place_Holder.png';
 
-// async function Submit (data, specieid) {
-//     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
-// }
+async function Submit (data, petid, setPet) {
+    var pet = JSON.parse(await AsyncStorage.getItem('pet'));
+    await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
+        const keys = Object.keys(resp.data);
+        keys.forEach(key => {
+            if (key !== 'id')
+                pet[key] = resp.data[key];
+                setPet(pet);
+                AsyncStorage.setItem('pet', JSON.stringify(pet));
+        });    
+    }).catch(err => console.log(err));
+}
 
 async function Logout( navigation ){
     await AsyncStorage.removeItem('user');
@@ -67,19 +76,20 @@ export default function PetPerfil({ navigation }) {
         Nunito_900Black_Italic 
     })
 
-    const[petName, onChangePetName] = React.useState("");
-    const[animal, onChangeAnimal] = React.useState("");
-    const[race, onChangeRace] = React.useState("");
-    const[petAge, onChangePetAge] = React.useState("");
-    const[petAgeBefore, onChangePetAgeBefore] = React.useState("");
-    const[social, onChangeSocial] = React.useState("");
+    const[petId, onChangePetId] = useState("");
+    const[petName, onChangePetName] = useState("");
+    const[animal, onChangeAnimal] = useState("");
+    const[race, onChangeRace] = useState("");
+    const[petAge, onChangePetAge] = useState("");
+    const[petAgeBefore, onChangePetAgeBefore] = useState("");
+    const[social, onChangeSocial] = useState("");
 
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
     
-    const [data, setData] = React.useState({});
+    const [data, setData] = useState({});
 
-    const [species, setSpecies] = React.useState([]);
+    const [species, setSpecies] = useState([]);
 
     const [image, setImage] = useState(null);
 
@@ -117,6 +127,8 @@ export default function PetPerfil({ navigation }) {
         const getPet = async() => {
             let petData = JSON.parse(await AsyncStorage.getItem('pet'));
             let age = Number(petData['age'])
+            setPet(petData);
+            onChangePetId(petData['id']);
             onChangePetName(petData['name']);
             onChangePetAgeBefore(age);
             onChangeRace(petData['breed']);
@@ -153,7 +165,21 @@ export default function PetPerfil({ navigation }) {
     //console.log(isEnabled);
     };
     const screenHeight = Dimensions.get('window').height;
-     
+
+    function checkOnChange(type, value){
+        console.log(value);
+        if (type === "petAge"){
+            onChangePetAge(value);
+            setData({...data, 'age': value});
+        }
+        if (type === "petSocial"){
+            onChangeSocial(value);
+            setData({...data, 'petSocial': value});
+
+        }
+    }
+
+ 
 
     return(
     <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
@@ -214,11 +240,7 @@ export default function PetPerfil({ navigation }) {
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     disabled
-                    keyboardType={'default'}
-                    placeholder="Digite a raça do seu Pet"
-                    onChangeText={onChangeRace}
                     value={race}
-                    onChange={(e) => setData({...data, 'race': e.target.value})}
                     />
                 </View>
 
@@ -231,10 +253,10 @@ export default function PetPerfil({ navigation }) {
                     type={ 'custom' }
                     keyboardType={'numeric'}
                     options={{mask:'99'}}
-                    placeholder={petAgeBefore}
+                    placeholder={pet['age']}
                     value={petAge}
-                    onChangeText={(petAge)=> onChangePetAge(petAge)}
-                    onChange={(e) => setData({...data, 'age': petAge})}/>
+                    onChangeText={(petAge)=> checkOnChange("petAge", petAge)}
+                    />
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, borderBottomColor: '#999999', borderBottomWidth: 1}}/>
@@ -247,7 +269,7 @@ export default function PetPerfil({ navigation }) {
                     placeholder="Digite o link da rede social do seu Pet"
                     onChangeText={onChangeSocial}
                     value={social}
-                    onChange={(e) => setData({...data, 'petSocialMedia': e.target.value})}/>
+                    onChangeText={(social)=> checkOnChange("petSocial",social)}/>
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
@@ -299,9 +321,24 @@ export default function PetPerfil({ navigation }) {
                         style={styles.inputOwner}
                         onPress={()=>navigation.navigate('ProfileOwner')}>
                         <Image source={Place_Holder} style={[styles.icon,{ width: 35, height: 35 }]}/>
-                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:"white", fontSize: 20, textAlign:'left', paddingLeft:20, alignSelf:'center'}}>Dono</Text>
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:"white", fontSize: 20, textAlign:'left', paddingLeft:20, alignSelf:'center'}}>{user['name'].split(" ")[0]}</Text>
                     </TouchableOpacity>
                 </View>
+
+                <View style={styles.containerInput}>
+                    
+                    <TouchableOpacity 
+                        style={styles.inputSubmitButton}
+                        onPress={() => Submit(data, petId, setPet)}
+                        >
+                        <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]} />
+    
+                        <Text style={[styles.inputSubmitButtonTxt,{paddingLeft:'3%'}]}>Atualizar informações</Text>
+                        <Text style={styles.txt}></Text>     
+                    </TouchableOpacity>
+                    
+                </View>
+
             </ScrollView>
         </View>     
 

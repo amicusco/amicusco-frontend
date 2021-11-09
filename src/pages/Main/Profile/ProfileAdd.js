@@ -33,9 +33,19 @@ import logo from '../../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons"
 
 
-// async function Submit (data, specieid) {
-//     await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data).then(resp => console.log(resp.data)).catch(err => console.log(err));
-// }
+async function Submit (petid, data, tags, setPet ) {
+    var pet = JSON.parse(await AsyncStorage.getItem('pet'));
+    data = {...data, tags}; 
+    await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
+        const keys = Object.keys(resp.data);
+        keys.forEach(key => {
+            if (key !== 'id')
+                pet[key] = resp.data[key];
+                setPet(pet);
+                AsyncStorage.setItem('pet', JSON.stringify(pet));
+        });    
+    }).catch(err => console.log(err));
+}
 
 
 export default function PetAdd({ navigation }) {
@@ -68,6 +78,8 @@ export default function PetAdd({ navigation }) {
     const [selectedInterests, setSelectedInterests] = useState([]);
 
     const[bio, onChangeBio] = useState('');
+
+    const[pet, setPet] = useState(null);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(Place_Holder);
@@ -91,6 +103,7 @@ export default function PetAdd({ navigation }) {
         const getPet = async () => {
             var petData = JSON.parse(await AsyncStorage.getItem('pet'));
             onChangeBio(petData['description']);
+            setPet(petData);
             setLoadingBio(false);
         }
         getPet()
@@ -144,7 +157,7 @@ export default function PetAdd({ navigation }) {
                 <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.name}>Amarelinho</Text>  
+                    <Text style={styles.name}>{pet['name']}</Text>  
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -156,13 +169,12 @@ export default function PetAdd({ navigation }) {
                     autoFocus={true}
                     value={bio}
                     keyboardType={'default'}
-                    placeholder="Digite uma breve descrição do seu pet"
+                    placeholder={pet['description']}
                     onSubmitEditing={true}
                     autoComplete={false}
                     underlineColor='#ffffff'
                     multiline={true}
-                    onChangeText={onChangeBio}
-                    onChange={(e) => setData({...data, 'petDescription': e.target.value})} 
+                    onChangeText={()=> setData({...data, 'description': e.target.value})} 
                     />
                 </View>
                 
@@ -172,7 +184,7 @@ export default function PetAdd({ navigation }) {
                 <View style={styles.containerTags}>
                     {interests.map((interest, index) => {
                     return(
-                    <Tag style={styles.tags} key={index} onPress={() => setSelectedInterests([...selectedInterests, interest['id']])} tagText={interest['tag']}/>    
+                    <Tag style={styles.tags} key={index} selectedInterests = {selectedInterests} setSelectedInterests={setSelectedInterests} tag={interest} petTags={pet['tags']}/>    
                     )
                 })}  
                        
@@ -181,7 +193,7 @@ export default function PetAdd({ navigation }) {
                 <View style={styles.containerInput}>
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
-                        onPress={() => Submit(data, selectedInterests)}>
+                        onPress={() => Submit(pet['id'], data, selectedInterests, setPet)}>
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
                         <Text style={styles.inputSubmitButtonTxt}>Atualizar Informações</Text> 
                         <Text style={styles.txt}></Text>     
