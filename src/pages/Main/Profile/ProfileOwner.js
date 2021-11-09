@@ -79,6 +79,7 @@ export default function ProfileOwner({ navigation }) {
             onChangeUserId(user['id']);
             onChangeName(user['name']);
             onChangeEmail(user['email']);
+            onChangeAge(user['age']);
             onChangePhone(user['phoneNumber']);
             onChangePassword(user['password']);
             setLoadingUser(false);                

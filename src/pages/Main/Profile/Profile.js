@@ -15,20 +15,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 //import fonts
 import { useFonts } from 'expo-font';
 import { 
-    Nunito_200ExtraLight,
-    Nunito_200ExtraLight_Italic,
     Nunito_300Light,
-    Nunito_300Light_Italic,
     Nunito_400Regular,
-    Nunito_400Regular_Italic,
     Nunito_600SemiBold,
-    Nunito_600SemiBold_Italic,
     Nunito_700Bold,
-    Nunito_700Bold_Italic,
-    Nunito_800ExtraBold,
-    Nunito_800ExtraBold_Italic,
-    Nunito_900Black,
-    Nunito_900Black_Italic 
   } from '@expo-google-fonts/nunito'
 
 //Back-end Imports
@@ -60,20 +50,10 @@ async function Logout( navigation ){
 export default function PetPerfil({ navigation }) {
     //Import Fonts
     let [fontsLoaded]=useFonts({
-        Nunito_200ExtraLight,
-        Nunito_200ExtraLight_Italic,
         Nunito_300Light,
-        Nunito_300Light_Italic,
         Nunito_400Regular,
-        Nunito_400Regular_Italic,
         Nunito_600SemiBold,
-        Nunito_600SemiBold_Italic,
         Nunito_700Bold,
-        Nunito_700Bold_Italic,
-        Nunito_800ExtraBold,
-        Nunito_800ExtraBold_Italic,
-        Nunito_900Black,
-        Nunito_900Black_Italic 
     })
 
     const[petId, onChangePetId] = useState("");
@@ -161,8 +141,6 @@ export default function PetPerfil({ navigation }) {
     if (!result.cancelled) {
       setImage(result.uri);
     }
-
-    //console.log(isEnabled);
     };
     const screenHeight = Dimensions.get('window').height;
 
@@ -180,7 +158,6 @@ export default function PetPerfil({ navigation }) {
     }
 
  
-
     return(
     <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
         {!loadingUser && !loadingPet && <>
@@ -190,13 +167,13 @@ export default function PetPerfil({ navigation }) {
                 <View>
                     <Text style={styles.headerText}>Perfil</Text>
                 </View>
-
                 <View style={styles.imagePerfil}>
-                    <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 180, height: 180}}>
-                        <TouchableOpacity style={ styles.inputImage } onPress={()=>navigation.navigate('ProfileAdd')}>
-                            <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
+                    <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
+                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
+                                <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%'}}/>       
                         </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
                 </View>
                 
@@ -253,12 +230,12 @@ export default function PetPerfil({ navigation }) {
                     type={ 'custom' }
                     keyboardType={'numeric'}
                     options={{mask:'99'}}
-                    placeholder={pet['age']}
+                    placeholder={pet['age'].toString()}
                     value={petAge}
                     onChangeText={(petAge)=> checkOnChange("petAge", petAge)}
                     />
                 </View>
-
+            
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
                 <View style={styles.containerInput}>
@@ -311,8 +288,8 @@ export default function PetPerfil({ navigation }) {
                     <TouchableOpacity 
                         style={styles.inputOwner}
                         onPress={()=>Logout(navigation)}>
-                        <MaterialIcons style={[styles.icon,{ width: 20 }]} name="logout" size={40} color="white" />
-                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:'white', fontSize: 20, textAlign:'left', paddingLeft:35, justifyContent: 'center', alignSelf:'center' }}>Logout</Text>      
+                        <MaterialIcons style={[styles.icon]} name="logout" size={40} color="white" />
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:'white', fontSize: 20, textAlign:'left', paddingLeft:'5%', justifyContent: 'center', alignSelf:'center' }}>Logout</Text>      
                     </TouchableOpacity>
                 </View>
 
@@ -321,11 +298,11 @@ export default function PetPerfil({ navigation }) {
                         style={styles.inputOwner}
                         onPress={()=>navigation.navigate('ProfileOwner')}>
                         <Image source={Place_Holder} style={[styles.icon,{ width: 35, height: 35 }]}/>
-                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:"white", fontSize: 20, textAlign:'left', paddingLeft:20, alignSelf:'center'}}>{user['name'].split(" ")[0]}</Text>
+                        <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:"white", fontSize: 20, textAlign:'left', paddingLeft:'5%', alignSelf:'center'}}>{user['name'].split(" ")[0]}</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.containerInput}>
+                <View style={[styles.containerInput,{paddingBottom:'15%'}]}>
                     
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
@@ -342,26 +319,26 @@ export default function PetPerfil({ navigation }) {
             </ScrollView>
         </View>     
 
-        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
-        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
             <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Main')}>   
-                <Image source={logo} style={ {width: 40, height: 40}} />
+                <Image source={logo} style={ {width: 30, height: 30}} />
             </TouchableOpacity>  
 
             <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Chat')}>   
-                <Ionicons name="chatbubbles-outline" size={40} color='#E8C9AE'/>
+                <Ionicons name="chatbubbles-outline" size={30} color='#E8C9AE'/>
             </TouchableOpacity>
 
             <TouchableOpacity 
-                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Profile')}
                 disabled>   
-                <Ionicons name="person-circle-sharp" size={45} color='#E8C9AE'/>
+                <Ionicons name="person-circle-sharp" size={35} color='#E8C9AE'/>
             </TouchableOpacity>
          
         </View>
@@ -411,6 +388,8 @@ const styles = StyleSheet.create({
     },
 
     inputSubmitButtonTxt: {
+        fontFamily:'Nunito_700Bold',
+        fontSize:20,
         color: 'white',
         fontWeight:'bold'
     },
@@ -433,10 +412,11 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-        fontFamily: 'Nunito_700Bold',
+        fontFamily: 'Nunito_400Regular',
         fontSize:40,
         fontWeight:'bold',
         paddingLeft: '3%',
+        paddingTop:'5%'
     },
     
     switch:{

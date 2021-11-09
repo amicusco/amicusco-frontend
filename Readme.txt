@@ -21,6 +21,8 @@
 # npm install react-native-masked-text --save
 
 
+  <!--()=>navigation.navigate('ProfileAdd')-->
+
 #npm install axios --save
 
 IMPORTANTE, APENAS USAR GIT ADD NOS ARQUIVOS DE CODIGO
