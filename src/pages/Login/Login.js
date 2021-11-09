@@ -19,8 +19,15 @@ import {
     Nunito_800ExtraBold
   } from '@expo-google-fonts/nunito'
 
-async function SubmitGoogle () {
-    console.log(Linking.openURL('https://amicusco-auth.herokuapp.com/auth/google'));
+async function SubmitGoogle (navigation) {
+    await axios.get("https://amicusco-auth.herokuapp.com/auth/google", {headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+    }}).then(resp => {
+        //AsyncStorage.setItem('user', JSON.stringify(resp.data));
+        console.log("TEST");
+        navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
+    }).catch(err => console.log(err));
 }
 
 async function SubmitFacebook () {
@@ -87,7 +94,7 @@ export default function Login({navigation}){
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputGoogle}
-        onPress={()=>{SubmitGoogle(); navigation.navigate('StackMain', {screen: 'PetLogin'})}}>        
+        onPress={()=>SubmitGoogle(navigation) }>        
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.text}>Entrar Com Google</Text>
             <Text style={styles.text}></Text>      

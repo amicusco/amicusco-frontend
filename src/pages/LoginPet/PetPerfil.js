@@ -262,7 +262,7 @@ export default function PetPerfil({ navigation }) {
                   buttonColor="#E8C9AE"
                   buttonSize={15}
                   radioStyle={{paddingLeft:25, paddingTop:25}}
-                  labelStyle={{fontFamily:'Nunito_400Regular', fontSize:18}}
+                  labelStyle={{fontFamily:'Nunito_400Regular', fontSize:17}}
                   selectedButtonColor="#E8C9AE"
                   radio_props={radioProps}
                   initial={2}

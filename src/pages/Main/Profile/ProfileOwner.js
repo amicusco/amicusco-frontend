@@ -379,6 +379,6 @@ const styles = StyleSheet.create({
     icon: {
         marginLeft: '1%',
         justifyContent: 'flex-start',
-        alignSelf:'left' 
+        alignSelf:'flex-start' 
     },
 });
