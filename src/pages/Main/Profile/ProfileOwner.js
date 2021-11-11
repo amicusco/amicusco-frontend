@@ -37,6 +37,7 @@ const getPetsUser = async (userId, setLoading) => {
     try{
         const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/petsbyuser/${userId}`);
         setLoading(false);
+        console.log(loadingPet);
         return resp.data;
     } catch(err) {
         console.log(err);
@@ -105,10 +106,11 @@ export default function ProfileOwner({ navigation }) {
             onChangeUserId(user['id']);
             onChangeName(user['name']);
             onChangeEmail(user['email']);
-            onChangeAge(user['age']);
+            //onChangeAge(user['age']);
             onChangePhone(user['phoneNumber']);
             onChangePassword(user['password']);
-            setLoadingUser(false);                
+            setLoadingUser(false);   
+            console.log(loadingUser);             
         }
         getUser();
 
@@ -284,8 +286,8 @@ export default function ProfileOwner({ navigation }) {
                 <View style={[styles.containerInput,{paddingBottom: '10%'}]}>
                     
                     <TouchableOpacity 
-                        style={[styles.inputSubmitButton, {width:'80%'}]}
-                        onPress={() => checkFields(data, navigation, pass, password, userId, setError)} // arrumar o envio das informações
+                        style={[styles.inputSubmitButton]}
+                        onPress={() => checkFields(data, navigation, pass, password, userId, setError)} 
                         >
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35,alignSelf:'center' }]} />
     
