@@ -147,8 +147,9 @@ export default function PetPerfil({ navigation }) {
     function checkOnChange(type, value){
         console.log(value);
         if (type === "petAge"){
-            onChangePetAge(value);
-            setData({...data, 'age': value});
+            const newValue = value.replace(/[^\d]/g, "");
+            onChangePetAge(newValue);
+            setData({...data, 'age': newValue});
         }
         if (type === "petSocial"){
             onChangeSocial(value);
