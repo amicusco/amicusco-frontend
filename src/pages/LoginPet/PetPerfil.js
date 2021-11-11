@@ -270,15 +270,15 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Sexo do Pet:</Text>
-            <View style={{flexDirection:'row', justifyContent: 'center', alignItems:'flex-start'}}>
+            <View style={{flexDirection:'row'}}>
                 <Switch
-                style = {styles.switch}
+                style = {styles.switch, {paddingLeft: '2%', paddingTop:'2%'}}
                 disabled = {false}
                 trackColor={{ false: "#ffc0cb", true: "#a3ceef"  }}
                 thumbColor={isMale ? "#000fff"  : "#ff007f"}
                 onValueChange={()=>{toggleSwitch(); setData({...data, 'gender': isMale ? "F" : "M"})}}
                 value={isMale}/>
-                <Text style={[styles.txt, { paddingLeft:'15%', fontSize:18}]}>{isMale ? "Macho" : "Fêmea"}</Text>
+                <Text style={[styles.txt, { fontSize:16, paddingLeft:'4%', paddingTop:'5%' }]}>{isMale ? "Macho" : "Fêmea"}</Text>
             </View>
         </View>
 

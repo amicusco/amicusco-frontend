@@ -34,19 +34,18 @@ export default function AccountRecovery({ navigation }){
     <View styles={styles.container}>
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Digite o seu e-mail cadastrado:</Text>  
+            <Text style={[styles.txt, { paddingLeft: '3%', paddingBottom: '2%'}]}>Digite o seu e-mail cadastrado:</Text>  
             <TextInput
-            style={[styles.input,{borderColor: error !== '' ? 'red' : (success.status === 200 && '#329542')}]}
+            style={[styles.input,{paddingLeft: '5%', borderColor: error !== '' ? 'red' : (success.status === 200 && '#329542')}]}
             autoFocus={true}
             keyboardType={'email-address'}
             autoCompleteType={'email'}
-            onChange={(e) => setEmail(e.target.value)}
+            onChangeText={(e) => setEmail(e.trim())}
             placeholder="Digite o seu e-mail"/>
             {error.slice(-3) === '401' 
             ? <Text style={{color: 'red', paddingTop:2}}>Email não encontrado!</Text> 
             : (success.status === 200 && <Text style={{color: '#329542', paddingTop:2}}>Email enviado!</Text>)}
         </View>
-
         <View style={styles.containerInput}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}

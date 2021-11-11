@@ -58,6 +58,39 @@ export default function LoginAmicusco({ navigation }){
 
     return(
     <View style={styles.container}>
+       
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>{type === 'email' ? 'E-mail:' : 'Número de Telefone:'}</Text>  
+            <TextInputMask
+            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
+            type={type === 'email' ? 'custom' : 'cel-phone'}
+            autoFocus={true}
+            keyboardType={type === 'email' ? 'email-address' : 'phone-pad'}
+            placeholder={type === 'email' ? '   Digite o seu E-mail' : '   Digite o seu Telefone'}
+            value={type === 'email' ? mail : phone}
+            options={type === 'email' ? {mask:'   *****************************'} : {maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
+            onChangeText={ type === 'email' ? 
+                (mail)=> {setMail(mail); setData({...data, 'email': mail.trim() });} : 
+                (phone)=> {setPhone(phone); setData({...data, 'phoneNumber': phone.trim() });}
+            }
+            />
+            {error.slice(-3) === '401' && <Text style={{color: 'red', paddingTop:2}}>Credenciais Inválidas! {'\n'}Verifique se o {type === 'email' ? 'E-mail' : 'Número de Telefone'} e Senha estão corretos.</Text>}
+        </View>
+        <View style={styles.containerInput}>
+            <Text style={styles.txt}>Senha:</Text>
+            <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
+            <TextInput
+                style={{width:'100%', height: 46, paddingHorizontal:'15%'}}
+                keyboardType={'password'}
+                secureTextEntry={hidePass}
+                placeholder="Digite a sua senha"
+                value={pass}
+                onChangeText={(pass) => {setPass(pass);setData({...data, 'password': pass.trim()});}}/>
+                <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{ paddingRight:'10%', alignItems:'center', justifyContent:'center', width:'20%' }}>
+                    <Ionicons name="eye" size={22} color='#111'/>
+                </TouchableOpacity>
+            </View>
+        </View>
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Selecione a sua forma de Login</Text>  
             <RadioForm
@@ -71,41 +104,6 @@ export default function LoginAmicusco({ navigation }){
                 formHorizontal={true}
                 onPress={value => setType(value)}
                 />
-        </View>
-
-        
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>{type === 'email' ? 'E-mail:' : 'Número de Telefone:'}</Text>  
-            <TextInputMask
-            style={[styles.input,{borderColor: error !== '' ? 'red' : ''}]}
-            type={type === 'email' ? 'custom' : 'cel-phone'}
-            autoFocus={true}
-            keyboardType={type === 'email' ? 'email-address' : 'phone-pad'}
-            placeholder={type === 'email' ? '   Digite o seu E-mail' : '   Digite o seu Telefone'}
-            value={type === 'email' ? mail : phone}
-            options={type === 'email' ? {mask:'   *****************************'} : {maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
-            onChangeText={ type === 'email' ? (mail)=> setMail(mail) : (phone)=> setPhone(phone)}
-            onChange={(e) => setData(
-                type === 'email' ? {...data, 'email': e.target.value } : {...data, 'phoneNumber': e.target.value }
-            )}/>
-            {error.slice(-3) === '401' && <Text style={{color: 'red', paddingTop:2}}>Credenciais Inválidas! {'\n'}Verifique se o {type === 'email' ? 'E-mail' : 'Número de Telefone'} e Senha estão corretos.</Text>}
-        </View>
-
-        <View style={styles.containerInput}>
-            <Text style={styles.txt}>Senha:</Text>
-            <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>  
-            <TextInput
-            style={{width:'100%', height: 46, paddingHorizontal:10}}
-            keyboardType={'password'}
-            secureTextEntry={hidePass}
-            placeholder="Digite a sua senha"
-            value={pass}
-            onChangeText={(pass) => setPass(pass)}
-            onChange={(e) => setData({...data, 'password': e.target.value})}/>
-            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
-                <Ionicons name="eye" size={22} color='#111'/>
-            </TouchableOpacity>
-            </View>
         </View>
 
         <View style={styles.containerInput}>

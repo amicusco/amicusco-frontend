@@ -35,7 +35,6 @@ async function SubmitFacebook () {
 }
 
 async function getUser (navigation){
-    //await AsyncStorage.removeItem('user');
     const user = await AsyncStorage.getItem('user');
     if (user !== null){
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
@@ -62,7 +61,6 @@ export default function Login({navigation}){
       };
     
     useEffect(() => {
-        // Your code here
         Linking.addEventListener('url', handleOpenURL);
       }, []);
     
@@ -74,14 +72,14 @@ export default function Login({navigation}){
     colors = {['#E8C9AE','#87E9FF','#65D2EB']}
     style = {styles.gradient}>    
 
-    <View style={styles.containerPlusLogo}>
-        <Image source={plus} style={{resizeMode:"contain", width: 230, height: 160 }} />
+    <View style={[styles.containerPlusLogo]}>
+        <Image source={plus} style={{resizeMode:"contain", width: 210, height: 140 }} />
         <Image source={logo} style={{resizeMode:"contain", width: 134, height: 136 }} />
     </View>
 
     <View>
-        <Text style={styles.tittleText}>Encontre um parceiro {"\n"} para o seu petmigo</Text>
-        <Text style={[styles.text,{color: "#fff", fontWeight:'normal', fontFamily:'Nunito_300Light'}]}>Vamos encontrar um parceiro {"\n"} ideal para o seu Pet!</Text>
+        <Text style={[styles.tittleText, {fontSize:26}]}>Encontre um parceiro {"\n"} para o seu petmigo</Text>
+        <Text style={[styles.text,{color: "#fff", fontWeight:'normal', fontFamily:'Nunito_300Light', fontSize:16}]}>Vamos encontrar um parceiro {"\n"} ideal para o seu Pet!</Text>
     </View>
 
     <View style={styles.containerButton}>
@@ -107,8 +105,8 @@ export default function Login({navigation}){
             <Text style={styles.text}></Text>   
         </TouchableOpacity>
 
-        <View style={{flexDirection:'row'}}>
-            <Text style={{marginTop:20}}>Não tem uma conta?</Text>
+        <View style={{flexDirection:'row', paddingTop:'5%', paddingBottom: '2%'}}>
+            <Text style={{marginTop:'3%'}}>Não tem uma conta?</Text>
 
             <TouchableOpacity
                 onPress={()=>navigation.navigate('AccountAmicusco')}>
@@ -116,8 +114,8 @@ export default function Login({navigation}){
             </TouchableOpacity>
         </View>
 
-        <View style={{flexDirection:'row'}}>
-            <Text style={{marginTop:20}}>Problemas para fazer Login?</Text>
+        <View style={{flexDirection:'row', paddingBottom: '2%'}}>
+            <Text style={{marginTop:'3%'}}>Problemas para fazer Login?</Text>
             
             <TouchableOpacity
                 onPress={()=>navigation.navigate('AccountRecovery')}>
@@ -137,9 +135,11 @@ const styles = StyleSheet.create({
 
     containerPlusLogo: {
         flex: 1,
+        flexDirection:'row',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '10%'
+        paddingTop: '10%',
+        paddingBottom: '5%'
     },
 
     containerButton: {
@@ -190,19 +190,20 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight:'bold',
         fontFamily: 'Nunito_400Regular',
-        fontSize: 18,
+        fontSize: 16,
         textAlign: 'center'
         },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '2%'   
     },
 
     accountText: {
         textDecorationLine: 'underline',
         fontFamily: 'Nunito_300Light',
-        paddingTop: 20,
-        paddingLeft: 10
+        fontSize: 14,
+        paddingTop: '3%',
+        paddingLeft: '2%'
     },
 
     tittleText: {
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
         paddingBottom: '1%',
         textShadowColor: "#111",
         textShadowOffset: {
-            height: 4,
+            height: 2,
             width: 0
         },
         textShadowRadius: 9

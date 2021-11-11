@@ -60,11 +60,11 @@ function checkFields(data, navigation, pass, password, userId, setError) {
             if (data['phoneNumber']=='' || data['phoneNumber']==null || data['phoneNumber'].length < 10){
             return alert("Insira um telefone");
         }}
-       
-        console.log("entrou")
-        setError(false);
-        Submit(data, userId, navigation);
-        
+        else{
+            console.log("entrou")
+            setError(false);
+            Submit(data, userId, navigation);
+        }
     }
     else {
         setError(true);
@@ -215,7 +215,7 @@ export default function ProfileOwner({ navigation }) {
                     style={styles.input}
                     type={ 'custom' }
                     keyboardType={'numeric'}
-                    placeholder="   Digite a sua idade"
+                    placeholder='Digite a sua idade'
                     options={{mask:'99'}}
                     value={age}
                     onChangeText={(age)=> checkOnChange("age", age)}
@@ -230,7 +230,7 @@ export default function ProfileOwner({ navigation }) {
                     style={styles.input}
                     type={'cel-phone'}
                     keyboardType={'phone-pad'}
-                    placeholder={'   Digite o seu Telefone'}
+                    placeholder={'Digite o seu Telefone'}
                     value={phone}
                     options={{maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
                     onChangeText={(phone)=> checkOnChange("phone", phone)}
@@ -255,7 +255,7 @@ export default function ProfileOwner({ navigation }) {
                         <TextInput
                         style={{width:'100%', height: 46, paddingHorizontal:10, borderColor: error === true ? 'red' : ''}}
                         keyboardType={'default'}
-                        placeholder="   Digite a sua senha"
+                        placeholder='Digite a sua senha'
                         onChangeText={(pass) => setPass(pass)}
                         secureTextEntry={hidePass}
                         value={pass}
@@ -281,10 +281,10 @@ export default function ProfileOwner({ navigation }) {
 
                 </View>
 
-                <View style={styles.containerInput}>
+                <View style={[styles.containerInput,{paddingBottom: '10%'}]}>
                     
                     <TouchableOpacity 
-                        style={styles.inputSubmitButton}
+                        style={[styles.inputSubmitButton, {width:'80%'}]}
                         onPress={() => checkFields(data, navigation, pass, password, userId, setError)} // arrumar o envio das informações
                         >
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35,alignSelf:'center' }]} />
@@ -336,8 +336,8 @@ const styles = StyleSheet.create({
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: '10%',
-        padding:"2%"
+        paddingBottom: '5%',
+        padding:'2%'
 
     },
 
@@ -348,6 +348,7 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderRadius: 4,
         marginTop: '2%',
+        paddingLeft:'3%',
         backgroundColor: '#F6E9DF'
     },
 
@@ -357,7 +358,6 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:'3%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'center'
@@ -377,8 +377,8 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
         backgroundColor: '#65D2EB',
         borderRadius: 360,
-        height: '30%',
-        width: '30%',
+        height: '20%',
+        width: '20%',
         alignItems: 'center', 
         justifyContent: 'center'
     },
@@ -386,6 +386,7 @@ const styles = StyleSheet.create({
     txt:{
         paddingTop: '2%',
         fontFamily: 'Nunito_400Regular',
+        fontSize:18,
         textAlign: 'left'
     },
 
@@ -397,7 +398,8 @@ const styles = StyleSheet.create({
     headerText:{
         fontSize:40,
         fontWeight:'bold',
-        paddingLeft: '2%'
+        paddingLeft: '2%',
+        paddingBottom: '4%'
     },
 
     icon: {
