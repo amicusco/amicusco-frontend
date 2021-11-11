@@ -225,7 +225,7 @@ export default function ProfileOwner({ navigation }) {
                 <View style={styles.containerInput}>
                     
                     <TouchableOpacity 
-                        style={[styles.inputSubmitButton,{backgroundColor:'#F6E9DF', width:'60%', alignSelf:'center'}]}
+                        style={[styles.inputSubmitButton,{backgroundColor:'#F6E9DF', width:'60%', alignSelf:'center', justifyContent:'flex-start'}]}
                         onPress={() => navigation.navigate('ProfilePass')}
                         >
                         <Ionicons name="key" size={40} color="white" style={styles.icon} />
@@ -242,7 +242,7 @@ export default function ProfileOwner({ navigation }) {
                         style={styles.inputSubmitButton}
                         onPress={() => navigation.navigate('ProfileOwner')} // arrumar o envio das informações
                         >
-                        <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]} />
+                        <Image source={logo} style={[styles.icon,{ width: 35, height: 35,alignSelf:'center' }]} />
     
                         <Text style={[styles.inputSubmitButtonTxt,{paddingLeft:'3%'}]}>Atualizar informações</Text>
                         <Text style={styles.txt}></Text>     
@@ -256,25 +256,26 @@ export default function ProfileOwner({ navigation }) {
 
         <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
 
-        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
             <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Main')}>   
-                <Image source={logo} style={ {width: 40, height: 40}} />
+                <Image source={logo} style={ {width: 30, height: 30}} />
             </TouchableOpacity>  
 
             <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Chat')}>   
-                <Ionicons name="chatbubbles-outline" size={40} color='#E8C9AE'/>
+                <Ionicons name="chatbubbles-outline" size={30} color='#E8C9AE'/>
             </TouchableOpacity>
 
             <TouchableOpacity 
-                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Profile')}
                 disabled>   
-                <Ionicons name="person-circle-sharp" size={45} color='#E8C9AE'/>
+                <Ionicons name="person-circle-sharp" size={35} color='#E8C9AE'/>
             </TouchableOpacity>
+         
         </View>
         </>}
     </View>  
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     containerInput: {
         justifyContent: 'flex-end',
         marginBottom: '10%',
-        paddingHorizontal: '1%'
+        padding:"2%"
 
     },
 
@@ -307,13 +308,14 @@ const styles = StyleSheet.create({
 
     inputSubmitButton: {
         height: 46,
-        width: "70%",
+        width: "100%",
         alignSelf:'center',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
         marginTop:'3%',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent:'center'
     },
 
     inputSubmitButtonTxt: {
