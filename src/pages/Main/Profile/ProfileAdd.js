@@ -204,25 +204,24 @@ export default function PetAdd({ navigation }) {
 
         <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
-        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:10}}>
-
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
             <TouchableOpacity 
-              style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
-              onPress={() => navigation.navigate('Main')}>   
-              <Image source={logo} style={ {width: 40, height: 40}} />
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
+                onPress={() => navigation.navigate('Main')}>   
+                <Image source={logo} style={ {width: 30, height: 30}} />
             </TouchableOpacity>  
 
             <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Chat')}>   
-                <Ionicons name="chatbubbles-outline" size={40} color='#E8C9AE'/>
+                <Ionicons name="chatbubbles-outline" size={30} color='#E8C9AE'/>
             </TouchableOpacity>
 
             <TouchableOpacity 
-                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:50, height:50}}
+                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
                 onPress={() => navigation.navigate('Profile')}
                 disabled>   
-                <Ionicons name="person-circle-sharp" size={45} color='#E8C9AE'/>
+                <Ionicons name="person-circle-sharp" size={35} color='#E8C9AE'/>
             </TouchableOpacity>
          
         </View>

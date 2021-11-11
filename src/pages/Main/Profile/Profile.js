@@ -144,8 +144,9 @@ export default function PetPerfil({ navigation }) {
     function checkOnChange(type, value){
         console.log(value);
         if (type === "petAge"){
-            onChangePetAge(value);
-            setData({...data, 'age': value});
+            const newValue = value.replace(/[^\d]/g, "");
+            onChangePetAge(newValue);
+            setData({...data, 'age': newValue});
         }
         if (type === "petSocial"){
             onChangeSocial(value);
@@ -166,7 +167,7 @@ export default function PetPerfil({ navigation }) {
                 </View>
                 <View style={styles.imagePerfil}>
                     <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
-                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
+                        <TouchableOpacity style={ styles.inputImage }  onPress={()=>navigation.navigate("ProfileAdd")}>
                                 <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%'}}/>       
                         </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
