@@ -56,8 +56,8 @@ export default function PetPerfil({ navigation }) {
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
     
-    const [data, setData] = React.useState({'gender':'F'});
-    const [species, setSpecies] = React.useState([]);
+    const [data, setData] = useState({'gender':'F'});
+    const [species, setSpecies] = useState([]);
     const [image, setImage] = useState(null);
     const [dist, setDist] = useState(1);
     const [gender, setGender] = useState({});
@@ -66,6 +66,7 @@ export default function PetPerfil({ navigation }) {
     const [petRace, setPetRace] = useState('');
     const [petAge, setPetAge] = useState('');
     const [petSocial, setPetSocial] = useState('');
+    const [preference, setPreference] = useState(2);
 
     const [error, setError] = useState('');
 
@@ -173,11 +174,12 @@ export default function PetPerfil({ navigation }) {
         </View>
 
         <View style={styles.imagePerfil}>
-            <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 120, height: 120}}>
+            <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 120, height: 120}}>
                 <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
                 </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
             </ImageBackground>
         </View>
         
@@ -187,7 +189,8 @@ export default function PetPerfil({ navigation }) {
             <Text style={styles.txt}>Nome Completo:</Text>
             <TextInput style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
             editable={false}
-            value={'   '+userName}
+            placeholder={'   '+userName}
+            placeholderTextColor= {"#1C1C1C"} 
             disabled
             />
         </View>
@@ -267,7 +270,7 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Sexo do Pet:</Text>
-            <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row', justifyContent: 'center', alignItems:'flex-start'}}>
                 <Switch
                 style = {styles.switch}
                 disabled = {false}
@@ -275,25 +278,25 @@ export default function PetPerfil({ navigation }) {
                 thumbColor={isMale ? "#000fff"  : "#ff007f"}
                 onValueChange={()=>{toggleSwitch(); setData({...data, 'gender': isMale ? "F" : "M"})}}
                 value={isMale}/>
-                <Text style={[styles.txt, { paddingLeft:'4%', fontSize:18}]}>{isMale ? "Macho" : "Fêmea"}</Text>
+                <Text style={[styles.txt, { paddingLeft:'15%', fontSize:18}]}>{isMale ? "Macho" : "Fêmea"}</Text>
             </View>
         </View>
 
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Encontrar Pets:</Text>  
+            <Text style={[styles.txt, {paddingBottom: '10%'}]}>Encontrar Pets:</Text>  
             <RadioForm
                   buttonColor="#E8C9AE"
                   buttonSize={15}
-                  radioStyle={{paddingLeft:25, paddingTop:25}}
+                  radioStyle={{marginLeft:'7%'}}
                   labelStyle={{fontFamily:'Nunito_400Regular', fontSize:17}}
                   selectedButtonColor="#E8C9AE"
                   radio_props={radioProps}
                   initial={2}
                   animation={true}
                   formHorizontal={true}
-                  onPress={(value) => setGender(value)}
+                  onPress={(value) => setPreference(value)}
                 />
         </View>
 
@@ -301,9 +304,9 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Distância Máxima:</Text>
-            <Text style={[styles.txt, {paddingLeft:10}]}>{dist} Km</Text>
+            <Text style={[styles.txt, {paddingLeft:'1%', paddingBottom:'5%'}]}>{dist} Km</Text>
             <Slider 
-            style={{width: '100%', height: '5%', paddingTop: 10}}
+            style={{width: '100%'}}
             minimumValue={1}
             maximumValue={50}
             step={1}
@@ -311,11 +314,11 @@ export default function PetPerfil({ navigation }) {
             maximumTrackTintColor="#999999"
             thumbTintColor="#E8C9AE"
             value={dist}
-            onValueChange={value => setDist(value)}
+            onValueChange={ value => setDist(value)}
             />  
         </View>
         
-        <View style={styles.containerInput}>
+        <View style={[styles.containerInput, {paddingBottom: '20%'}]}>
             <TouchableOpacity 
                 style={styles.inputSubmitButton}
                 onPress={() => checkFields(data, navigation)}>  
@@ -337,8 +340,8 @@ const styles = StyleSheet.create({
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: 50,
-        paddingHorizontal: 15
+        marginBottom: '9%',
+        paddingHorizontal: '3%'
 
     },
 
@@ -350,7 +353,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: '5%',
         backgroundColor: '#F6E9DF'
     },
 
@@ -359,7 +362,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'5%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -387,7 +390,7 @@ const styles = StyleSheet.create({
     },
 
     txt:{
-        paddingTop: 20,
+        paddingTop: '5%',
         fontSize:20,
         fontFamily:'Nunito_400Regular',
         textAlign: 'left'
@@ -399,17 +402,18 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
+        paddingTop:'10%',
         fontSize:40,
         fontWeight:'bold',
         fontFamily:'Nunito_300Light',
-        paddingLeft: 20
+        paddingLeft: '5%'
     },
     
     switch:{
-        marginTop:15
+        marginTop:'15%'
     },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '2%'   
     },
 });

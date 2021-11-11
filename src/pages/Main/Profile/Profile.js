@@ -56,13 +56,13 @@ export default function PetPerfil({ navigation }) {
         Nunito_700Bold,
     })
 
-    const[petId, onChangePetId] = useState("");
-    const[petName, onChangePetName] = useState("");
-    const[animal, onChangeAnimal] = useState("");
-    const[race, onChangeRace] = useState("");
-    const[petAge, onChangePetAge] = useState("");
-    const[petAgeBefore, onChangePetAgeBefore] = useState("");
-    const[social, onChangeSocial] = useState("");
+    const [petId, onChangePetId] = useState("");
+    const [petName, onChangePetName] = useState("");
+    const [animal, onChangeAnimal] = useState("");
+    const [race, onChangeRace] = useState("");
+    const [petAge, onChangePetAge] = useState("");
+    const [petAgeBefore, onChangePetAgeBefore] = useState("");
+    const [social, onChangeSocial] = useState("");
 
     const [isMale, setIsMale] = useState(false);
     const toggleSwitch = () => setIsMale(previousState => !previousState);
@@ -74,12 +74,9 @@ export default function PetPerfil({ navigation }) {
     const [image, setImage] = useState(null);
 
     const [dist, setDist] = useState(1);
-
     const [value, setGender] = useState({});
-    
     const [user, setUser] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
-
     const [pet, setPet] = useState(null);
     const [loadingPet, setLoadingPet] = useState(true);
 
@@ -183,7 +180,8 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Nome do Dono</Text>
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    value={user['name']}
+                    placeholder={user['name']}
+                    placeholderTextColor= {"#1C1C1C"} 
                     disabled
                     />
                 </View>
@@ -195,7 +193,8 @@ export default function PetPerfil({ navigation }) {
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     disabled
-                    value={petName}
+                    placeholder={petName}
+                    placeholderTextColor= {"#1C1C1C"} 
                     />
                 </View>
                 
@@ -205,7 +204,8 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Animal</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    value={animal}
+                    placeholder={animal}
+                    placeholderTextColor= {"#1C1C1C"} 
                     disabled
                     />            
                 </View>
@@ -217,7 +217,8 @@ export default function PetPerfil({ navigation }) {
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     disabled
-                    value={race}
+                    placeholder={race}
+                    placeholderTextColor= {"#1C1C1C"} 
                     />
                 </View>
 
