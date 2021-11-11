@@ -20,7 +20,7 @@ import {
 async function Submit (data, userId, navigation) {
     await axios.put(`https://amicusco-auth.herokuapp.com/users/${userId}`, data)
     .then(resp => {
-        console.log(resp.data);
+        alert("Dados alterados!");
         navigation.navigate('StackMain', {screen: 'ProfileOwner'});
     })
     .catch(err => console.log(err));
@@ -44,23 +44,27 @@ const getPetsUser = async (userId, setLoading) => {
     }
 }
 
-function checkFields(data, navigation, password, setError) {
+function checkFields(data, navigation, pass, password, userId, setError) {
     console.log(data)
     if (pass == password){
-        if (data['name']==''|| data['name']==null){
-            return alert("Insira o seu nome");
+        if (data['name']){
+            if (data['name']==''|| data['name']==null){
+                return alert("Insira o seu nome");
 
-        }
-        else if (data['age']=='' || data['age']==null){
-            return alert("Insira a sua idade");
-        }
-        else if (data['phoneNumber']=='' || data['phoneNumber']==null || data['phoneNumber'].length < 10){
+            }}
+        else if (data['age']){    
+            if (data['age']=='' || data['age']==null){
+                return alert("Insira a sua idade");
+            }}
+        else if (data['phoneNumber']){
+            if (data['phoneNumber']=='' || data['phoneNumber']==null || data['phoneNumber'].length < 10){
             return alert("Insira um telefone");
-        }
-        else {
-            setError(false);
-            Submit(data, navigation);
-        }
+        }}
+       
+        console.log("entrou")
+        setError(false);
+        Submit(data, userId, navigation);
+        
     }
     else {
         setError(true);
@@ -281,7 +285,7 @@ export default function ProfileOwner({ navigation }) {
                     
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
-                        onPress={() => checkFields(data, navigation, pass, setError)} // arrumar o envio das informações
+                        onPress={() => checkFields(data, navigation, pass, password, userId, setError)} // arrumar o envio das informações
                         >
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35,alignSelf:'center' }]} />
     

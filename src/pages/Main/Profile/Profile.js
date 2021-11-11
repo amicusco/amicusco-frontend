@@ -178,7 +178,7 @@ export default function PetPerfil({ navigation }) {
                 <View style={{paddingTop:'2%', paddingBottom: '2%', alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.text}>Nome do Dono</Text>
+                    <Text style={styles.text}>Nome do Dono:</Text>
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     placeholder={user['name']}
@@ -190,7 +190,7 @@ export default function PetPerfil({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.text}>Nome do Pet</Text>  
+                    <Text style={styles.text}>Nome do Pet:</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     disabled
@@ -202,7 +202,7 @@ export default function PetPerfil({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%',borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.text}>Animal</Text>  
+                    <Text style={styles.text}>Animal:</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     placeholder={animal}
@@ -214,7 +214,7 @@ export default function PetPerfil({ navigation }) {
                 <View style={{alignSelf:'center', width:'90%', borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.text}>Raça</Text>  
+                    <Text style={styles.text}>Raça:</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     disabled
