@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image, Dimensions} from 'react-native';
 import axios from 'axios';
 import logo from '../../../assets/logo.png';
 import {Ionicons} from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -15,20 +16,38 @@ import {
     Nunito_700Bold,
   } from '@expo-google-fonts/nunito'
 
-// async function Submit (email, setError, setSuccess) {
-//     await axios.post('https://amicusco-auth.herokuapp.com/recoverPassword', {email}).then(resp => setSuccess(resp)).catch(err => setError(err.toJSON().message));
-// }
+async function Submit (data, userId, navigation, setUser) {
+    var user = JSON.parse(await AsyncStorage.getItem('user'));
+    await axios.put(`https://amicusco-auth.herokuapp.com/users/${userId}`, data)
+    .then(resp => {
+        const keys = Object.keys(resp.data);
+        console.log(keys)
+        keys.forEach(key => {
+            if (key !== 'id')
+                user[key] = resp.data[key];
+                setUser(user);
+                AsyncStorage.setItem('user', JSON.stringify(user));
+        });
+        alert("Senha alterada!");
+        navigation.navigate('StackMain', {screen: 'ProfilePass'});
+    })
+    .catch(err => console.log(err));
+}
 
 export default function ProfilePass({ navigation }){
     const[pass, setPass] = useState('');
+    const[password, onChangePassword] = useState('');
     const[newPass1, setnewPass1] = useState('');
     const[newPass2, setnewPass2] = useState('');
+    const[newPassError, setNewPassError] = useState('');
     const [error, setError] = React.useState('');
     const [success, setSuccess] = React.useState('');
     const [hidenewPass1, sethidenewPass1] = React.useState(true);
     const [hidenewPass2, sethidenewPass2] = React.useState(true);
     const [hidePass, sethidePass] = React.useState(true);
-
+    const [user, setUser] = useState(null);
+    const [data, setData] = useState({});
+    const[userId, onChangeUserId] = useState(null);
     //Import Fonts
     let [fontsLoaded]=useFonts({
         Nunito_200ExtraLight,
@@ -37,12 +56,55 @@ export default function ProfilePass({ navigation }){
         Nunito_700Bold,
     })
 
-    function Validation (newPass1, newPass2, setSucess){
-        if (!!newPass1 && !!newPass2){
-            if (newPass1 === newPass2) setSucess(true);
-            else return "Senhas diferentes!";
+    function ValidationPass1 (pass1, pass2, setPass, setSucess){
+        setPass(pass1);
+        if (!!pass1 && !!pass2){
+            if (pass1 === pass2) setSucess(true);
+            else return setSucess(false);
         } else return "";
     }
+
+    function ValidationPass2 (pass1, pass2, setPass, setError){
+        setPass(pass2);
+        if (!!pass1 && !!pass2){
+            if (pass1 === pass2) setError(false);
+            else return setError(true);
+        } else return "";
+    }
+
+    function ValidationNewPass(newPass, setPass, setError) {
+        setPass(newPass);
+        if (newPass.length < 8){
+            return setError(true);
+            
+        }
+        else {
+            setError(false); 
+        }
+    }
+
+    function checkFields(success, error, value, setData, userId){
+        if (success===true && error===false){
+            setData({...data, 'password': value});
+            console.log(data);
+            Submit(data, userId, navigation, setUser);
+        }
+    }
+
+    useEffect(() => {
+        const getUser = async() => {
+            let user = JSON.parse(await AsyncStorage.getItem('user'));
+            console.log(user);
+            setUser(user);
+            onChangeUserId(user['id']);
+            onChangePassword(user['password']);
+            //setLoadingUser(false);   
+            //console.log(loadingUser);             
+        }
+        getUser();
+
+        
+    }, []);
     
     const screenHeight = Dimensions.get('window').height;
 
@@ -67,62 +129,62 @@ export default function ProfilePass({ navigation }){
                 : (success.status === 200 && <Text style={{color: '#329542', paddingTop:2}}>Email enviado!</Text>)} */}
                     <View style={styles.containerInput}>
                         <Text style={styles.txt}>Senha atual:</Text>
-                        <View style={[styles.input,{flexDirection:'row', alignItems:'center',borderColor: error !== '' ? 'red' : '' }]}>   
+                        <View style={[styles.input,{flexDirection:'row', alignItems:'center', borderColor: success === true ? '#329542' : 'red' }]}>   
                             <TextInput
                             style={{width:'100%', height: 46, paddingHorizontal:10}}
                             keyboardType={'default'}
                             placeholder="   Digite a sua senha"
-                            onChangeText={(pass) => setPass(pass)}
+                            onChangeText={(pass) => ValidationPass1(pass, password, setPass, setSuccess)}
                             secureTextEntry={hidePass}
                             value={pass}
-                            onChangeText={setPass} />
-                            {error.slice(-3) === '401' 
-                            ? <Text style={{color: 'red', paddingTop:2}}>Senha incorreta!</Text> 
-                            : ''} 
+                            />
                             <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
                                 <Ionicons name="eye" size={22} color='#111'/>
                             </TouchableOpacity>
                         </View>
+                        {success === false && <Text style={{color: 'red', paddingTop:2}}>Senha incorreta!</Text>} 
                     </View>
                     
                     <View style={styles.containerInput}>
                         <Text style={styles.txt}>Nova Senha:</Text>
-                            <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
+                            <View style={[styles.input,{flexDirection:'row', alignItems:'center', borderColor: error === false ? '#329542' : 'red' }]}>   
                                 <TextInput
                                 style={{width:'100%', height: 46, paddingHorizontal:10}}
                                 keyboardType={'default'}
                                 placeholder="   Digite a sua senha"
-                                onChangeText={(newPass1) => setnewPass1(newPass1)}
+                                onChangeText={(newPass1) => ValidationNewPass(newPass1, setnewPass1, setError)}
                                 secureTextEntry={hidenewPass1}
                                 value={newPass1}
-                                onChangeText={setnewPass1} />
+                                />
                                 <TouchableOpacity onPress={() => sethidenewPass1(!hidenewPass1)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
                                     <Ionicons name="eye" size={22} color='#111'/>
-                                </TouchableOpacity>
+                                </TouchableOpacity>   
                             </View>
+                            {error === true && <Text style={{color: 'red', paddingTop:2}}>"Insira uma senha de pelo menos 8 dígitos!"</Text>}
                     </View>
 
                     <View style={styles.containerInput}>
                         <Text style={styles.txt}>Digite novamente:</Text>
-                        <View style={[styles.input,{flexDirection:'row', alignItems:'center'}]}>   
+                        <View style={[styles.input,{flexDirection:'row', alignItems:'center', borderColor: newPassError === false ? '#329542' : 'red' }]}>   
                             <TextInput
                             style={{width:'100%', height: 46, paddingHorizontal:10}}
                             keyboardType={'default'}
                             placeholder="   Digite novamente a sua senha"
-                            onChangeText={(newPass2) => setnewPass2(newPass2)}
+                            onChangeText={(newPass2) => ValidationPass2(newPass1, newPass2, setnewPass2, setNewPassError)}
                             secureTextEntry={hidenewPass2}
                             value={newPass2}
-                            onChangeText={setnewPass2} />
+                            />
                             <TouchableOpacity onPress={() => sethidenewPass2(!hidenewPass2)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
                                 <Ionicons name="eye" size={22} color='#111'/>
                             </TouchableOpacity>
                         </View>
+                        {newPassError === true && <Text style={{color: 'red', paddingTop:2}}>As senhas não são iguais!</Text>}
                     </View>
 
                 <View style={styles.containerInput}>
                 <TouchableOpacity 
                     style={styles.inputSubmitButton}
-                    //onPress={() => Submit(email, setError, setSuccess)}
+                    onPress={() => checkFields(success, error, newPass1, setData, userId)}
                     >
                     <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]} />
 
