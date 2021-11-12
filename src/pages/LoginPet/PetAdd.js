@@ -116,7 +116,7 @@ export default function PetAdd({ navigation }) {
             autoComplete={false}
             underlineColor='#ffffff'
             multiline={true}
-            onChangeText={(e) => setData({...data, 'description': e.target.value})} 
+            onChangeText={(e) => setData({...data, 'description': e})} 
             />
         </View>
         
