@@ -17,9 +17,18 @@ import {
     Nunito_400Regular,
   } from '@expo-google-fonts/nunito'
 
-async function Submit (data, userId, navigation) {
+async function Submit (data, userId, navigation, setUser) {
+    var user = JSON.parse(await AsyncStorage.getItem('user'));
     await axios.put(`https://amicusco-auth.herokuapp.com/users/${userId}`, data)
     .then(resp => {
+        const keys = Object.keys(resp.data);
+        console.log(keys)
+        keys.forEach(key => {
+            if (key !== 'id')
+                user[key] = resp.data[key];
+                setUser(user);
+                AsyncStorage.setItem('user', JSON.stringify(user));
+        });
         alert("Dados alterados!");
         navigation.navigate('StackMain', {screen: 'ProfileOwner'});
     })
@@ -37,7 +46,6 @@ const getPetsUser = async (userId, setLoading) => {
     try{
         const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/petsbyuser/${userId}`);
         setLoading(false);
-        console.log(loadingPet);
         return resp.data;
     } catch(err) {
         console.log(err);
@@ -45,7 +53,7 @@ const getPetsUser = async (userId, setLoading) => {
     }
 }
 
-function checkFields(data, navigation, pass, password, userId, setError) {
+function checkFields(data, navigation, pass, password, userId, setError, setUser) {
     console.log(data)
     if (pass == password){
         if (data['name']){
@@ -61,10 +69,10 @@ function checkFields(data, navigation, pass, password, userId, setError) {
             if (data['phoneNumber']=='' || data['phoneNumber']==null || data['phoneNumber'].length < 10){
             return alert("Insira um telefone");
         }}
-        else{
+        if (Object.keys(data).length !== 0){
             console.log("entrou")
             setError(false);
-            Submit(data, userId, navigation);
+            Submit(data, userId, navigation, setUser);
         }
     }
     else {
@@ -86,6 +94,7 @@ export default function ProfileOwner({ navigation }) {
     const[phone, onChangePhone] = useState('');
     const[password, onChangePassword] = useState('');
     const[pets, setPets] = useState([]);
+    const [user, setUser] = useState(null);
     const[loadingUser, setLoadingUser] = useState(true);
     const[loadingPet, setLoadingPet] = useState(true);
     // const[newPassword1, setnewPassword1] = useState('');
@@ -102,11 +111,13 @@ export default function ProfileOwner({ navigation }) {
     useEffect(() => {
         const getUser = async() => {
             let user = JSON.parse(await AsyncStorage.getItem('user'));
+            let age = user['age'].toString();
             console.log(user);
+            setUser(user);
             onChangeUserId(user['id']);
             onChangeName(user['name']);
             onChangeEmail(user['email']);
-            //onChangeAge(user['age']);
+            onChangeAge(age);
             onChangePhone(user['phoneNumber']);
             onChangePassword(user['password']);
             setLoadingUser(false);   
@@ -287,7 +298,7 @@ export default function ProfileOwner({ navigation }) {
                     
                     <TouchableOpacity 
                         style={[styles.inputSubmitButton]}
-                        onPress={() => checkFields(data, navigation, pass, password, userId, setError)} 
+                        onPress={() => checkFields(data, navigation, pass, password, userId, setError, setUser)} 
                         >
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35,alignSelf:'center' }]} />
     

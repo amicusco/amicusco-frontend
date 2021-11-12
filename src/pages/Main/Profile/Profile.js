@@ -38,7 +38,8 @@ async function Submit (data, petid, setPet) {
                 setPet(pet);
                 AsyncStorage.setItem('pet', JSON.stringify(pet));
         });    
-    }).catch(err => console.log(err));
+    alert("Dados alterados com sucesso!");
+}).catch(err => console.log(err));
 }
 
 async function Logout( navigation ){
@@ -103,7 +104,7 @@ export default function PetPerfil({ navigation }) {
 
         const getPet = async() => {
             let petData = JSON.parse(await AsyncStorage.getItem('pet'));
-            let age = Number(petData['age'])
+            let age = Number(petData['age']);
             setPet(petData);
             onChangePetId(petData['id']);
             onChangePetName(petData['name']);
