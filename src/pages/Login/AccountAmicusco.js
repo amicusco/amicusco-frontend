@@ -131,7 +131,7 @@ export default function AccountAmicusco({ navigation }) {
             placeholder="   Digite a sua idade"
             value={age}
             options={{mask:'99'}}
-            onChangeText={(age) => checkOnChange('age', age)}
+            onChangeText={(age) => checkOnChange('age', age.trim())}
             />            
         </View>
 
@@ -159,7 +159,7 @@ export default function AccountAmicusco({ navigation }) {
             placeholder={'   Digite o seu Telefone'}
             value={phone}
             options={{maskType:'BRL', withDDD: true, dddMask: '   (99) '}}
-            onChangeText={(phone)=> checkOnChange('phone', phone)}/>
+            onChangeText={(phone)=> checkOnChange('phone', phone.trim())}/>
         </View>
             
         <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
@@ -169,9 +169,9 @@ export default function AccountAmicusco({ navigation }) {
             <TextInput
             style={[styles.input,{borderColor: error.slice(-3) === '500' ? 'red' : ''}]}
             keyboardType={ 'email-address' }
-            placeholder={' Digite o seu E-mail'}
+            placeholder={'  Digite o seu E-mail'}
             value={mail}
-            onChangeText={(mail)=> checkOnChange('mail', mail)}/>
+            onChangeText={(mail)=> checkOnChange('mail', mail.trim())}/>
             {error.slice(-3) === '500' && <Text style={{color: 'red', paddingTop:2}}>E-mail já cadastrado!</Text>}
         </View>
         
@@ -180,16 +180,16 @@ export default function AccountAmicusco({ navigation }) {
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Senha (mínimo 8 digitos):</Text>
             <View style={[styles.input, {flexDirection:'row', alignItems:'center'}]}>  
-            <TextInput
-            style={[styles.input, {width:'100%', height: 46, borderColor: error.slice(-3) === '406' ? 'red' : ''}]}
-            keyboardType={'password'}
-            secureTextEntry={hidePass}
-            placeholder='Digite a sua senha '
-            value={pass}
-            onChangeText={(pass) => checkOnChange('pass', pass)}/>
-            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{ paddingHorizontal:'5%', alignItems:'center', justifyContent:'center', width:'15%'}}>
-                <Ionicons name="eye" size={22} color='#111'/>
-            </TouchableOpacity>
+                <TextInput
+                style={[{ fontFamily:'Nunito_400Regular', paddingHorizontal:'13%', width:'100%', height: 46, borderColor: error.slice(-3) === '406' ? 'red' : ''}]}
+                keyboardType={'password'}
+                secureTextEntry={hidePass}
+                placeholder='Digite a sua senha'
+                value={pass}
+                onChangeText={(pass) => checkOnChange('pass', pass.trim())}/>
+                <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{ paddingRight:'10%', alignItems:'center', justifyContent:'center', width:'20%' }}>
+                    <Ionicons name="eye" size={22} color='#111'/>
+                </TouchableOpacity>
             </View>
             {error.slice(-3) === '406' && <Text style={{color: 'red', paddingTop:2}}>A senha deverá ter no mínimo 8 digitos!</Text>}
         </View>
@@ -226,11 +226,12 @@ const styles = StyleSheet.create({
     input: {
         height: 46,
         width:'100%',
+        fontFamily:'Nunito_400Regular',
         justifyContent: 'center',
         borderWidth: 1,
+        borderColor: 'black',
         borderRadius: 4,
-        fontFamily:'Nunito_300Light',
-        fontSize: 15,
+        marginTop: '2%',
         backgroundColor: '#F6E9DF'
     },
 

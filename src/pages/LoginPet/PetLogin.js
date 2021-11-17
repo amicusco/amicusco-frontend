@@ -18,6 +18,7 @@ import {
   } from '@expo-google-fonts/nunito'
 
 
+//tem que checar as dimensões da tela
 export default function PetLogin({navigation}){
     //Import Fonts
     let [fontsLoaded]=useFonts({
@@ -28,8 +29,6 @@ export default function PetLogin({navigation}){
 
     const [pets, setPets] = React.useState([]);
 
-    console.log(pets);
-    //tem um warning aqui
     async function getPets () {
         const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
         await axios.get(`https://amicusco-pet-api.herokuapp.com/petsbyuser/${userId}`).then(resp => setPets(resp.data)).catch(err => console.log(err));
@@ -89,8 +88,11 @@ const styles = StyleSheet.create({
 
     containerPlusLogo: {
         flex: 1,
+        flexDirection:'row',
         alignItems: 'center',
-        paddingBottom: '50%'
+        justifyContent: 'center',
+        paddingTop: '1%',
+        paddingBottom: '5%'
 
     },
 
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
         paddingBottom: '3%',
         textShadowColor: "#111",
         textShadowOffset: {
-            height: 4,
+            height: 2,
             width: 0
         },
         textShadowRadius: 9

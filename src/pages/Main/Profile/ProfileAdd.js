@@ -19,7 +19,7 @@ import axios from 'axios';
 import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
 import logo from '../../../assets/logo.png'
-import {Ionicons} from "@expo/vector-icons"
+
 
 
 async function Submit (petid, data, tags, setPet ) {
@@ -60,7 +60,7 @@ export default function PetAdd({ navigation }) {
     const[pet, setPet] = useState(null);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
-    const [image, setImage] = useState(Place_Holder);
+    const [image, setImage] = useState(null);
 
     const [loadingBio, setLoadingBio] = useState(true);
     const [loadingInterests, setLoadingInterests] = useState(true);
@@ -93,7 +93,7 @@ export default function PetAdd({ navigation }) {
         }
         getInterests();
     }, []);
-    //
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -110,7 +110,6 @@ export default function PetAdd({ navigation }) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     };
     
-    //Corrigir tamanho da tela (não funciona para os interesses ja avisando)
     const screenHeight = Dimensions.get('window').height;
 
     return(
@@ -123,12 +122,13 @@ export default function PetAdd({ navigation }) {
                 </View>
                 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground style={{ resizeMode:"contain", width: '90%', height: 300}}>
+                    <ImageBackground style={ image === null ? Place_Holder : image} style={{ resizeMode:"contain", width: 180,height: 180}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                             <View/>      
                         </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
                 </View>
                 
@@ -152,12 +152,12 @@ export default function PetAdd({ navigation }) {
                     autoComplete={false}
                     underlineColor='#ffffff'
                     multiline={true}
-                    onChangeText={(e)=> setData({...data, 'description': e})} 
+                    onChangeText={(e)=> {setData({...data, 'description': e}); onChangeBio(e)}} 
                     />
                 </View>
                 
                 <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
-                <Text style={styles.txt}>Interesses:</Text>
+                <Text style={[styles.txt, {paddingLeft: '5%'}]}>Interesses:</Text>
    
                 <View style={styles.containerTags}>
                     {interests.map((interest, index) => {
@@ -168,7 +168,7 @@ export default function PetAdd({ navigation }) {
                        
                 </View> 
 
-                <View style={styles.containerInput}>
+                <View style={[styles.containerInput, {paddingBottom: '10%'}]}>
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
                         onPress={() => Submit(pet['id'], data, selectedInterests, setPet)}>
@@ -179,30 +179,6 @@ export default function PetAdd({ navigation }) {
                 </View>
             </ScrollView> 
         </View>    
-
-        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-        
-        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
-            <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
-                onPress={() => navigation.navigate('Main')}>   
-                <Image source={logo} style={ {width: 30, height: 30}} />
-            </TouchableOpacity>  
-
-            <TouchableOpacity 
-                style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
-                onPress={() => navigation.navigate('Chat')}>   
-                <Ionicons name="chatbubbles-outline" size={30} color='#E8C9AE'/>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-                style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
-                onPress={() => navigation.navigate('Profile')}
-                disabled>   
-                <Ionicons name="person-circle-sharp" size={35} color='#E8C9AE'/>
-            </TouchableOpacity>
-         
-        </View>
         </>}
     </View>  
     );
@@ -219,7 +195,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         marginTop:'2%',
         marginBottom: '3%',
-        paddingHorizontal: 15
+        paddingHorizontal: '5%'
 
     },
 
@@ -227,6 +203,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         display: 'flex',
         flexWrap: 'wrap',
+        paddingLeft: '5%'
     },
 
     tags: {
@@ -245,7 +222,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: '10%',
         backgroundColor: '#F6E9DF'
     },
 
@@ -254,7 +231,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop: '5%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -274,17 +251,19 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
         backgroundColor: '#65D2EB',
         borderRadius: 360,
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         alignItems: 'center', 
         justifyContent: 'center',
     },
 
     inputMultiline:{
-        height:176,
+        height: 176,
         width:'100%',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         marginTop: '2%',
+        paddingLeft: '3%',
+        borderRadius: 10,
         backgroundColor: '#F6E9DF'
 
     },
@@ -294,14 +273,14 @@ const styles = StyleSheet.create({
         paddingTop: '2%',
         paddingLeft:'2%',
         textAlign: 'left',
-        fontSize:30
+        fontSize:20
     },
 
     textTags:{
         fontFamily:"Nunito_600SemiBold",
         paddingLeft:'2%',
         textAlign: 'left',
-        fontSize:15
+        fontSize: 15
     },
 
     name:{
@@ -309,7 +288,7 @@ const styles = StyleSheet.create({
         paddingTop: '2%',
         paddingLeft:'2%',
         textAlign: 'left',
-        fontSize: 25
+        fontSize: 30
     },
 
     imagePerfil:{
@@ -320,17 +299,16 @@ const styles = StyleSheet.create({
         fontFamily: 'Nunito_700Bold',
         textAlign:'center',
         fontSize:30,
-        fontWeight:'bold',
         paddingLeft: '2%',
-        paddingBottom: '1%'
+        paddingBottom: '5%'
     },
     
     switch:{
-        marginTop:15
+        marginTop:'5%'
     },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '2%'   
     },
 
 });

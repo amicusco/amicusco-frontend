@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 
     input: {
         height: 46,
-        width:'90%',
+        width:'100%',
         fontFamily:'Nunito_400Regular',
         justifyContent: 'center',
         borderWidth: 1,
@@ -162,8 +162,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontFamily:'Nunito_700Bold',
         fontWeight:'bold',
-        textAlign: 'center',
-        paddingRight: '1%'
+        textAlign: 'center'
     },
 
     txt:{

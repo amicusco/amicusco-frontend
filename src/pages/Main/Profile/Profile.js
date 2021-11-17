@@ -7,7 +7,6 @@ import RadioForm from 'react-native-simple-radio-button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text';
 
-import raul from '../../../assets/raul.png';
 import logo from '../../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -111,6 +110,7 @@ export default function PetPerfil({ navigation }) {
             onChangePetAgeBefore(age);
             onChangeRace(petData['breed']);
             onChangeAnimal(petData['specie_pet']['specie']);
+            setGender(petData['preference']);
             setLoadingPet(false);
         }
         getPet();
@@ -262,10 +262,10 @@ export default function PetPerfil({ navigation }) {
                         radioStyle={{paddingLeft:25, paddingTop:25}}
                         selectedButtonColor="#E8C9AE"
                         radio_props={radioProps}
-                        initial={2}
+                        initial={value}
                         animation={true}
                         formHorizontal={true}
-                        onPress={(value) => setGender(value)}
+                        onPress={(value) => setData({...data, 'preference': value})}
                         />
                 </View>
 

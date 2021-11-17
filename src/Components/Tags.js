@@ -46,7 +46,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFFF',
     marginTop: '2%',
     marginLeft: '2%',
-    padding: '5px',
+    padding: 5,
 },
   btnPress: {
     borderWidth: 1,
@@ -55,6 +55,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#F6E9DF',
     marginTop: '2%',
     marginLeft: '2%',
-    padding: '5px'
+    padding: 5
   }
 });

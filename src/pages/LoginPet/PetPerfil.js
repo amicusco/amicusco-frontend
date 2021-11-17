@@ -41,6 +41,7 @@ async function Submit (data, specieid, navigation, species) {
     }
 }
 
+
 export default function PetPerfil({ navigation }) { 
     //Import Fonts
     let [fontsLoaded]=useFonts({
@@ -69,6 +70,9 @@ export default function PetPerfil({ navigation }) {
     const [preference, setPreference] = useState(2);
 
     const [error, setError] = useState('');
+
+    const[itemValue, setItemValue]=useState()
+
 
     const radioProps = [
         { label: 'Machos', value: 0 },
@@ -165,8 +169,6 @@ export default function PetPerfil({ navigation }) {
         }
     }
 
-    console.log(error);
-
     return(
     <ScrollView style={styles.container}>
         <View>
@@ -214,14 +216,20 @@ export default function PetPerfil({ navigation }) {
 
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Animal:</Text>
-            <Picker style={[styles.input,{borderColor: error.includes("Selecione") ? 'red' : ''}]}
-                onValueChange={(itemValue) => setData({...data, 'specie': itemValue})}
-            >
-                <Picker.Item label="   Selecione o Animal" value={-1}/>
-                {species.map((el, index) => (
-                    <Picker.Item label={el.specie} value={el.id} key={index} />
-                ))}
-            </Picker>
+                <View style={[styles.input, {paddingBottom:'5%'}]}>
+                    <Picker 
+                        style={[styles.input]}
+                        onValueChange={(itemValue) => setData({...data, 'specie': itemValue}, setItemValue(itemValue))}
+                        selectedValue={itemValue}
+                        itemStyle={[styles.input, {fontFamily:'Nunito_400Regular'}]}
+                    >   
+                        <Picker.Item style={[{fontFamily:'Nunito_400Regular', fontSize: 18}]} label="Selecione o Animal" value={-1}/>
+                        {species.map((el, index) => (
+                            <Picker.Item label={el.specie} value={el.id} key={index}/>
+                        ))}
+                    </Picker>
+                </View>
+            
             {error.includes("Selecione") && <Text style={{color: 'red', paddingTop:2}}>{error}</Text>}            
         </View>
 
@@ -230,7 +238,7 @@ export default function PetPerfil({ navigation }) {
         <View style={styles.containerInput}>
             <Text style={styles.txt}>Raça:</Text>  
             <TextInput
-            style={[styles.input,{borderColor: error.includes("raça") ? 'red' : ''}]}
+            style={[styles.input, {borderColor: error.includes("raça") ? 'red' : ''}]}
             keyboardType={'default'}
             placeholder="   Digite a raça do seu Pet"
             value={petRace}
@@ -296,7 +304,7 @@ export default function PetPerfil({ navigation }) {
                   initial={2}
                   animation={true}
                   formHorizontal={true}
-                  onPress={(value) => setPreference(value)}
+                  onPress={(value) => setData({...data, 'preference': value})}
                 />
         </View>
 

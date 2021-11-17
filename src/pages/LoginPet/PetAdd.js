@@ -9,6 +9,12 @@ import Camera from '../../assets/camera.png';
 import Place_Holder from '../../assets/Place_Holder.png';
 import logo from '../../assets/logo.png';  
 
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_700Bold,
+} from '@expo-google-fonts/nunito'
 
 async function Submit (petId, data, tags, navigation) {
     data = {...data, tags}; 
@@ -16,8 +22,12 @@ async function Submit (petId, data, tags, navigation) {
 }
 
 export default function PetAdd({ navigation }) {
-    //console.log(isEnabled);
-
+    //import fonts
+    let [fontsLoaded]=useFonts({
+        Nunito_300Light,
+        Nunito_400Regular,
+        Nunito_700Bold,
+    })
     //configurações do banco
     const [data, setData] = useState({});
 
@@ -30,7 +40,7 @@ export default function PetAdd({ navigation }) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //Funções para adicionar imagens
-    const [image, setImage] = useState(Place_Holder);
+    const [image, setImage] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [loadingInterests, setLoadingInterests] = useState(false);
@@ -86,14 +96,14 @@ export default function PetAdd({ navigation }) {
             <Text style={styles.headerText}>Informações Adicionais de Perfil</Text>
         </View>
         
-        {/* Tem que arrumar a inserção de imagem por causa do background */}
         <View style={styles.imagePerfil}>
-            <ImageBackground style={{ resizeMode:"contain", width: '100%', height: 200}}>
+            <ImageBackground style={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
                 <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                     <View/>      
                 </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
             </ImageBackground>
         </View>
         
@@ -106,7 +116,7 @@ export default function PetAdd({ navigation }) {
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
         <View style={styles.containerInput}>
-            <Text style={styles.txt}>Sobre</Text>  
+            <Text style={styles.txt}>Sobre: </Text>  
             <TextInput
             style={styles.inputMultiline}
             autoFocus={true}
@@ -122,8 +132,8 @@ export default function PetAdd({ navigation }) {
         
         <View style={{alignSelf:'center', width:'90%', backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/> 
 
-        <Text style={styles.txt}>Interesses</Text>    
-        <View style={styles.containerTags}>
+        <Text style={[styles.txt, {paddingLeft: '4%'}]}>Interesses: </Text>    
+        <View style={[styles.containerTags]}>
             {interests.map((interest, index) => {
             return(
             <Tag style={styles.tags} key={index} selectedInterests = {selectedInterests} setSelectedInterests={setSelectedInterests} tag={interest}/>    
@@ -132,7 +142,7 @@ export default function PetAdd({ navigation }) {
                        
         </View>
         
-        <View style={styles.containerInput}>
+        <View style={[styles.containerInput, {paddingBottom: '5%'}]}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
             onPress={() => Submit(pet['id'], data, selectedInterests, navigation)}>
@@ -156,7 +166,7 @@ const styles = StyleSheet.create({
     containerInput: {
         justifyContent: 'flex-end',
         marginBottom: '4%',
-        paddingHorizontal: '1%'
+        paddingHorizontal: '3%',
 
     },
 
@@ -164,6 +174,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         display: 'flex',
         flexWrap: 'wrap',
+        paddingHorizontal: '3%',
+        paddingBottom: '5%'
     },
 
     input: {
@@ -191,7 +203,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#65D2EB',
         borderRadius: 40,
-        marginTop:10,
+        marginTop:'3%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -211,29 +223,34 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
         backgroundColor: '#65D2EB',
         borderRadius: 360,
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         alignItems: 'center', 
         justifyContent: 'center',
     },
 
     inputMultiline:{
-        height:176,
+        height: 176,
         width:'100%',
-        justifyContent: 'center',
-        marginTop: '2%'
-
+        justifyContent: 'flex-start',
+        marginTop: '2%',
+        paddingLeft: '3%',
+        borderRadius: 10,
+        backgroundColor: '#F6E9DF'
     },
 
     txt:{
         padding: '2%',
-        textAlign: 'left'
+        textAlign: 'left',
+        fontFamily: 'Nunito_400Regular',
+        fontSize: 20 
     },
 
     name:{
-        paddingTop: 20,
+        paddingTop: '5%',
+        fontFamily:'Nunito_400Regular_Italic',
         textAlign: 'left',
-        fontSize: 25
+        fontSize: 30
     },
 
     imagePerfil:{
@@ -242,17 +259,18 @@ const styles = StyleSheet.create({
 
     headerText:{
         fontSize:30,
-        fontWeight:'bold',
-        paddingLeft: 20,
-        paddingBottom: 10
+        fontFamily:'Nunito_700Bold' ,
+        paddingLeft: '5%',
+        paddingTop: '10%',
+        paddingBottom: '5%'
     },
     
     switch:{
-        marginTop:15
+        marginTop: '5%'
     },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '2%'   
     },
 
 });
