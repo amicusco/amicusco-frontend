@@ -71,8 +71,6 @@ export default function PetAdd({ navigation }) {
         getInterests();
     }, []);
 
-    console.log(interests);
-
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -86,7 +84,6 @@ export default function PetAdd({ navigation }) {
     if (!result.cancelled) {
       setImage(result.uri);
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
     };
 
     return(
@@ -97,6 +94,7 @@ export default function PetAdd({ navigation }) {
         </View>
         
         <View style={styles.imagePerfil}>
+            {console.log(image)}
             <ImageBackground style={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
                 <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 

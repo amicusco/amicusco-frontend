@@ -49,7 +49,6 @@ export default function PetAdd({ navigation }) {
 
     //configurações do banco
     const [data, setData] = useState({});
-    console.log(data);
 
     //Funções para tags de interesse
     const [interests, setInterests] = useState([]);
@@ -122,7 +121,7 @@ export default function PetAdd({ navigation }) {
                 </View>
                 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground style={ image === null ? Place_Holder : image} style={{ resizeMode:"contain", width: 180,height: 180}}>
+                    <ImageBackground style={ image === null ? Place_Holder : image } style={{ resizeMode:"contain", width: 180,height: 180}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                             <View/>      
@@ -130,6 +129,7 @@ export default function PetAdd({ navigation }) {
                     {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
+                    {console.log(Place_Holder)}
                 </View>
                 
                 <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  

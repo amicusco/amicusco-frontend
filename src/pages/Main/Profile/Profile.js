@@ -167,7 +167,7 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.headerText}>Perfil</Text>
                 </View>
                 <View style={styles.imagePerfil}>
-                    <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
+                    <ImageBackground source={image === null ? Place_Holder : image} style={{ resizeMode:"contain", width: 180,height: 180}}>
                         <TouchableOpacity style={ styles.inputImage }  onPress={()=>navigation.navigate("ProfileAdd")}>
                                 <Image source={Pen} style={{ resizeMode:"contain", width:'75%', height:'75%'}}/>       
                         </TouchableOpacity>
