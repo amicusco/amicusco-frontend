@@ -3,7 +3,6 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 export function Tag({ tag, setSelectedInterests, selectedInterests, petTags=[] }) {
 
-  //console.log(tagText);
   var [ isPress, setIsPress ] = React.useState(false);
 
   React.useEffect (()=>{

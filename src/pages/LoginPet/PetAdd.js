@@ -79,8 +79,6 @@ export default function PetAdd({ navigation }) {
         quality: 1,
         });
 
-    console.log(image);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
@@ -95,7 +93,7 @@ export default function PetAdd({ navigation }) {
         
         <View style={styles.imagePerfil}>
             {console.log(image)}
-            <ImageBackground style={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
+            <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
                 <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                     <View/>      

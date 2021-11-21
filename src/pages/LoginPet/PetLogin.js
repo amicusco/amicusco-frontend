@@ -40,7 +40,6 @@ export default function PetLogin({navigation}){
     
     async function setPetData (pet){
         await AsyncStorage.setItem('pet', JSON.stringify(pet));
-        console.log(await AsyncStorage.getItem('pet'));
         navigation.navigate('StackMain', {screen: 'Main'});
     }
 

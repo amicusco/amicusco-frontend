@@ -110,14 +110,14 @@ export default function ProfilePass({ navigation }){
                         <Text style={styles.txt}>Senha atual:</Text>
                         <View style={[styles.input,{flexDirection:'row', alignItems:'center', borderColor: success ? '#329542' : (success == null ? '' : 'red') }]}>   
                             <TextInput
-                            style={{width:'100%', height: 46, paddingHorizontal:10}}
+                            style={{width:'100%', height: 46, paddingHorizontal:'15%'}}
                             keyboardType={'default'}
-                            placeholder="   Digite a sua senha"
+                            placeholder="Digite a sua senha"
                             onChangeText={(e) => ValidationPass(e)}
                             secureTextEntry={hidePass}
                             value={pass}
                             />
-                            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                            <TouchableOpacity onPress={() => sethidePass(!hidePass)} style={{paddingRight:'10%', alignItems:'center', justifyContent:'center', width:'20%' }}>
                                 <Ionicons name="eye" size={22} color='#111'/>
                             </TouchableOpacity>
                         </View>
@@ -128,14 +128,14 @@ export default function ProfilePass({ navigation }){
                         <Text style={styles.txt}>Nova Senha:</Text>
                             <View style={[styles.input,{flexDirection:'row', alignItems:'center', borderColor: !!newPass1 && (newPass1.length < 8 ? 'red' : '#329542')}]}>   
                                 <TextInput
-                                style={{width:'100%', height: 46, paddingHorizontal:10}}
+                                style={{width:'100%', height: 46, paddingHorizontal:'15%'}}
                                 keyboardType={'default'}
-                                placeholder="   Digite a sua nova senha"
+                                placeholder="Digite a sua nova senha"
                                 secureTextEntry={hidenewPass1}
                                 onChangeText={(e) => setnewPass1(e)}
                                 value={newPass1 || ''}
                                 />
-                                <TouchableOpacity onPress={() => sethidenewPass1(!hidenewPass1)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                                <TouchableOpacity onPress={() => sethidenewPass1(!hidenewPass1)} style={{paddingRight:'10%', alignItems:'center', justifyContent:'center', width:'20%' }}>
                                     <Ionicons name="eye" size={22} color='#111'/>
                                 </TouchableOpacity>   
                             </View>
@@ -146,14 +146,14 @@ export default function ProfilePass({ navigation }){
                         <Text style={styles.txt}>Digite novamente:</Text>
                         <View style={[styles.input,{flexDirection:'row', alignItems:'center', borderColor: newPassError === false ? '#329542' : (!!newPassError && 'red') }]}>   
                             <TextInput
-                            style={{width:'100%', height: 46, paddingHorizontal:10}}
+                            style={{width:'100%', height: 46, paddingHorizontal:'15%'}}
                             keyboardType={'default'}
-                            placeholder="   Digite novamente a sua nova senha"
+                            placeholder="Digite novamente"
                             onChangeText={(e) => ValidationNewPass(e)}
                             secureTextEntry={hidenewPass2}
                             value={newPass2}
                             />
-                            <TouchableOpacity onPress={() => sethidenewPass2(!hidenewPass2)} style={{paddingHorizontal:"5%", alignItems:'center', justifyContent:'center', width:'15%'}}>
+                            <TouchableOpacity onPress={() => sethidenewPass2(!hidenewPass2)} style={{paddingRight:'10%', alignItems:'center', justifyContent:'center', width:'20%' }}>
                                 <Ionicons name="eye" size={22} color='#111'/>
                             </TouchableOpacity>
                         </View>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginRight: 20 
+        marginRight: '5%' 
     },
 
     inputSubmitButtonTxt: {
@@ -259,12 +259,12 @@ const styles = StyleSheet.create({
     },
 
     icon: {
-        marginLeft: 5   
+        marginLeft: '2%'   
     },
 
     headerText:{
         fontSize:40,
         fontWeight:'bold',
-        paddingLeft: 20
+        paddingLeft: '10%'
     }
 });

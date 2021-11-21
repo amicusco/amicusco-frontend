@@ -26,7 +26,6 @@ async function Submit (data, specieid, navigation, species) {
     try{
         const userId = JSON.parse(await AsyncStorage.getItem('user'))['id'];
         data = {...data, userId};
-        console.log(data);
         const resp = await axios.post(`https://amicusco-pet-api.herokuapp.com/specie/${specieid}/pet`, data);
         species.forEach(specie => {
             if (resp.data['specieId']==specie['id'])
@@ -114,7 +113,6 @@ export default function PetPerfil({ navigation }) {
         quality: 1,
         });
 
-    console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);

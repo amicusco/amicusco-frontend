@@ -24,8 +24,7 @@ async function SubmitGoogle (navigation) {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
     }}).then(resp => {
-        //AsyncStorage.setItem('user', JSON.stringify(resp.data));
-        console.log("TEST");
+        AsyncStorage.setItem('user', JSON.stringify(resp.data));
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
     }).catch(err => console.log(err));
 }

@@ -134,7 +134,6 @@ function App() {
   
   React.useEffect(() => {
     AsyncStorage.getItem('user').then(resp => {
-      console.log(!!resp);
       if (!!resp){
         setLogged(true);
       } else {

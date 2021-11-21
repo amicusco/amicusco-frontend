@@ -22,7 +22,6 @@ async function Submit (data, userId, navigation, setUser) {
     await axios.put(`https://amicusco-auth.herokuapp.com/users/${userId}`, data)
     .then(resp => {
         const keys = Object.keys(resp.data);
-        console.log(keys)
         keys.forEach(key => {
             if (key !== 'id')
                 user[key] = resp.data[key];
@@ -54,8 +53,7 @@ const getPetsUser = async (userId, setLoading) => {
 }
 
 function checkFields(data, navigation, pass, password, userId, setError, setUser) {
-    console.log(data)
-    if (pass == password){
+   if (pass == password){
         if (data['name']){
             if (data['name']==''|| data['name']==null){
                 return alert("Insira o seu nome");
@@ -106,8 +104,6 @@ export default function ProfileOwner({ navigation }) {
 
     const [image, setImage] = useState(null);
 
-    console.log(userId);
-
     useEffect(() => {
         const getUser = async() => {
             let user = JSON.parse(await AsyncStorage.getItem('user'));
@@ -121,7 +117,6 @@ export default function ProfileOwner({ navigation }) {
             onChangePhone(user['phoneNumber']);
             onChangePassword(user['password']);
             setLoadingUser(false);   
-            console.log(loadingUser);             
         }
         getUser();
 
@@ -171,7 +166,6 @@ export default function ProfileOwner({ navigation }) {
     const [error, setError] = React.useState('');
 
     function checkOnChange(type, value){
-        console.log(value);
         if (type === "name"){
             const newValue = value.replace(/[^A-Za-z ]/g, '');
             onChangeName(newValue);
@@ -199,11 +193,12 @@ export default function ProfileOwner({ navigation }) {
                 </View>
 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground source={Place_Holder} style={{ resizeMode:"contain", width: 240, height: 240}}>
+                    <ImageBackground source={image === null ? Place_Holder : image} style={{ resizeMode:"contain", width: 240, height: 240}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'60%', height:'60%' }}/>       
                         </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />}
+                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
                     </ImageBackground>
                 </View>
                 
@@ -257,7 +252,7 @@ export default function ProfileOwner({ navigation }) {
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     value={email}
-                    disabled/>
+                    editable = {false}/>
                 </View>
 
                 <View style={{alignSelf:'center', width:'90%', paddingHorizontal:5, backgroundColor: '#ffffff' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>

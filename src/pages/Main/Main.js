@@ -6,11 +6,11 @@ import logo from '../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons"
 
 export default function Main({ navigation }) {
-    async function test (){
-      console.log(await AsyncStorage.getItem('pet'));
-    }
+    // async function test (){
+    //   console.log(await AsyncStorage.getItem('pet'));
+    // }
 
-    test();
+    // test();
 
     const screenHeight = Dimensions.get('window').height;
 

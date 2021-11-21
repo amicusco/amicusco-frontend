@@ -74,7 +74,7 @@ export default function PetPerfil({ navigation }) {
     const [image, setImage] = useState(null);
 
     const [dist, setDist] = useState(1);
-    const [value, setGender] = useState({});
+    const [gender, setGender] = useState({});
     const [user, setUser] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
     const [pet, setPet] = useState(null);
@@ -143,7 +143,6 @@ export default function PetPerfil({ navigation }) {
     const screenHeight = Dimensions.get('window').height;
 
     function checkOnChange(type, value){
-        console.log(value);
         if (type === "petAge"){
             const newValue = value.replace(/[^\d]/g, "");
             onChangePetAge(newValue);
@@ -184,7 +183,7 @@ export default function PetPerfil({ navigation }) {
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     placeholder={user['name']}
                     placeholderTextColor= {"#1C1C1C"} 
-                    disabled
+                    editable = {false}
                     />
                 </View>
 
@@ -194,7 +193,7 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Nome do Pet:</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    disabled
+                    editable = {false}
                     placeholder={petName}
                     placeholderTextColor= {"#1C1C1C"} 
                     />
@@ -208,7 +207,7 @@ export default function PetPerfil({ navigation }) {
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
                     placeholder={animal}
                     placeholderTextColor= {"#1C1C1C"} 
-                    disabled
+                    editable = {false}
                     />            
                 </View>
 
@@ -218,7 +217,7 @@ export default function PetPerfil({ navigation }) {
                     <Text style={styles.text}>Raça:</Text>  
                     <TextInput
                     style={[styles.input,{backgroundColor:"#F2F2F2", borderColor:"#F2F2F2"}]}
-                    disabled
+                    editable = {false}
                     placeholder={race}
                     placeholderTextColor= {"#1C1C1C"} 
                     />
@@ -262,10 +261,10 @@ export default function PetPerfil({ navigation }) {
                         radioStyle={{paddingLeft:25, paddingTop:25}}
                         selectedButtonColor="#E8C9AE"
                         radio_props={radioProps}
-                        initial={value}
+                        initial={gender}
                         animation={true}
                         formHorizontal={true}
-                        onPress={(value) => setData({...data, 'preference': value})}
+                        onPress={(value) => { setData({...data, 'preference': value})}}
                         />
                 </View>
 

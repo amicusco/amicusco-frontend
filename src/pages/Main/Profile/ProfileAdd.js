@@ -22,7 +22,7 @@ import logo from '../../../assets/logo.png'
 
 
 
-async function Submit (petid, data, tags, setPet ) {
+async function Submit (petid, data, tags, setPet, image=null ) {
     var pet = JSON.parse(await AsyncStorage.getItem('pet'));
     data = {...data, tags}; 
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
@@ -34,7 +34,23 @@ async function Submit (petid, data, tags, setPet ) {
                 AsyncStorage.setItem('pet', JSON.stringify(pet));
         });    
     }).catch(err => console.log(err));
+
+    if (!!image){
+        const formData = new FormData ();
+        formData.append('arquivo', {
+            uri: Platform.OS === "android" ? image.uri : image.uri.replace("file://", ""),
+            name: 'test', 
+            type: 'image/jpeg'
+        });
+        console.log(`https://amicusco-pet-api.herokuapp.com/media/${petid}`);
+        await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, formData, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        }).then(resp => {
+            console.log(resp);
+        }).catch(err => console.log(err));
+    }
 }
+
 
 
 export default function PetAdd({ navigation }) {
@@ -106,8 +122,8 @@ export default function PetAdd({ navigation }) {
     if (!result.cancelled) {
       setImage(result.uri);
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
     };
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     
     const screenHeight = Dimensions.get('window').height;
 
@@ -121,7 +137,7 @@ export default function PetAdd({ navigation }) {
                 </View>
                 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground style={ image === null ? Place_Holder : image } style={{ resizeMode:"contain", width: 180,height: 180}}>
+                    <ImageBackground source={ image === null ? Place_Holder : image } style={{ resizeMode:"contain", width: 180,height: 180}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                             <View/>      
@@ -129,7 +145,6 @@ export default function PetAdd({ navigation }) {
                     {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
-                    {console.log(Place_Holder)}
                 </View>
                 
                 <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
@@ -171,7 +186,7 @@ export default function PetAdd({ navigation }) {
                 <View style={[styles.containerInput, {paddingBottom: '10%'}]}>
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
-                        onPress={() => Submit(pet['id'], data, selectedInterests, setPet)}>
+                        onPress={() => Submit(pet['id'], data, selectedInterests, setPet, image)}>
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
                         <Text style={styles.inputSubmitButtonTxt}>Atualizar Informações</Text> 
                         <Text style={styles.txt}></Text>     
