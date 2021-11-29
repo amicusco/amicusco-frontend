@@ -1,31 +1,105 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import logo from '../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons"
+import Place_Holder from '../../assets/Place_Holder.png'
+import like from '../../assets/like.svg'
+import dislike from '../../assets/dislike.svg'
 
 export default function Main({ navigation }) {
-    // async function test (){
-    //   console.log(await AsyncStorage.getItem('pet'));
-    // }
-
-    // test();
 
     const screenHeight = Dimensions.get('window').height;
+    // const id = navigation.getParam('user');
+    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
+
+    // useEffect(() => {
+    //   async function loadUsers() {
+    //     const response = await api.get('/devs', {
+    //       headers: {
+    //         user: id,
+    //       }
+    //     })
+
+    //     setUsers(response.data);
+    //   }
+
+    //   loadUsers();
+    // }, [id]);
+
+    // async function handleLike() {
+    //   const [user, ...rest] = users;
+
+    //   await api.post(`/devs/${user._id}/likes`, null, {
+    //     headers: { user: id },
+    //   })
+
+    //   setUsers(rest);
+    // }
+
+    // async function handleDislike() {
+    //   const [user, ...rest] = users;
+
+    //   await api.post(`/devs/${user._id}/dislikes`, null, {
+    //     headers: { user: id },
+    //   })
+
+    //   setUsers(rest);
+    // }
 
     return (
-
       <View style={[{height:screenHeight},styles.container]}>
+
         <View style={{flex: 0.9}}>
-          <ScrollView>
 
-          <Text style={{alignSelf: 'center', paddingTop: "70%"}}>EM BREVE ...</Text>
+          <View> 
+          <LinearGradient
+          locations={[0,0.3,1]}
+          colors = {['#65D2EB', '#87E9FF', '#E8C9AE']}
+          style = {{height:(screenHeight/2), borderRadius:"10%"}}>  
+ 
+            <TouchableOpacity>
+              <Image style={styles.logo} source={logo} />
+            </TouchableOpacity>
 
-          </ScrollView>
+          </LinearGradient>          
+
+            <View style={[styles.cardContainer,{marginTop:-((screenHeight/2)-80)}]}>
+              {
+                  pets.map((pet, index) => (
+                    <View style={[styles.card, { zIndex: pets.length - index }]}>
+                      {/* Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} /> */}
+                      <Image style={styles.avatar} source={Place_Holder} />
+                      <View style={styles.footer}>
+                        <Text style={styles.name}> {pet.name} </Text>
+                        <Text style={styles.bio} numberOfLines={3}> {pet.bio} </Text>
+                      </View>
+                    </View>
+                  ))
+                
+              }
+
+            </View>
+            
+            <View style={styles.buttonsContainer}>
+
+              <TouchableOpacity style={styles.button}>
+                <Image style={{ width: 28, height: 28}} source={dislike} />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.button}>
+                <Image style={{ width: 30, height: 25}} source={like} />
+              </TouchableOpacity>
+
+            </View>
+
         </View>
 
-        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+      </View>
+
+        <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
           <TouchableOpacity 
@@ -58,5 +132,83 @@ export default function Main({ navigation }) {
       backgroundColor:'#ffffff'
 
     },
+
+    logo: {
+      marginTop: 20,
+      marginBottom: 20,
+      width: 50,
+      height: 50,
+      alignSelf:'center',
+    },
+
+    empty: {
+      alignSelf: 'center',
+      color: '#999',
+      fontSize: 24,
+      fontWeight: 'bold'
+    },
+  
+    cardContainer: {
+      flex: 1,
+      alignSelf: 'stretch',
+      justifyContent: 'center',
+      maxHeight: 400
+    },
+  
+    card: {
+      borderWidth: 1,
+      borderColor: '#DDD',
+      borderRadius: 8,
+      margin: 30,
+      overflow: 'hidden',
+      backgroundColor: '#FFF',
+    },
+
+    avatar: {
+      flex: 1,
+      height: 300,
+      width: 300
+    },
+  
+    footer: {
+      backgroundColor: '#FFF',
+      paddingHorizontal: 20,
+      paddingVertical: 15,
+    },
+  
+    name: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+  
+    bio: {
+      fontSize: 14,
+      color: '#999',
+      marginTop: 5,
+      lineHeight: 18,
+    },
+  
+    buttonsContainer: {
+      flexDirection: 'row',
+      paddingBottom: 15,
+      justifyContent: 'center',
+      marginTop: 20
+    },
+  
+    button: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: '#FFF',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginHorizontal: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 2, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 2,
+      elevation: 2,
+    }
 
 });

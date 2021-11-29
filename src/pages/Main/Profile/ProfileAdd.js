@@ -20,7 +20,29 @@ import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
 import logo from '../../../assets/logo.png'
 
-
+async function uploadImage(singleFile, petid) {
+    //Check if any file is selected or not
+    if (singleFile != null) {
+      //If file selected then create FormData
+      const fileToUpload = singleFile;
+      const data = new FormData();
+      data.append('name', 'Image Upload');
+      data.append('arquivo', fileToUpload);
+      let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, data, { 
+          headers: {
+            'Content-Type': 'multipart/form-data; ',
+          },
+        }
+      );
+      let responseJson = await res.json();
+      if (responseJson.status == 1) {
+        alert('Upload Successful');
+      }
+    } else {
+      //if no file selected the show alert
+      alert('Please Select File first');
+    }
+};
 
 async function Submit (petid, data, tags, setPet, image=null ) {
     var pet = JSON.parse(await AsyncStorage.getItem('pet'));
@@ -36,18 +58,21 @@ async function Submit (petid, data, tags, setPet, image=null ) {
     }).catch(err => console.log(err));
 
     if (!!image){
-        const formData = new FormData ();
-        formData.append('arquivo', {
-            uri: Platform.OS === "android" ? image.uri : image.uri.replace("file://", ""),
-            name: 'test', 
-            type: 'image/jpeg'
-        });
-        console.log(`https://amicusco-pet-api.herokuapp.com/media/${petid}`);
-        await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, formData, {
-            headers: {'Content-Type': 'multipart/form-data'}
-        }).then(resp => {
-            console.log(resp);
-        }).catch(err => console.log(err));
+        const formData = new FormData();
+        formData.append('name', 'Image Upload');
+        formData.append('arquivo', image);
+        uploadImage(image, petid);
+
+        // console.log(formData)
+        // console.log(`https://amicusco-pet-api.herokuapp.com/media/${petid}`);
+        // await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, formData, {
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'multipart/form-data',
+        //     },
+        // }).then(resp => {
+        //     console.log(resp);
+        // }).catch(err => console.log(err));
     }
 }
 
@@ -117,11 +142,9 @@ export default function PetAdd({ navigation }) {
         quality: 1,
         });
 
-    console.log(image);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
+        if (!result.cancelled) {
+            setImage( result );
+        }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -137,12 +160,12 @@ export default function PetAdd({ navigation }) {
                 </View>
                 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground source={ image === null ? Place_Holder : image } style={{ resizeMode:"contain", width: 180,height: 180}}>
+                    <ImageBackground source={ image === null ? Place_Holder : image.uri } style={{ resizeMode:"contain", width: 180,height: 180}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                             <View/>      
                         </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+                    {image && <Image source={{ uri: image.uri }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
                 </View>

@@ -175,7 +175,7 @@ export default function ProfilePass({ navigation }){
             </ScrollView>
         </View>
 
-        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
+        <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:5 ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>
 
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
             <TouchableOpacity 
