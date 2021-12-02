@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
+import Swiper from 'react-native-deck-swiper';
 
 import logo from '../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons"
@@ -13,7 +14,9 @@ export default function Main({ navigation }) {
 
     const screenHeight = Dimensions.get('window').height;
     // const id = navigation.getParam('user');
-    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
+    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"},{name:"Amarelinho2", bio:"2Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
+
+    const deck = React.useRef();
 
     // useEffect(() => {
     //   async function loadUsers() {
@@ -66,63 +69,76 @@ export default function Main({ navigation }) {
 
           </LinearGradient>          
 
-            <View style={[styles.cardContainer,{marginTop:-((screenHeight/2)-80)}]}>
-              {
-                  pets.map((pet, index) => (
-                    <View style={[styles.card, { zIndex: pets.length - index }]}>
-                      {/* Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} /> */}
-                      <Image style={styles.avatar} source={Place_Holder} />
-                      <View style={styles.footer}>
-                        <Text style={styles.name}> {pet.name} </Text>
-                        <Text style={styles.bio} numberOfLines={3}> {pet.bio} </Text>
-                      </View>
-                    </View>
-                  ))
-                
-              }
+          <View style={[styles.cardContainer,{marginTop:-((screenHeight/2))}]}>
+          
+            {/* //  Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} />  */}
+            <Swiper
+            stackSize={3}
+            cards={pets}
+            verticalSwipe={false}
+            ref={deck}
+            swipeBackCard
+            renderCard={(pet)=>{
+              return(
+                <View style={styles.card}>
 
-            </View>
+                  <Image style={styles.avatar} source={Place_Holder} />
+                  <View style={styles.footer}>
+                    <Text style={styles.name}> {pet.name} </Text>
+                    <Text style={styles.bio} numberOfLines={3}> {pet.bio} </Text>
+                  </View>
+
+                </View>
+              )
+            }}/>
+
+          </View>
             
-            <View style={styles.buttonsContainer}>
-
-              <TouchableOpacity style={styles.button}>
-                <Image style={{ width: 28, height: 28}} source={dislike} />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.button}>
-                <Image style={{ width: 30, height: 25}} source={like} />
-              </TouchableOpacity>
-
-            </View>
-
         </View>
 
       </View>
 
-        <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+      <View style={styles.buttonsContainer}>
+
+        <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBack()}>
+            {/* <Image style={{ width: 30, height: 25}} source={backcard} /> */}
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()} > 
+            <Image style={{ width: 28, height: 28}} source={dislike} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}>
+            <Image style={{ width: 30, height: 25}} source={like} />
+          </TouchableOpacity>
+
+      </View>
+
+      <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+      
+      <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
+        <TouchableOpacity 
+            style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
+            disabled
+            onPress={() => navigation.navigate('Main')}>   
+            <Image source={logo} style={ {width: 30, height: 30}} />
+        </TouchableOpacity>  
+
+        <TouchableOpacity 
+            style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
+            onPress={() => navigation.navigate('Chat')}>   
+            <Ionicons name="chatbubbles-outline" size={30} color='#E8C9AE'/>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+            style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
+            onPress={() => navigation.navigate('Profile')}>   
+            <Ionicons name="person-circle-outline" size={35} color='#E8C9AE'/>
+        </TouchableOpacity>
         
-        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
-          <TouchableOpacity 
-              style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
-              disabled
-              onPress={() => navigation.navigate('Main')}>   
-              <Image source={logo} style={ {width: 30, height: 30}} />
-          </TouchableOpacity>  
-
-          <TouchableOpacity 
-              style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
-              onPress={() => navigation.navigate('Chat')}>   
-              <Ionicons name="chatbubbles-outline" size={30} color='#E8C9AE'/>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-              style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
-              onPress={() => navigation.navigate('Profile')}>   
-              <Ionicons name="person-circle-outline" size={35} color='#E8C9AE'/>
-          </TouchableOpacity>
-         
-        </View>
       </View>
+
+    </View>
     );
   }
 
@@ -157,9 +173,9 @@ export default function Main({ navigation }) {
   
     card: {
       borderWidth: 1,
-      borderColor: '#DDD',
+      borderColor: '#9E612B',
       borderRadius: 8,
-      margin: 30,
+      margin: 20,
       overflow: 'hidden',
       backgroundColor: '#FFF',
     },
@@ -167,7 +183,8 @@ export default function Main({ navigation }) {
     avatar: {
       flex: 1,
       height: 300,
-      width: 300
+      width: 300,
+      alignSelf:'center'
     },
   
     footer: {
@@ -193,7 +210,11 @@ export default function Main({ navigation }) {
       flexDirection: 'row',
       paddingBottom: 15,
       justifyContent: 'center',
-      marginTop: 20
+      alignItems: 'center',
+      marginTop: 20,
+      bottom: -30, 
+      
+
     },
   
     button: {
