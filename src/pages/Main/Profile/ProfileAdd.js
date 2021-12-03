@@ -1,6 +1,6 @@
 //react imports
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions} from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, StatusBar} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Tag } from '../../../Components/Tags'
@@ -148,7 +148,7 @@ export default function PetAdd({ navigation }) {
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 
     return(
     <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>

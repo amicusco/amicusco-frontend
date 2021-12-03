@@ -1,6 +1,6 @@
 //react imports
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, Button} from 'react-native';
+import { ImageBackground, View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, StatusBar} from 'react-native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm from 'react-native-simple-radio-button';
@@ -140,7 +140,7 @@ export default function PetPerfil({ navigation }) {
       setImage(result.uri);
     }
     };
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 
     function checkOnChange(type, value){
         if (type === "petAge"){

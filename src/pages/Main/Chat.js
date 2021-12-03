@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import logo from '../../assets/logo.png'
@@ -14,7 +14,7 @@ export default function Main({ navigation }) {
 
     // test();
 
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 
     return (
 

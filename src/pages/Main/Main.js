@@ -1,22 +1,24 @@
 import * as React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LinearGradient } from 'expo-linear-gradient';
 import Swiper from 'react-native-deck-swiper';
 
 import logo from '../../assets/logo.png'
-import {Ionicons} from "@expo/vector-icons"
+import {Ionicons} from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons'; 
 import Place_Holder from '../../assets/Place_Holder.png'
-import like from '../../assets/like.svg'
-import dislike from '../../assets/dislike.svg'
+
 
 export default function Main({ navigation }) {
 
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
     // const id = navigation.getParam('user');
-    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"},{name:"Amarelinho2", bio:"2Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
+    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Leagal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"},{name:"Amarelinho2", bio:"2Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
 
     const deck = React.useRef();
+
+  
 
     // useEffect(() => {
     //   async function loadUsers() {
@@ -56,20 +58,14 @@ export default function Main({ navigation }) {
       <View style={[{height:screenHeight},styles.container]}>
 
         <View style={{flex: 0.9}}>
-
-          <View> 
-          <LinearGradient
-          locations={[0,0.3,1]}
-          colors = {['#65D2EB', '#87E9FF', '#E8C9AE']}
-          style = {{height:(screenHeight/2), borderRadius:"10%"}}>  
  
             <TouchableOpacity>
               <Image style={styles.logo} source={logo} />
             </TouchableOpacity>
 
-          </LinearGradient>          
+          
 
-          <View style={[styles.cardContainer,{marginTop:-((screenHeight/2))}]}>
+          <View style={[styles.cardContainer,{marginTop:1}]}>
           
             {/* //  Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} />  */}
             <Swiper
@@ -78,6 +74,7 @@ export default function Main({ navigation }) {
             verticalSwipe={false}
             ref={deck}
             swipeBackCard
+
             renderCard={(pet)=>{
               return(
                 <View style={styles.card}>
@@ -96,27 +93,25 @@ export default function Main({ navigation }) {
             
         </View>
 
-      </View>
-
       <View style={styles.buttonsContainer}>
 
         <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBack()}>
-            {/* <Image style={{ width: 30, height: 25}} source={backcard} /> */}
-          </TouchableOpacity>
+          <Entypo name="back" size={24} color="#FF9601" />
+        </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()} > 
-            <Image style={{ width: 28, height: 28}} source={dislike} />
+            <Entypo name="cross" size={50} color="#fe5167" />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}>
-            <Image style={{ width: 30, height: 25}} source={like} />
+            <AntDesign name="heart" size={28} color="#36e8b8" />
           </TouchableOpacity>
 
       </View>
 
       <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
       
-      <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
+      <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", paddingTop:'1%'}}>
         <TouchableOpacity 
             style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
             disabled
@@ -150,8 +145,8 @@ export default function Main({ navigation }) {
     },
 
     logo: {
-      marginTop: "5%",
-      marginBottom: "5%",
+      marginTop: "10%",
+      marginBottom: "1%",
       width: 50,
       height: 50,
       alignSelf:'center',
@@ -168,6 +163,7 @@ export default function Main({ navigation }) {
       flex: 1,
       alignSelf: 'stretch',
       justifyContent: 'center',
+      backgroundColor: '#FFF',
       //maxHeight: 400
     },
   
@@ -184,7 +180,7 @@ export default function Main({ navigation }) {
       //flex: 1,
       height: 300,
       width: 300,
-      alignSelf:'center'
+      alignSelf:'center',
     },
   
     footer: {

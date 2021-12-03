@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, Modal, Pressable, Alert } from 'react-native';
+import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, StatusBar } from 'react-native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -154,7 +154,7 @@ export default function ProfileOwner({ navigation }) {
         }
     };
 
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 
     
     const [newPass1, setnewPass1] = React.useState('');

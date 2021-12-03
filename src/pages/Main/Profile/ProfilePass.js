@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image, Dimensions} from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image, Dimensions, StatusBar} from 'react-native';
 import axios from 'axios';
 import logo from '../../../assets/logo.png';
 import {Ionicons} from "@expo/vector-icons";
@@ -95,7 +95,7 @@ export default function ProfilePass({ navigation }){
         
     }, []);
     
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 
     return(
         <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
