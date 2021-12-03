@@ -150,8 +150,8 @@ export default function Main({ navigation }) {
     },
 
     logo: {
-      marginTop: 20,
-      marginBottom: 20,
+      marginTop: "5%",
+      marginBottom: "5%",
       width: 50,
       height: 50,
       alignSelf:'center',
@@ -168,20 +168,20 @@ export default function Main({ navigation }) {
       flex: 1,
       alignSelf: 'stretch',
       justifyContent: 'center',
-      maxHeight: 400
+      //maxHeight: 400
     },
   
     card: {
       borderWidth: 1,
       borderColor: '#9E612B',
       borderRadius: 8,
-      margin: 20,
+      margin: "5%",
       overflow: 'hidden',
       backgroundColor: '#FFF',
     },
 
     avatar: {
-      flex: 1,
+      //flex: 1,
       height: 300,
       width: 300,
       alignSelf:'center'
@@ -189,8 +189,8 @@ export default function Main({ navigation }) {
   
     footer: {
       backgroundColor: '#FFF',
-      paddingHorizontal: 20,
-      paddingVertical: 15,
+      paddingHorizontal: "5%",
+      paddingVertical: "4%",
     },
   
     name: {
@@ -202,17 +202,17 @@ export default function Main({ navigation }) {
     bio: {
       fontSize: 14,
       color: '#999',
-      marginTop: 5,
+      marginTop: "2%",
       lineHeight: 18,
     },
   
     buttonsContainer: {
       flexDirection: 'row',
-      paddingBottom: 15,
+      paddingBottom: "2%",
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 20,
-      bottom: -30, 
+      //marginTop: "1%",
+      bottom: "-4%", 
       
 
     },
@@ -224,7 +224,7 @@ export default function Main({ navigation }) {
       backgroundColor: '#FFF',
       justifyContent: 'center',
       alignItems: 'center',
-      marginHorizontal: 20,
+      marginHorizontal: "5%",
       shadowColor: '#000',
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.5,
