@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar, TouchableOpacityBase } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
 
@@ -7,17 +7,20 @@ import logo from '../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
-import Place_Holder from '../../assets/Place_Holder.png'
+import Place_Holder from '../../assets/Place_Holder.png';
+import itsamatch from '../../assets/itsamatch.png';
+
 
 
 export default function Main({ navigation }) {
 
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
     // const id = navigation.getParam('user');
-    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Leagal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"},{name:"Amarelinho2", bio:"2Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
+    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"},{name:"Amarelinho2", bio:"2Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
 
     const deck = React.useRef();
 
+    const [matchPet, setMatchPet] = React.useState(true);
   
 
     // useEffect(() => {
@@ -32,6 +35,16 @@ export default function Main({ navigation }) {
     //   }
 
     //   loadUsers();
+    // }, [id]);
+
+    // useEffect(() => {
+    //   const socket = io("http://localhost:3333", {
+    //     query: { user: id }
+    //   });
+
+    //   socket.on("match", pet => {
+    //     setMatchPet(pet);
+    //   })
     // }, [id]);
 
     // async function handleLike() {
@@ -106,7 +119,7 @@ export default function Main({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}>
             <AntDesign name="heart" size={28} color="#36e8b8" />
           </TouchableOpacity>
-
+      
       </View>
 
       <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
@@ -132,6 +145,22 @@ export default function Main({ navigation }) {
         </TouchableOpacity>
         
       </View>
+
+      { matchPet && (
+
+        <View style={styles.matchContainer}>
+          <Image style={styles.matchImage} source={itsamatch}/>
+          <Image style={styles.matchAvatar} source={Place_Holder}/>
+
+          <Text style={styles.matchName}>{pets[0].name}</Text>
+          <Text style={styles.matchBio}>{pets[0].bio}</Text>
+
+          <TouchableOpacity onPress={() => setMatchPet(null)}>
+            <Text style={styles.closeMatch}>FECHAR</Text>
+          </TouchableOpacity>
+        </View>
+
+      )}     
 
     </View>
     );
@@ -209,7 +238,7 @@ export default function Main({ navigation }) {
       alignItems: 'center',
       //marginTop: "1%",
       bottom: "-4%", 
-      
+      zIndex: -1
 
     },
   
@@ -226,6 +255,52 @@ export default function Main({ navigation }) {
       shadowOpacity: 0.5,
       shadowRadius: 2,
       elevation: 2,
+    },
+
+    matchContainer: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      zIndex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+
+    matchImage: {
+      height: 70,
+      resizeMode:'contain',
+
+    },
+
+    matchAvatar: {
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      borderWidth: 5,
+      borderColor: "#fff",
+      marginVertical: 30
+    },
+
+    matchName: {
+      fontSize: 26,
+      fontWeight: 'bold',
+      color: '#fff'
+    },
+
+    matchBio: {
+      fontSize: 14,
+      color: 'rgba(255, 255, 255, 0.8)',
+      marginTop: 10,
+      lineHeight: 24,
+      textAlign: 'center',
+      paddingHorizontal: 30
+    },
+
+    closeMatch: {
+      fontSize: 16,
+      color: 'rgba(255, 255, 255, 0.8)',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      marginTop: 30
     }
 
 });
