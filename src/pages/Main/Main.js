@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react'; 
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar, TouchableOpacityBase } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
@@ -9,6 +10,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import Place_Holder from '../../assets/Place_Holder.png';
 import itsamatch from '../../assets/itsamatch.png';
+import axios from 'axios';
 
 
 
@@ -16,26 +18,36 @@ export default function Main({ navigation }) {
 
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
     // const id = navigation.getParam('user');
-    const [pets, setPets] = React.useState([{name:"Amarelinho", bio:"Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"},{name:"Amarelinho2", bio:"2Legal pra caramba, ashahsh ahshahash hashh ashash hash ashhas ashdhash hasdhha shd hashdhash ahhasdh hdahash hah sahhah ahhash hahha ha hah ha"}]);
+    const [pets, setPets] = React.useState([]);
 
     const deck = React.useRef();
 
-    const [matchPet, setMatchPet] = React.useState(true);
-  
+    const [matchPet, setMatchPet] = React.useState(false);
 
-    // useEffect(() => {
-    //   async function loadUsers() {
-    //     const response = await api.get('/devs', {
-    //       headers: {
-    //         user: id,
-    //       }
-    //     })
+    const [limit, setLimit] = React.useState(5);
+    const [preference, setPreference] = React.useState(0);
+    const [species, setSpecies] = React.useState(1); //0- 1-cachorro 2-gato 3-cavalo
 
-    //     setUsers(response.data);
-    //   }
+    const [swipedAll, setSwipedAll] = React.useState(false);
+    const [loading, setLoading] = useState(true); 
 
-    //   loadUsers();
-    // }, [id]);
+    useEffect(() => {
+      async function loadPets() {
+        try{
+          let myPet = JSON.parse(await AsyncStorage.getItem('pet'));
+          setPreference(myPet['Preference']);
+          setSpecies(myPet['Specie']);
+
+          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/pets?limit=${limit}&preference=${preference}`);
+          setPets(resp.data);
+          setLoading(false);
+        }catch(err){
+          console.log(err);
+          setLoading(false);
+        }
+      }
+      loadPets();
+    }, []);
 
     // useEffect(() => {
     //   const socket = io("http://localhost:3333", {
@@ -69,6 +81,7 @@ export default function Main({ navigation }) {
 
     return (
       <View style={[{height:screenHeight},styles.container]}>
+        {!loading && <>
 
         <View style={{flex: 0.9}}>
  
@@ -77,7 +90,7 @@ export default function Main({ navigation }) {
             </TouchableOpacity>
 
           
-
+          {!swipedAll?
           <View style={[styles.cardContainer,{marginTop:1}]}>
           
             {/* //  Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} />  */}
@@ -87,6 +100,46 @@ export default function Main({ navigation }) {
             verticalSwipe={false}
             ref={deck}
             swipeBackCard
+            animateOverlayLabelsOpacity
+            animateCardOpacity
+            onSwipedAll={() =>  setSwipedAll(true)}
+            overlayLabels={{
+              left: {
+                title: 'NOPE',
+                style: {
+                  label: {
+                    backgroundColor: "#fe5167",
+                    color: "white",
+                    fontSize:16
+                  },
+                  wrapper: {
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-start",
+                    marginTop: 30,
+                    marginLeft: -30
+                  }
+                }
+              },
+              right: {
+                title: 'LIKE',
+                style: {
+                  label: {
+                    backgroundColor: "#36e8b8",
+                    color: "white",
+                    fontSize:16
+                  },
+                  wrapper: {
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
+                    marginTop: 30,
+                    marginLeft: 30
+                  }
+                }
+              },
+            }
+          }
 
             renderCard={(pet)=>{
               return(
@@ -95,7 +148,7 @@ export default function Main({ navigation }) {
                   <Image style={styles.avatar} source={Place_Holder} />
                   <View style={styles.footer}>
                     <Text style={styles.name}> {pet.name} </Text>
-                    <Text style={styles.bio} numberOfLines={3}> {pet.bio} </Text>
+                    <Text style={styles.bio} numberOfLines={3}> {pet.description} </Text>
                   </View>
 
                 </View>
@@ -103,9 +156,10 @@ export default function Main({ navigation }) {
             }}/>
 
           </View>
+          : <Text style={styles.name}> Acabou!! </Text> }
             
-        </View>
-
+        </View> </>}
+      
       <View style={styles.buttonsContainer}>
 
         <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBack()}>

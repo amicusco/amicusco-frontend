@@ -108,7 +108,6 @@ export default function ProfileOwner({ navigation }) {
         const getUser = async() => {
             let user = JSON.parse(await AsyncStorage.getItem('user'));
             let age = user['age'].toString();
-            console.log(user);
             setUser(user);
             onChangeUserId(user['id']);
             onChangeName(user['name']);
