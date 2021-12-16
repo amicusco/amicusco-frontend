@@ -28,10 +28,8 @@ async function uploadImage(singleFile, petid) {
       const data = new FormData();
       data.append('name', 'Image Upload');
       data.append('arquivo', fileToUpload);
-      let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, data, { 
-          headers: {
-            'Content-Type': 'multipart/form-data; ',
-          },
+      let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`,{}, { 
+          files: data,
         }
       );
       let responseJson = await res.json();
