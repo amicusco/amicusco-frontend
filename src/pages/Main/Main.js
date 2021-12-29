@@ -81,15 +81,18 @@ export default function Main({ navigation }) {
 
     return (
       <View style={[{height:screenHeight},styles.container]}>
-        {!loading && <>
-
-        <View style={{flex: 0.9}}>
- 
-            <TouchableOpacity>
-              <Image style={styles.logo} source={logo} />
-            </TouchableOpacity>
-
-          
+        {loading && <Text style={{textAlign: 'center'}}>Carregando...</Text>}
+        
+        {!loading &&
+        //gambiarra para resolver o tamanho da tela
+        <View style={{flex: 0.88}}>
+          {screenHeight > 650 ?   
+          <TouchableOpacity>
+            <Image style={styles.logo} source={logo} />
+          </TouchableOpacity> 
+          : 
+          null}
+           
           {!swipedAll?
           <View style={[styles.cardContainer,{marginTop:1}]}>
           
@@ -116,8 +119,8 @@ export default function Main({ navigation }) {
                     flexDirection: "column",
                     alignItems: "flex-end",
                     justifyContent: "flex-start",
-                    marginTop: 30,
-                    marginLeft: -30
+                    marginTop: '10%',
+                    marginLeft: '-10%'
                   }
                 }
               },
@@ -133,8 +136,8 @@ export default function Main({ navigation }) {
                     flexDirection: "column",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
-                    marginTop: 30,
-                    marginLeft: 30
+                    marginTop: '10%',
+                    marginLeft: '10%'
                   }
                 }
               },
@@ -145,10 +148,12 @@ export default function Main({ navigation }) {
               return(
                 <View style={styles.card}>
 
-                  <Image style={styles.avatar} source={Place_Holder} />
+                  <TouchableOpacity>
+                    <Image style={styles.avatar} source={Place_Holder} />
+                  </TouchableOpacity>
                   <View style={styles.footer}>
                     <Text style={styles.name}> {pet.name} </Text>
-                    <Text style={styles.bio} numberOfLines={3}> {pet.description} </Text>
+                    <Text style={styles.bio} numberOfLines={2}> {pet.description} </Text>
                   </View>
 
                 </View>
@@ -158,7 +163,7 @@ export default function Main({ navigation }) {
           </View>
           : <Text style={styles.name}> Acabou!! </Text> }
             
-        </View> </>}
+        </View>}
       
       <View style={styles.buttonsContainer}>
 
@@ -178,7 +183,7 @@ export default function Main({ navigation }) {
 
       <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
       
-      <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", paddingTop:'1%'}}>
+      <View style={{flex: 0.12, flexDirection: "row", justifyContent:"space-between", paddingTop:'1%'}}>
         <TouchableOpacity 
             style={{borderRadius:50, backgroundColor:'#F2F2F2', alignItems: "center",justifyContent:"center", width:40, height:40}}
             disabled
@@ -228,10 +233,10 @@ export default function Main({ navigation }) {
     },
 
     logo: {
-      marginTop: "10%",
-      marginBottom: "1%",
-      width: 50,
-      height: 50,
+      marginTop: '10%',
+      marginBottom: '1%',
+      width: 70,
+      height: 70,
       alignSelf:'center',
     },
 
@@ -247,7 +252,6 @@ export default function Main({ navigation }) {
       alignSelf: 'stretch',
       justifyContent: 'center',
       backgroundColor: '#FFF',
-      //maxHeight: 400
     },
   
     card: {
@@ -268,8 +272,8 @@ export default function Main({ navigation }) {
   
     footer: {
       backgroundColor: '#FFF',
-      paddingHorizontal: "5%",
-      paddingVertical: "4%",
+      paddingHorizontal: '5%',
+      paddingVertical: '4%',
     },
   
     name: {
@@ -281,17 +285,17 @@ export default function Main({ navigation }) {
     bio: {
       fontSize: 14,
       color: '#999',
-      marginTop: "2%",
+      marginTop: '2%',
       lineHeight: 18,
     },
   
     buttonsContainer: {
       flexDirection: 'row',
-      paddingBottom: "2%",
+      paddingBottom: '1%',
       justifyContent: 'center',
       alignItems: 'center',
       //marginTop: "1%",
-      bottom: "-4%", 
+      bottom: '-3%', 
       zIndex: -1
 
     },
@@ -343,7 +347,7 @@ export default function Main({ navigation }) {
     matchBio: {
       fontSize: 14,
       color: 'rgba(255, 255, 255, 0.8)',
-      marginTop: 10,
+      marginTop: '1%',
       lineHeight: 24,
       textAlign: 'center',
       paddingHorizontal: 30
@@ -354,7 +358,7 @@ export default function Main({ navigation }) {
       color: 'rgba(255, 255, 255, 0.8)',
       textAlign: 'center',
       fontWeight: 'bold',
-      marginTop: 30
+      marginTop: '5%'
     }
 
 });
