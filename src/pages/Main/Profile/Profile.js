@@ -111,6 +111,7 @@ export default function PetPerfil({ navigation }) {
             onChangeRace(petData['breed']);
             onChangeAnimal(petData['specie_pet']['specie']);
             setGender(petData['preference']);
+            //setImage(petData['pet_media'][0]['imageData']['data'])
             setLoadingPet(false);
         }
         getPet();
@@ -155,7 +156,8 @@ export default function PetPerfil({ navigation }) {
         }
     }
 
- 
+    console.log(pet);
+
     return(
     <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>
         {!loadingUser && !loadingPet && <>

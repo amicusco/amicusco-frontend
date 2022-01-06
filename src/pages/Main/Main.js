@@ -23,7 +23,9 @@ export default function Main({ navigation }) {
     const deck = React.useRef();
 
     const [matchPet, setMatchPet] = React.useState(false);
-
+    const [petLike, setPetLike] = React.useState(null);
+    const [pet, setPet] = React.useState(null);
+ 
     const [limit, setLimit] = React.useState(5);
     const [preference, setPreference] = React.useState(0);
     const [species, setSpecies] = React.useState(1); //0- 1-cachorro 2-gato 3-cavalo
@@ -48,6 +50,24 @@ export default function Main({ navigation }) {
       }
       loadPets();
     }, []);
+
+    useEffect(() => {
+      const getPet = async() => {
+        let petData = JSON.parse(await AsyncStorage.getItem('pet'));
+        setPet(petData);
+      }
+      getPet();
+    }, []);
+
+    //so colocar o botão do superlike
+    async function LikeDislike (indexPet, superLike = false) {
+      try{
+        let petLikeId = pets[indexPet].id;
+        await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${pet.id}`, { petLikeId, superLike });
+      }catch(err){
+        console.log(err);
+      }
+    }
 
     // useEffect(() => {
     //   const socket = io("http://localhost:3333", {
@@ -106,6 +126,8 @@ export default function Main({ navigation }) {
             animateOverlayLabelsOpacity
             animateCardOpacity
             onSwipedAll={() =>  setSwipedAll(true)}
+            onSwipedRight = {(index) => LikeDislike(index)}
+            //onSwipedTop = {(index) => LikeDislike(index, true)}
             overlayLabels={{
               left: {
                 title: 'NOPE',
