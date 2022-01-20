@@ -26,12 +26,18 @@ async function uploadImage(singleFile, petid) {
       //If file selected then create FormData
       const fileToUpload = singleFile;
       const data = new FormData();
-      data.append('name', 'Image Upload');
-      data.append('arquivo', fileToUpload);
-      let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`,{}, { 
-          files: data,
-        }
-      );
+      console.log(singleFile.uri);
+      data.append('file', singleFile);
+    //   data.append('file', {
+    //     uri : fileToUpload.uri,
+    //     type: fileToUpload.type,
+    //     originalname: fileToUpload.filename
+    //   });
+      let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, data, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },  
+      });
       let responseJson = await res.json();
       if (responseJson.status == 1) {
         alert('Upload Successful');
@@ -58,7 +64,7 @@ async function Submit (petid, data, tags, setPet, image=null ) {
     if (!!image){
         const formData = new FormData();
         formData.append('name', 'Image Upload');
-        formData.append('arquivo', image);
+        formData.append('file', image);
         uploadImage(image, petid);
 
         // console.log(formData)
