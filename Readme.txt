@@ -22,5 +22,6 @@ as bib instanciadas ali
 # npm install @react-native-community/async-storage --save
 # npm install react-native-masked-text --save
 # npm install react-native-deck-swiper --save
+# npm install react-native-gifted-chat --save
 
 

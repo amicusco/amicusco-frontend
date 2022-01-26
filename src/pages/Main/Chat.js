@@ -2,8 +2,9 @@ import * as React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import logo from '../../assets/logo.png'
-import {Ionicons} from "@expo/vector-icons"
+import logo from '../../assets/logo.png';
+import {Ionicons} from "@expo/vector-icons";
+import { ChatMessage } from '../../Components/ChatMessage';
 
 
 
@@ -20,9 +21,7 @@ export default function Main({ navigation }) {
 
       <View style={[{height:screenHeight},styles.container]}>
         <View style={{flex: 0.9}}>
-          <ScrollView>
-              <Text style={{alignSelf: 'center', paddingTop: "70%"}}>EM BREVE ...</Text>
-          </ScrollView>
+          <ChatMessage/>
         </View>
 
         <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
