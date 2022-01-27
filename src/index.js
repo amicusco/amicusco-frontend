@@ -16,7 +16,8 @@ import PetPerfil from './pages/LoginPet/PetPerfil';
 import PetAdd from './pages/LoginPet/PetAdd';
 
 import Main from './pages/Main/Main';
-import Chat from './pages/Main/Chat';
+import Chat from './pages/Main/Chat/Chat';
+import ChatMessage from './pages/Main/Chat/ChatMessage';
 import Profile from './pages/Main/Profile/Profile';
 import ProfileAdd from './pages/Main/Profile/ProfileAdd';
 import ProfileOwner from './pages/Main/Profile/ProfileOwner';
@@ -46,6 +47,7 @@ const LoginStack = createNativeStackNavigator();
 const LoginPetStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
+const ChatStack = createNativeStackNavigator();
 
 function StackLogin(){
   return(
@@ -92,7 +94,7 @@ function StackMain(){
   return(
     <MainStack.Navigator initialRouteName="Main">
         <MainStack.Screen name="Main" component={Main} options={{headerShown: false}} />
-        <MainStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+        <MainStack.Screen name="Chat" component={StackChat} options={{headerShown: false}}/>
         <MainStack.Screen name="Profile" component={StackProfile} options={{headerShown: false}} />
     </MainStack.Navigator>
   );
@@ -108,6 +110,15 @@ function StackProfile(){
         <ProfileStack.Screen name="ProfilePass" component={ProfilePass} options={{headerShown: true}}/>
         <ProfileStack.Screen name="StackLogin" component={StackLogin} options={{headerShown: false}} />
     </ProfileStack.Navigator>
+  );
+}
+
+function StackChat(){
+  return(
+    <ChatStack.Navigator initialRouteName="ChatMain">
+        <ChatStack.Screen name="ChatMain" component={Chat} options={{headerShown: false}}/>
+        <ChatStack.Screen name="ChatMessage" component={ChatMessage} options={{headerShown: true}}/>
+    </ChatStack.Navigator>
   );
 }
 
