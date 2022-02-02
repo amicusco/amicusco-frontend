@@ -285,11 +285,11 @@ export default function Main({ navigation }) {
 
       { !loading && superMatchPet && (
 
-        <View style={styles.matchContainer}>
+        <View style={styles.superMatchContainer}>
           <Image style={styles.matchImage} source={itsamatch}/>
           <Image style={styles.matchAvatar} source={Place_Holder}/>
           {console.log(idx)}
-          <Text style={styles.matchName}>SuPERMATCH</Text>
+          <Text style={styles.matchName}>Você recebeu um Super-Like do </Text>
           <Text style={styles.matchName}>{pets[idx].name}</Text>
           <Text style={styles.matchBio}>{pets[idx].description}</Text>
 
@@ -402,6 +402,14 @@ export default function Main({ navigation }) {
       alignItems: 'center'
     },
 
+    superMatchContainer: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: '#65D2EB',
+      zIndex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+
     matchImage: {
       height: 70,
       resizeMode:'contain',
@@ -418,7 +426,7 @@ export default function Main({ navigation }) {
     },
 
     matchName: {
-      fontSize: 26,
+      fontSize: 24,
       fontWeight: 'bold',
       color: '#fff'
     },
