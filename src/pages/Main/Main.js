@@ -19,12 +19,16 @@ export default function Main({ navigation }) {
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
     // const id = navigation.getParam('user');
     const [pets, setPets] = React.useState([]);
+    const [likes, setLikes] = React.useState([]);
 
     const deck = React.useRef();
 
     const [matchPet, setMatchPet] = React.useState(false);
+    const [superMatchPet, setSuperMatchPet] = React.useState(false);
     const [petLike, setPetLike] = React.useState(null);
     const [pet, setPet] = React.useState(null);
+    const [myPet, setMyPet] = React.useState(null);
+    const [idx, setIdx] = React.useState(null);
  
     const [limit, setLimit] = React.useState(5);
     const [preference, setPreference] = React.useState(0);
@@ -37,6 +41,8 @@ export default function Main({ navigation }) {
       async function loadPets() {
         try{
           let myPet = JSON.parse(await AsyncStorage.getItem('pet'));
+          console.log(myPet)
+          setMyPet(myPet);
           setPreference(myPet['Preference']);
           setSpecies(myPet['Specie']);
 
@@ -52,6 +58,21 @@ export default function Main({ navigation }) {
     }, []);
 
     useEffect(() => {
+      async function loadLikes() {
+        try{ 
+          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`);
+          setLikes(resp.data);
+          console.log(resp.data);
+        }catch(err){
+          console.log(err);
+        } 
+      }
+      if (!loading){
+        loadLikes();
+      }
+    }, [loading]);
+
+    useEffect(() => {
       const getPet = async() => {
         let petData = JSON.parse(await AsyncStorage.getItem('pet'));
         setPet(petData);
@@ -59,11 +80,24 @@ export default function Main({ navigation }) {
       getPet();
     }, []);
 
-    //so colocar o botão do superlike
+
     async function LikeDislike (indexPet, superLike = false) {
       try{
         let petLikeId = pets[indexPet].id;
         await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${pet.id}`, { petLikeId, superLike });
+        for (var i  = 0; i < likes.length; i++){
+          if (likes[i].petId == petLikeId && likes[i].superLike){
+            setIdx(indexPet);
+            setSuperMatchPet(true);
+            await axios.post(`https://amicusco-pet-api.herokuapp.com/match/${likes[i].id}`, { });
+            break;
+          } else if (likes[i].petId == petLikeId) {
+            setIdx(indexPet);
+            setMatchPet(true);
+            await axios.post(`https://amicusco-pet-api.herokuapp.com/match/${likes[i].id}`, { });
+            break;
+          }
+        }; 
       }catch(err){
         console.log(err);
       }
@@ -120,14 +154,16 @@ export default function Main({ navigation }) {
             <Swiper
             stackSize={3}
             cards={pets}
-            verticalSwipe={false}
+            verticalSwipe={true}
             ref={deck}
             swipeBackCard
             animateOverlayLabelsOpacity
             animateCardOpacity
+            disableTopSwipe = {true}
             onSwipedAll={() =>  setSwipedAll(true)}
             onSwipedRight = {(index) => LikeDislike(index)}
-            //onSwipedTop = {(index) => LikeDislike(index, true)}
+            onSwipedBottom = {(index) => LikeDislike(index, true)}
+            // onSwipedTop = {disableTop}
             overlayLabels={{
               left: {
                 title: 'NOPE',
@@ -193,13 +229,17 @@ export default function Main({ navigation }) {
           <Entypo name="back" size={24} color="#FF9601" />
         </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()} > 
-            <Entypo name="cross" size={50} color="#fe5167" />
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()} > 
+          <Entypo name="cross" size={50} color="#fe5167" />
+        </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}>
-            <AntDesign name="heart" size={28} color="#36e8b8" />
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}>
+          <AntDesign name="heart" size={28} color="#36e8b8" />
+        </TouchableOpacity>
+      
+        <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBottom()}  >
+          <AntDesign name="star" size={24} color="#65D2EB" />
+        </TouchableOpacity>
       
       </View>
 
@@ -227,16 +267,33 @@ export default function Main({ navigation }) {
         
       </View>
 
-      { matchPet && (
+      { !loading && matchPet && (
 
         <View style={styles.matchContainer}>
           <Image style={styles.matchImage} source={itsamatch}/>
           <Image style={styles.matchAvatar} source={Place_Holder}/>
-
-          <Text style={styles.matchName}>{pets[0].name}</Text>
-          <Text style={styles.matchBio}>{pets[0].bio}</Text>
+          {console.log(idx)}
+          <Text style={styles.matchName}>{pets[idx].name}</Text>
+          <Text style={styles.matchBio}>{pets[idx].description}</Text>
 
           <TouchableOpacity onPress={() => setMatchPet(null)}>
+            <Text style={styles.closeMatch}>FECHAR</Text>
+          </TouchableOpacity>
+        </View>
+
+      )}
+
+      { !loading && superMatchPet && (
+
+        <View style={styles.matchContainer}>
+          <Image style={styles.matchImage} source={itsamatch}/>
+          <Image style={styles.matchAvatar} source={Place_Holder}/>
+          {console.log(idx)}
+          <Text style={styles.matchName}>SuPERMATCH</Text>
+          <Text style={styles.matchName}>{pets[idx].name}</Text>
+          <Text style={styles.matchBio}>{pets[idx].description}</Text>
+
+          <TouchableOpacity onPress={() => setSuperMatchPet(null)}>
             <Text style={styles.closeMatch}>FECHAR</Text>
           </TouchableOpacity>
         </View>
