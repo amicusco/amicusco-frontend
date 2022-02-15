@@ -24,7 +24,8 @@
         "foregroundImage": "src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.piresjohann.AmiCusco"
+      "package": "com.piresjohann.AmiCusco",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "src/assets/favicon.png"

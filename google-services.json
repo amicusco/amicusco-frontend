@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "282693738174",
+    "firebase_url": "https://amicusco-a26ea-default-rtdb.firebaseio.com",
+    "project_id": "amicusco-a26ea",
+    "storage_bucket": "amicusco-a26ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282693738174:android:66521d141ee32c37b088ef",
+        "android_client_info": {
+          "package_name": "host.exp.exponent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282693738174-emaa3nfki6jn188p78ncnp4qkj71lv4f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "host.exp.exponent",
+            "certificate_hash": "3c054c4999071b53f37b509ef72db46f2b01d412"
+          }
+        },
+        {
+          "client_id": "282693738174-evvtjlorqhhovmjrqtadaimto7159ukr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAu56wNnQuSBmGHe-kvVmoBGkf59vt3HE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282693738174-evvtjlorqhhovmjrqtadaimto7159ukr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

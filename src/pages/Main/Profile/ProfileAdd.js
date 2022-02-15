@@ -4,7 +4,9 @@ import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, Touchabl
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Tag } from '../../../Components/Tags'
-
+//import { setDoc, doc, serverTimestamp } from "firebase/firestore"
+import { db } from "../../../../firebase"
+import moment from 'moment';
 //import fonts
 import { useFonts } from 'expo-font';
 import { 
@@ -20,32 +22,78 @@ import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
 import logo from '../../../assets/logo.png'
 
+import uuid from 'uuid';
+import * as firebase from "firebase";
+
 async function uploadImage(singleFile, petid) {
-    //Check if any file is selected or not
-    if (singleFile != null) {
-      //If file selected then create FormData
-      const fileToUpload = singleFile;
-      const data = new FormData();
-      console.log(singleFile.uri);
-      data.append('file', singleFile);
-    //   data.append('file', {
-    //     uri : fileToUpload.uri,
-    //     type: fileToUpload.type,
-    //     originalname: fileToUpload.filename
+    // //Check if any file is selected or not
+    // if (singleFile != null) {
+    //   //If file selected then create FormData
+    //   const fileToUpload = singleFile;
+    //   const data = new FormData();
+    //   console.log(singleFile.uri);
+    //   data.append('file', singleFile);
+    // //   data.append('file', {
+    // //     uri : fileToUpload.uri,
+    // //     type: fileToUpload.type,
+    // //     originalname: fileToUpload.filename
+    // //   });
+    //   let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, data, {
+    //       headers: {
+    //           'Content-Type': 'multipart/form-data',
+    //       },  
     //   });
-      let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, data, {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-          },  
+    //   let responseJson = await res.json();
+    //   if (responseJson.status == 1) {
+    //     alert('Upload Successful');
+    //   }
+    // } else {
+    //   //if no file selected the show alert
+    //   alert('Please Select File first');
+    // }
+    
+
+    //     const response = await fetch(singleFile.uri);
+    //     const blob = await response.blob();
+    //     var ref = firebase.storage().ref().child("my-image");
+    // return ref.put(blob);
+    ///////////////////////////////////////
+    // console.log(singleFile.uri);
+    // var photo = db.collection('photos').doc('BJ');
+    // var setWithMerge =  photo.set({
+    //     id: petid,
+    //     photoURL: singleFile.uri,
+    //     timestamp: firebase.database.ServerValue.TIMESTAMP,
+    //     //firestore.serverTimestamp.default(),
+    // }, {merge : true});
+    
+    const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function(e) {
+          console.log(e);
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', singleFile.uri, true);
+        xhr.send(null);
       });
-      let responseJson = await res.json();
-      if (responseJson.status == 1) {
-        alert('Upload Successful');
-      }
-    } else {
-      //if no file selected the show alert
-      alert('Please Select File first');
-    }
+    
+      const ref = db.default.ref().default.child(uuid.v4());
+      const snapshot = await ref.put(blob);
+    
+      // We're done with the blob, close and release it
+      blob.close();
+
+    // await setDoc(doc.default(db, 'users', petid), {
+    //     id: petid,
+    //     photoURL: singleFile.uri,
+    //     timestamp: serverTimesamp(),
+    // }) .catch ((err) => {
+    //     alert(error.message);
+    // });
 };
 
 async function Submit (petid, data, tags, setPet, image=null ) {
