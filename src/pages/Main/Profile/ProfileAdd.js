@@ -22,7 +22,7 @@ import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
 import logo from '../../../assets/logo.png'
 
-import uuid from 'uuid';
+import {v4} from 'uuid';
 import * as firebase from "firebase";
 
 async function uploadImage(singleFile, petid) {
@@ -81,7 +81,7 @@ async function uploadImage(singleFile, petid) {
         xhr.send(null);
       });
     
-      const ref = db.default.ref().default.child(uuid.v4());
+      const ref = db.default.ref().default.child(v4());
       const snapshot = await ref.put(blob);
     
       // We're done with the blob, close and release it

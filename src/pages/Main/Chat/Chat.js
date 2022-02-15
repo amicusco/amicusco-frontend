@@ -9,11 +9,15 @@ import {Ionicons} from "@expo/vector-icons";
 
 
 export default function Chat({ navigation }) {
-    // async function test (){
-    //   console.log(await AsyncStorage.getItem('pet'));
-    // }
+  
+  // async function test (){
+  //   var test = JSON.parse(await AsyncStorage.getItem('pet'));
+  //   await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
 
-    // test();
+      
+  // }).catch(err => console.log(err));
+
+  // test();
 
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 

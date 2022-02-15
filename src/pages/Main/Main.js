@@ -103,6 +103,17 @@ export default function Main({ navigation }) {
       }
     }
 
+
+    useEffect(() => {
+      async function Location() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log("Latitude is :", position.coords.latitude);
+          console.log("Longitude is :", position.coords.longitude);
+        })}
+        Location();
+      }, []);
+
+
     // useEffect(() => {
     //   const socket = io("http://localhost:3333", {
     //     query: { user: id }

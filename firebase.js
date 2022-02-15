@@ -38,7 +38,7 @@ require('firebase/storage');
   //       appId: uid,
   //     };
   //   } else {
-  //     console.log("Pau do astolfo");
+  //     console.log("olá");
   //   }
   // });
 
