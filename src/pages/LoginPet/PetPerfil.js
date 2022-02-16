@@ -320,7 +320,7 @@ export default function PetPerfil({ navigation }) {
             maximumTrackTintColor="#999999"
             thumbTintColor="#E8C9AE"
             value={dist}
-            onValueChange={ value => setDist(value)}
+            onValueChange={(value) => { setData({...data, 'distance': value}); setDist(value)}}
             />  
         </View>
         

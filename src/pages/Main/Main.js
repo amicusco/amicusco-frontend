@@ -30,12 +30,13 @@ export default function Main({ navigation }) {
     const [myPet, setMyPet] = React.useState(null);
     const [idx, setIdx] = React.useState(null);
  
-    const [limit, setLimit] = React.useState(5);
+    const [limit, setLimit] = React.useState(10);
     const [preference, setPreference] = React.useState(0);
     const [species, setSpecies] = React.useState(1); //0- 1-cachorro 2-gato 3-cavalo
 
     const [swipedAll, setSwipedAll] = React.useState(false);
     const [loading, setLoading] = useState(true); 
+    const [loadingLike, setLoadingLike] = useState(true); 
 
     useEffect(() => {
       async function loadPets() {
@@ -46,9 +47,13 @@ export default function Main({ navigation }) {
           setPreference(myPet['Preference']);
           setSpecies(myPet['Specie']);
 
-          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/pets?limit=${limit}&preference=${preference}`);
-          setPets(resp.data);
+          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/pets?limit=${limit}&preference=${preference}&latitude=${myPet.latitude}&longitude=${myPet.longitude}&distance=${myPet.distance}`);
+
+         
+          setPets(resp.data.filter(el => el.id != myPet.id));
           setLoading(false);
+          
+          
         }catch(err){
           console.log(err);
           setLoading(false);
@@ -60,14 +65,26 @@ export default function Main({ navigation }) {
     useEffect(() => {
       async function loadLikes() {
         try{ 
+          console.log(myPet);
           const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`);
+          var aux = [];
+          console.log("ola");
+          resp.data.forEach(element => {
+            if (element.match) {
+              aux.push(element.petId);
+            }
+          });
+          
+          setPets(pets.filter(element => !aux.includes(element.id)));
+          
           setLikes(resp.data);
-          console.log(resp.data);
+          setLoadingLike(false);
+          
         }catch(err){
           console.log(err);
         } 
       }
-      if (!loading){
+      if(!loading){
         loadLikes();
       }
     }, [loading]);
@@ -89,12 +106,14 @@ export default function Main({ navigation }) {
           if (likes[i].petId == petLikeId && likes[i].superLike){
             setIdx(indexPet);
             setSuperMatchPet(true);
-            await axios.post(`https://amicusco-pet-api.herokuapp.com/match/${likes[i].id}`, { });
+            console.log(likes[i]);
+            await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
             break;
           } else if (likes[i].petId == petLikeId) {
             setIdx(indexPet);
             setMatchPet(true);
-            await axios.post(`https://amicusco-pet-api.herokuapp.com/match/${likes[i].id}`, { });
+            console.log(likes[i]);
+            await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
             break;
           }
         }; 
@@ -106,9 +125,16 @@ export default function Main({ navigation }) {
 
     useEffect(() => {
       async function Location() {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          console.log("Latitude is :", position.coords.latitude);
-          console.log("Longitude is :", position.coords.longitude);
+        navigator.geolocation.getCurrentPosition(async function(position) {
+          var pet = JSON.parse(await AsyncStorage.getItem('pet'));
+          var data = {'latitude':position.coords.latitude, 'longitude':position.coords.longitude}
+          try{
+            const resp = await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${pet.id}`, data);
+            console.log(resp);
+          }
+          catch(err){
+            console.log(err);
+          }
         })}
         Location();
       }, []);
@@ -148,7 +174,7 @@ export default function Main({ navigation }) {
       <View style={[{height:screenHeight},styles.container]}>
         {loading && <Text style={{textAlign: 'center'}}>Carregando...</Text>}
         
-        {!loading &&
+        {!loadingLike &&
         //gambiarra para resolver o tamanho da tela
         <View style={{flex: 0.88}}>
           {screenHeight > 650 ?   
@@ -158,7 +184,7 @@ export default function Main({ navigation }) {
           : 
           null}
            
-          {!swipedAll?
+          {!swipedAll && pets.length > 0 ?
           <View style={[styles.cardContainer,{marginTop:1}]}>
           
             {/* //  Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} />  */}
@@ -213,7 +239,9 @@ export default function Main({ navigation }) {
             }
           }
 
-            renderCard={(pet)=>{
+          renderCard={(pet)=>{
+            if (!!pet){
+              
               return(
                 <View style={styles.card}>
 
@@ -227,6 +255,8 @@ export default function Main({ navigation }) {
 
                 </View>
               )
+            }
+             
             }}/>
 
           </View>
@@ -299,7 +329,7 @@ export default function Main({ navigation }) {
         <View style={styles.superMatchContainer}>
           <Image style={styles.matchImage} source={itsamatch}/>
           <Image style={styles.matchAvatar} source={Place_Holder}/>
-          {console.log(idx)}
+          {/* {console.log(idx)} */}
           <Text style={styles.matchName}>Você recebeu um Super-Like do </Text>
           <Text style={styles.matchName}>{pets[idx].name}</Text>
           <Text style={styles.matchBio}>{pets[idx].description}</Text>

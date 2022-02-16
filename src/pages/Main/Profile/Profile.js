@@ -73,7 +73,7 @@ export default function PetPerfil({ navigation }) {
 
     const [image, setImage] = useState(null);
 
-    const [dist, setDist] = useState(1);
+    const [dist, setDist] = useState(null);
     const [gender, setGender] = useState({});
     const [user, setUser] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
@@ -111,6 +111,7 @@ export default function PetPerfil({ navigation }) {
             onChangeRace(petData['breed']);
             onChangeAnimal(petData['specie_pet']['specie']);
             setGender(petData['preference']);
+            setDist(petData['distance']);
             //setImage(petData['pet_media'][0]['imageData']['data'])
             setLoadingPet(false);
         }
@@ -284,7 +285,7 @@ export default function PetPerfil({ navigation }) {
                     maximumTrackTintColor="#999999"
                     thumbTintColor="#E8C9AE"
                     value={dist}
-                    onValueChange={value => setDist(value)}
+                    onValueChange={(value) => { setData({...data, 'distance': value}); setDist(value)}}
                     />  
                 </View>
 
