@@ -3,10 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { ImageBackground,View, ScrollView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, Dimensions, StatusBar} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Tag } from '../../../Components/Tags'
-//import { setDoc, doc, serverTimestamp } from "firebase/firestore"
-import { db } from "../../../../firebase"
-import moment from 'moment';
+import { Tag } from '../../../Components/Tags';
+
 //import fonts
 import { useFonts } from 'expo-font';
 import { 
@@ -17,86 +15,14 @@ import {
 
 //back-end import
 import axios from 'axios';
+import { uploadImage } from '../../../../firebase';
 
+//Imagens
 import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
 import logo from '../../../assets/logo.png'
 
-import {v4} from 'uuid';
-import * as firebase from "firebase";
-
-async function uploadImage(singleFile, petid) {
-    // //Check if any file is selected or not
-    // if (singleFile != null) {
-    //   //If file selected then create FormData
-    //   const fileToUpload = singleFile;
-    //   const data = new FormData();
-    //   console.log(singleFile.uri);
-    //   data.append('file', singleFile);
-    // //   data.append('file', {
-    // //     uri : fileToUpload.uri,
-    // //     type: fileToUpload.type,
-    // //     originalname: fileToUpload.filename
-    // //   });
-    //   let res = await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, data, {
-    //       headers: {
-    //           'Content-Type': 'multipart/form-data',
-    //       },  
-    //   });
-    //   let responseJson = await res.json();
-    //   if (responseJson.status == 1) {
-    //     alert('Upload Successful');
-    //   }
-    // } else {
-    //   //if no file selected the show alert
-    //   alert('Please Select File first');
-    // }
-    
-
-    //     const response = await fetch(singleFile.uri);
-    //     const blob = await response.blob();
-    //     var ref = firebase.storage().ref().child("my-image");
-    // return ref.put(blob);
-    ///////////////////////////////////////
-    // console.log(singleFile.uri);
-    // var photo = db.collection('photos').doc('BJ');
-    // var setWithMerge =  photo.set({
-    //     id: petid,
-    //     photoURL: singleFile.uri,
-    //     timestamp: firebase.database.ServerValue.TIMESTAMP,
-    //     //firestore.serverTimestamp.default(),
-    // }, {merge : true});
-    
-    const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-          resolve(xhr.response);
-        };
-        xhr.onerror = function(e) {
-          console.log(e);
-          reject(new TypeError('Network request failed'));
-        };
-        xhr.responseType = 'blob';
-        xhr.open('GET', singleFile.uri, true);
-        xhr.send(null);
-      });
-    
-      const ref = db.default.ref().default.child(v4());
-      const snapshot = await ref.put(blob);
-    
-      // We're done with the blob, close and release it
-      blob.close();
-
-    // await setDoc(doc.default(db, 'users', petid), {
-    //     id: petid,
-    //     photoURL: singleFile.uri,
-    //     timestamp: serverTimesamp(),
-    // }) .catch ((err) => {
-    //     alert(error.message);
-    // });
-};
-
-async function Submit (petid, data, tags, setPet, image=null ) {
+async function Submit (petid, data, tags, setPet, image = null, setImage = null) {
     var pet = JSON.parse(await AsyncStorage.getItem('pet'));
     data = {...data, tags}; 
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
@@ -110,21 +36,9 @@ async function Submit (petid, data, tags, setPet, image=null ) {
     }).catch(err => console.log(err));
 
     if (!!image){
-        const formData = new FormData();
-        formData.append('name', 'Image Upload');
-        formData.append('file', image);
-        uploadImage(image, petid);
-
-        // console.log(formData)
-        // console.log(`https://amicusco-pet-api.herokuapp.com/media/${petid}`);
-        // await axios.post(`https://amicusco-pet-api.herokuapp.com/media/${petid}`, formData, {
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'multipart/form-data',
-        //     },
-        // }).then(resp => {
-        //     console.log(resp);
-        // }).catch(err => console.log(err));
+        const uploadedFile = await uploadImage(image);
+        await axios.post(`https://amicusco-pet-api.herokuapp.com/media/firebase/${petid}`, uploadedFile);
+        setImageUploaded(uploadedFile);
     }
 }
 
@@ -153,6 +67,7 @@ export default function PetAdd({ navigation }) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(null);
+    const [imageUploaded, setImageUploaded] =useState(null);
 
     const [loadingBio, setLoadingBio] = useState(true);
     const [loadingInterests, setLoadingInterests] = useState(true);
@@ -217,7 +132,7 @@ export default function PetAdd({ navigation }) {
                             <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                             <View/>      
                         </TouchableOpacity>
-                    {image && <Image source={{ uri: image.uri }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+                    {imageUploaded && <Image source={{ uri: imageUploaded.url }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
                 </View>
@@ -261,7 +176,7 @@ export default function PetAdd({ navigation }) {
                 <View style={[styles.containerInput, {paddingBottom: '10%'}]}>
                     <TouchableOpacity 
                         style={styles.inputSubmitButton}
-                        onPress={() => Submit(pet['id'], data, selectedInterests, setPet, image)}>
+                        onPress={() => Submit(pet['id'], data, selectedInterests, setPet, image, setImageUploaded)}>
                         <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
                         <Text style={styles.inputSubmitButtonTxt}>Atualizar Informações</Text> 
                         <Text style={styles.txt}></Text>     

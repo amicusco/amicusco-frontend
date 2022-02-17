@@ -38,7 +38,8 @@
     "react-native-screens": "^3.4.0",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-web": "^0.17.5",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "react-native-get-random-values": "~1.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
