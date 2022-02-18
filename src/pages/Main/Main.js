@@ -42,7 +42,7 @@ export default function Main({ navigation }) {
       async function loadPets() {
         try{
           let myPet = JSON.parse(await AsyncStorage.getItem('pet'));
-          console.log(myPet)
+          //console.log(myPet)
           setMyPet(myPet);
           setPreference(myPet['Preference']);
           setSpecies(myPet['Specie']);
@@ -65,19 +65,23 @@ export default function Main({ navigation }) {
     useEffect(() => {
       async function loadLikes() {
         try{ 
-          console.log(myPet);
-          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`);
-          var aux = [];
-          console.log("ola");
+          //console.log(myPet);
+          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/like/all`);
+          var likeIds = [];
+          var myPetLikes = [];
+          
           resp.data.forEach(element => {
-            if (element.match) {
-              aux.push(element.petId);
+            if (element.petLikeId == myPet.id){
+              myPetLikes.push(element);
             }
+            if (element.petId == myPet.id){
+              likeIds.push(element.petLikeId);
+            }           
           });
-          
-          setPets(pets.filter(element => !aux.includes(element.id)));
-          
-          setLikes(resp.data);
+          //console.log(likeIds);
+          var filterPets = pets.filter(element =>!likeIds.includes(element.id));
+          setPets(filterPets);         
+          setLikes(myPetLikes);
           setLoadingLike(false);
           
         }catch(err){
@@ -106,13 +110,13 @@ export default function Main({ navigation }) {
           if (likes[i].petId == petLikeId && likes[i].superLike){
             setIdx(indexPet);
             setSuperMatchPet(true);
-            console.log(likes[i]);
+            //console.log(likes[i]);
             await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
             break;
           } else if (likes[i].petId == petLikeId) {
             setIdx(indexPet);
             setMatchPet(true);
-            console.log(likes[i]);
+            //console.log(likes[i]);
             await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
             break;
           }
@@ -130,7 +134,7 @@ export default function Main({ navigation }) {
           var data = {'latitude':position.coords.latitude, 'longitude':position.coords.longitude}
           try{
             const resp = await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${pet.id}`, data);
-            console.log(resp);
+            //console.log(resp);
           }
           catch(err){
             console.log(err);
