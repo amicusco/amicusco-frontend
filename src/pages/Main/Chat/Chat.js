@@ -10,14 +10,22 @@ import {Ionicons} from "@expo/vector-icons";
 
 export default function Chat({ navigation }) {
   
-  // async function test (){
-  //   var test = JSON.parse(await AsyncStorage.getItem('pet'));
-  //   await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
+  const [matchs, setMatchs] = React.useState([]);
 
-      
-  // }).catch(err => console.log(err));
-
-  // test();
+  React.useEffect(() => {
+    const getLikes = async() => {
+      let likesData = JSON.parse(await AsyncStorage.getItem('likes'));
+      var petsData = JSON.parse(await AsyncStorage.getItem('pets'));
+      var likesId = likesData.map(el => {
+        if(el.match){
+          return el.petId
+        }
+      });
+      petsData = petsData.filter(el => likesId.includes(el.id))
+      setMatchs(petsData);
+    }
+    getLikes();
+  }, []);
 
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
 
@@ -27,78 +35,24 @@ export default function Chat({ navigation }) {
 
         <View style={{flex: 0.9}}>
           <ScrollView>
-            <View style={{alignItems: "flex-start", justifyContent:"flex-start", padding: '2%', paddingTop: '10%'}}>
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:50, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
+            
 
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'10%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+              {matchs.map(el => {
+                console.log(el)
+                return(
+              <View style={{alignItems: "flex-start", justifyContent:"flex-start", padding: '2%', paddingTop: '10%'}}>
+                  <TouchableOpacity 
+                    style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:50, paddingLeft:"2%"}}
+                    onPress={() => navigation.navigate('ChatMessage')}>   
+                    <Image source={Place_Holder} style={{width: 50, height: 50}} />
+                    <Text style={{paddingLeft:"5%"}}>{el.name}</Text> 
+                  </TouchableOpacity>
 
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-              <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
-
-              <TouchableOpacity 
-                  style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:100, paddingLeft:"2%"}}
-                  onPress={() => navigation.navigate('ChatMessage')}>   
-                  <Image source={Place_Holder} style={{width: 50, height: 50}} />
-                  <Text style={{paddingLeft:"5%"}}>Developer</Text> 
-              </TouchableOpacity>
-
-            </View>
+                  <View style={{alignSelf:'center', width:'100%', paddingTop:'10%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+              </View>
+              )}
+              )}
+              
           </ScrollView>  
         </View>
 

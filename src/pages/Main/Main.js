@@ -83,7 +83,10 @@ export default function Main({ navigation }) {
           setPets(filterPets);         
           setLikes(myPetLikes);
           setLoadingLike(false);
-          
+
+          AsyncStorage.setItem('likes', JSON.stringify(myPetLikes));
+          AsyncStorage.setItem('pets', JSON.stringify(pets));
+
         }catch(err){
           console.log(err);
         } 
