@@ -27,6 +27,9 @@ import axios from 'axios';
 import Pen from '../../../assets/pen.png'; 
 import Place_Holder from '../../../assets/Place_Holder.png';
 
+import { GetImageOrder } from '../../../Components/GetImages.js'
+
+
 async function Submit (data, petid, setPet) {
     var pet = JSON.parse(await AsyncStorage.getItem('pet'));
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
@@ -105,6 +108,7 @@ export default function PetPerfil({ navigation }) {
             let petData = JSON.parse(await AsyncStorage.getItem('pet'));
             let age = Number(petData['age']);
             setPet(petData);
+            setImage(GetImageOrder(petData['pet_media']));
             onChangePetId(petData['id']);
             onChangePetName(petData['name']);
             onChangePetAgeBefore(age);
@@ -112,6 +116,7 @@ export default function PetPerfil({ navigation }) {
             onChangeAnimal(petData['specie_pet']['specie']);
             setGender(petData['preference']);
             setDist(petData['distance']);
+            
             //setImage(petData['pet_media'][0]['imageData']['data'])
             setLoadingPet(false);
         }
@@ -156,8 +161,6 @@ export default function PetPerfil({ navigation }) {
 
         }
     }
-
-    console.log(pet);
 
     return(
     <View style={{height: screenHeight, backgroundColor:'#ffffff'}}>

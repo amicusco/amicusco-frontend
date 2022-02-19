@@ -21,7 +21,6 @@ import {
 async function Submit (data, navigation, setError) {
     await axios.post("https://amicusco-auth.herokuapp.com/user", data)
     .then(resp => {
-        console.log(resp.data);
         navigation.navigate('StackLoginPet', {screen: 'PetLogin'});
         AsyncStorage.setItem('user', JSON.stringify(resp.data));
     }).catch(err => setError(err.toJSON().message));
@@ -29,7 +28,6 @@ async function Submit (data, navigation, setError) {
 
 
 function checkFields(data, navigation, setError) {
-    console.log(data)
     if (data['name']==''|| data['name']==null){
         return alert("Insira o seu nome");
 
@@ -74,7 +72,6 @@ export default function AccountAmicusco({ navigation }) {
 
     
     function checkOnChange(type, value){
-        console.log(value);
         if (type === "name"){
             const newValue = value.replace(/[^A-Za-z ]/g, '');
             setName(newValue);

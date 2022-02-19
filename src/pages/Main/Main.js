@@ -12,6 +12,7 @@ import Place_Holder from '../../assets/Place_Holder.png';
 import itsamatch from '../../assets/itsamatch.png';
 import axios from 'axios';
 
+import { GetImageOrder } from '../../Components/GetImages.js'
 
 
 export default function Main({ navigation }) {
@@ -42,7 +43,6 @@ export default function Main({ navigation }) {
       async function loadPets() {
         try{
           let myPet = JSON.parse(await AsyncStorage.getItem('pet'));
-          //console.log(myPet)
           setMyPet(myPet);
           setPreference(myPet['Preference']);
           setSpecies(myPet['Specie']);
@@ -65,7 +65,6 @@ export default function Main({ navigation }) {
     useEffect(() => {
       async function loadLikes() {
         try{ 
-          //console.log(myPet);
           const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/like/all`);
           var likeIds = [];
           var myPetLikes = [];
@@ -113,13 +112,11 @@ export default function Main({ navigation }) {
           if (likes[i].petId == petLikeId && likes[i].superLike){
             setIdx(indexPet);
             setSuperMatchPet(true);
-            //console.log(likes[i]);
             await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
             break;
           } else if (likes[i].petId == petLikeId) {
             setIdx(indexPet);
             setMatchPet(true);
-            //console.log(likes[i]);
             await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
             break;
           }
@@ -137,7 +134,6 @@ export default function Main({ navigation }) {
           var data = {'latitude':position.coords.latitude, 'longitude':position.coords.longitude}
           try{
             const resp = await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${pet.id}`, data);
-            //console.log(resp);
           }
           catch(err){
             console.log(err);
@@ -145,37 +141,6 @@ export default function Main({ navigation }) {
         })}
         Location();
       }, []);
-
-
-    // useEffect(() => {
-    //   const socket = io("http://localhost:3333", {
-    //     query: { user: id }
-    //   });
-
-    //   socket.on("match", pet => {
-    //     setMatchPet(pet);
-    //   })
-    // }, [id]);
-
-    // async function handleLike() {
-    //   const [user, ...rest] = users;
-
-    //   await api.post(`/devs/${user._id}/likes`, null, {
-    //     headers: { user: id },
-    //   })
-
-    //   setUsers(rest);
-    // }
-
-    // async function handleDislike() {
-    //   const [user, ...rest] = users;
-
-    //   await api.post(`/devs/${user._id}/dislikes`, null, {
-    //     headers: { user: id },
-    //   })
-
-    //   setUsers(rest);
-    // }
 
     return (
       <View style={[{height:screenHeight},styles.container]}>
@@ -253,7 +218,11 @@ export default function Main({ navigation }) {
                 <View style={styles.card}>
 
                   <TouchableOpacity>
-                    <Image style={styles.avatar} source={Place_Holder} />
+                    <Image style={styles.avatar} source={
+                      pet['pet_media'].length > 0 
+                      ? {uri: GetImageOrder(pet['pet_media'])}
+                      : Place_Holder
+                    } />
                   </TouchableOpacity>
                   <View style={styles.footer}>
                     <Text style={styles.name}> {pet.name} </Text>
@@ -320,7 +289,6 @@ export default function Main({ navigation }) {
         <View style={styles.matchContainer}>
           <Image style={styles.matchImage} source={itsamatch}/>
           <Image style={styles.matchAvatar} source={Place_Holder}/>
-          {console.log(idx)}
           <Text style={styles.matchName}>{pets[idx].name}</Text>
           <Text style={styles.matchBio}>{pets[idx].description}</Text>
 

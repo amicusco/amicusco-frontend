@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import logo from '../../../assets/logo.png';
 import Place_Holder from '../../../assets/Place_Holder.png';
 import {Ionicons} from "@expo/vector-icons";
+import { GetImageOrder } from '../../../Components/GetImages';
 
 
 
@@ -35,16 +36,15 @@ export default function Chat({ navigation }) {
 
         <View style={{flex: 0.9}}>
           <ScrollView>
-            
-
               {matchs.map(el => {
-                console.log(el)
+                var image = GetImageOrder(el['pet_media']);
+
                 return(
               <View style={{alignItems: "flex-start", justifyContent:"flex-start", padding: '2%', paddingTop: '10%'}}>
                   <TouchableOpacity 
                     style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"center", width:140, height:50, paddingLeft:"2%"}}
                     onPress={() => navigation.navigate('ChatMessage')}>   
-                    <Image source={Place_Holder} style={{width: 50, height: 50}} />
+                    <Image source={ image === null ? Place_Holder : image } style={{width: 50, height: 50}} />
                     <Text style={{paddingLeft:"5%"}}>{el.name}</Text> 
                   </TouchableOpacity>
 

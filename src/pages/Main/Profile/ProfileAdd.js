@@ -22,7 +22,10 @@ import Camera from '../../../assets/camera.png';
 import Place_Holder from '../../../assets/Place_Holder.png';  
 import logo from '../../../assets/logo.png'
 
-async function Submit (petid, data, tags, setPet, image = null, setImage = null) {
+//import functions
+import { GetImageOrder } from '../../../Components/GetImages.js'
+
+async function Submit (petid, data, tags, setPet, image = null, setImageUploaded = null) {
     var pet = JSON.parse(await AsyncStorage.getItem('pet'));
     data = {...data, tags}; 
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petid}`, data).then(resp => {
@@ -38,11 +41,10 @@ async function Submit (petid, data, tags, setPet, image = null, setImage = null)
     if (!!image){
         const uploadedFile = await uploadImage(image);
         await axios.post(`https://amicusco-pet-api.herokuapp.com/media/firebase/${petid}`, uploadedFile);
-        setImageUploaded(uploadedFile);
+        setImageUploaded(uploadedFile.url);
+
     }
 }
-
-
 
 export default function PetAdd({ navigation }) {
     //import fonts
@@ -67,7 +69,7 @@ export default function PetAdd({ navigation }) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funções para adicionar imagens
     const [image, setImage] = useState(null);
-    const [imageUploaded, setImageUploaded] =useState(null);
+    const [imageUploaded, setImageUploaded] = useState(null);
 
     const [loadingBio, setLoadingBio] = useState(true);
     const [loadingInterests, setLoadingInterests] = useState(true);
@@ -88,10 +90,12 @@ export default function PetAdd({ navigation }) {
         const getPet = async () => {
             var petData = JSON.parse(await AsyncStorage.getItem('pet'));
             onChangeBio(petData['description']);
+            var petImages = petData['pet_media'];
+            setImageUploaded( GetImageOrder(petImages) );
             setPet(petData);
             setLoadingBio(false);
         }
-        getPet()
+        getPet();
 
         const getInterests = async () => {
             let tags = await axios.get("https://amicusco-pet-api.herokuapp.com/tag");
@@ -127,12 +131,14 @@ export default function PetAdd({ navigation }) {
                 </View>
                 
                 <View style={styles.imagePerfil}>
-                    <ImageBackground source={ image === null ? Place_Holder : image.uri } style={{ resizeMode:"contain", width: 180,height: 180}}>
+                    <ImageBackground source={ image ? image.uri : ( imageUploaded ? imageUploaded : Place_Holder ) } style={{ resizeMode:"contain", width: 180,height: 180}}>
                         <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                             <View/>      
                         </TouchableOpacity>
-                    {imageUploaded && <Image source={{ uri: imageUploaded.url }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+                        {imageUploaded && <Image source={{ uri: imageUploaded }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
+                        {image && <Image source={{ uri: image.uri }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
                     </ImageBackground>
                 </View>

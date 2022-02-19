@@ -142,7 +142,6 @@ export default function PetPerfil({ navigation }) {
     }
 
     function checkOnChange(type, value){
-        console.log(value);
         if (type === "petName"){
             const newValue = value.replace(/[^A-Za-z ]/g, '');
             setPetName(newValue);

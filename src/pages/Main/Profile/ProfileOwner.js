@@ -68,7 +68,6 @@ function checkFields(data, navigation, pass, password, userId, setError, setUser
             return alert("Insira um telefone");
         }}
         if (Object.keys(data).length !== 0){
-            console.log("entrou")
             setError(false);
             Submit(data, userId, navigation, setUser);
         }
@@ -145,8 +144,6 @@ export default function ProfileOwner({ navigation }) {
         aspect: [4, 3],
         quality: 1,
         });
-
-        console.log(result);
 
         if (!result.cancelled) {
             setImage(result.uri);

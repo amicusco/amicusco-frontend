@@ -92,7 +92,6 @@ export default function PetAdd({ navigation }) {
         </View>
         
         <View style={styles.imagePerfil}>
-            {console.log(image)}
             <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
                 <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
