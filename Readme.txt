@@ -25,5 +25,6 @@ as bib instanciadas ali
 # npm install react-native-gifted-chat --save
 # npm install --save @react-native-firebase/app
 # npm install react-native-get-random-values --save
+# npm install expo-location --save
 
 

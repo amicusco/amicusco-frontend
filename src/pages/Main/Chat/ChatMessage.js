@@ -1,37 +1,37 @@
-import * as React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar, KeyboardAvoidingView  } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// @flow
+import React from 'react';
+import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 
-import logo from '../../../assets/logo.png';
-import {Ionicons} from "@expo/vector-icons";
-import { ChatMessage } from '../../../Components/ChatComponent';
+import { chatSend, getMessages } from '../../../../firebase';
 
 
 
-export default function Matchs({ navigation }) {
-    // async function test (){
-    //   console.log(await AsyncStorage.getItem('pet'));
-    // }
+export default function ChatMessage(){
 
-    // test();
+  const [messages, setMessages] = React.useState([]);
 
-    const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
+  React.useEffect(()=>{
+   // console.log("CHATMESSAGE");
+    getMessages(messages, setMessages);
+  }, []);
+
+  const onSend = React.useCallback((newMessages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+    chatSend(newMessages[0])
+  }, [])
 
     return (
-
-        <KeyboardAvoidingView  style={[{flex:1, height:screenHeight},styles.container]}>
-        
-            <ChatMessage/>
-        
-        </KeyboardAvoidingView >
+      <GiftedChat
+        messages={messages}
+        //onSend={message => {chatSend(GiftedChat.append(messages, message))}}
+        onSend={newMessages => onSend(newMessages)}
+        user={{
+          _id: 1
+        }}
+      />
     );
-  }
+  } 
 
-  const styles = StyleSheet.create({
 
-    container: {
-      backgroundColor:'#ffffff',
-      paddingBottom: '2%'
-    },
 
-});
+

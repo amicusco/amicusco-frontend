@@ -2,6 +2,7 @@ import 'react-native-get-random-values';
 import {v4} from 'uuid';
 var firebase = require('firebase/app');
 import 'firebase/storage';
+import 'firebase/firestore';
 import App from './src';
 
 const firebaseConfig = {
@@ -47,4 +48,34 @@ async function uploadImage(singleFile) {
     return uploadedFile;
 };
 
-export { uploadImage };
+async function chatSend(message){
+  const { _id, text, user, createdAt } = message;
+  //console.log("CHATSEND:", message);
+
+  const db = firebase.default.firestore();
+  await db.collection("chats").add({
+    _id, createdAt, text, user
+  })
+}
+
+async function getMessages(messages, setMessages){
+  const db = firebase.default.firestore();
+  await db.collection("chats").orderBy("createdAt", 'desc').get()
+  .then(resp => {
+    var newMessages = [];
+    resp.forEach(doc => {
+      newMessages.push({
+        "_id": doc.data()._id,
+        "text": doc.data().text,
+        "user": doc.data().user,
+        "createdAt": doc.data().createdAt.toDate(),
+      });
+    });
+    // .map(el => {
+    //   return {"id": el._id, "text": el.text, "createdAt": el.createdAt, "user": el.user}
+    // })
+    setMessages([...messages, ...newMessages]);
+  });
+}
+
+export { chatSend, getMessages, uploadImage };
