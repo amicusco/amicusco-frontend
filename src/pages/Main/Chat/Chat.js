@@ -17,6 +17,7 @@ export default function Chat({ navigation }) {
     const getLikes = async() => {
       let likesData = JSON.parse(await AsyncStorage.getItem('likes'));
       var petsData = JSON.parse(await AsyncStorage.getItem('pets'));
+      console.log("LIKES: ", likesData.length);
       var likesId = likesData.map(el => {
         if(el.match){
           return el.petId
@@ -29,7 +30,7 @@ export default function Chat({ navigation }) {
   }, []);
 
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
-
+    console.log(matchs.length);
     return (
 
       <View style={[{height:screenHeight},styles.container]}>

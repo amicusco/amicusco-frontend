@@ -95,29 +95,40 @@ export default function Main({ navigation }) {
       }
     }, [loading]);
 
-    useEffect(() => {
-      const getPet = async() => {
-        let petData = JSON.parse(await AsyncStorage.getItem('pet'));
-        setPet(petData);
-      }
-      getPet();
-    }, []);
+    // useEffect(() => {
+    //   const getPet = async() => {
+    //     let petData = JSON.parse(await AsyncStorage.getItem('pet'));
+    //     setPet(petData);
+    //   }
+    //   getPet();
+    // }, []);
 
 
     async function LikeDislike (indexPet, superLike = false) {
       try{
+        // PetlikeId = Pet que recebeu
         let petLikeId = pets[indexPet].id;
-        await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${pet.id}`, { petLikeId, superLike });
+        await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`, { petLikeId, superLike });
+        console.log("AQUUI PASSOU00");
         for (var i  = 0; i < likes.length; i++){
-          if (likes[i].petId == petLikeId && likes[i].superLike){
+          if (likes[i].petId == petLikeId){
+            console.log("IP1: ",indexPet);
             setIdx(indexPet);
-            setSuperMatchPet(true);
+            if (likes[i].superLike){
+              console.log("IP2: ",indexPet);
+              setSuperMatchPet(true);
+            } else{
+              setMatchPet(true);
+            }
             await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
-            break;
-          } else if (likes[i].petId == petLikeId) {
-            setIdx(indexPet);
-            setMatchPet(true);
-            await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
+            console.log("IP3: ",indexPet);
+            // Não funcionou
+            for (var j = 0; j < likes.length; j++){
+              if (likes[j].petLikeId == petLikeId && likes[j].petId == myPet.id){
+                await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[j].id}`, { 'match': true });
+                break;
+              }
+            }
             break;
           }
         }; 
