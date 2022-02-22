@@ -106,8 +106,20 @@ function StackProfile(){
     <ProfileStack.Navigator initialRouteName="ProfileMain">
         <ProfileStack.Screen name="ProfileMain" component={Profile} options={{headerShown: false}}/>
         <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
-        <ProfileStack.Screen name="ProfileOwner" component={ProfileOwner} options={{headerShown: true}}/>
-        <ProfileStack.Screen name="ProfilePass" component={ProfilePass} options={{headerShown: true}}/>
+        <ProfileStack.Screen name="ProfileOwner" component={ProfileOwner} options={{
+          title: 'Perfil do Dono',
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }}/>
+        <ProfileStack.Screen name="ProfilePass" component={ProfilePass} options={{
+          title: 'Troca de Senha',
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }}/>
         <ProfileStack.Screen name="StackLogin" component={StackLogin} options={{headerShown: false}} />
     </ProfileStack.Navigator>
   );
@@ -117,7 +129,13 @@ function StackChat(){
   return(
     <ChatStack.Navigator initialRouteName="ChatMain">
         <ChatStack.Screen name="ChatMain" component={Chat} options={{headerShown: false}}/>
-        <ChatStack.Screen name="ChatMessage" component={ChatMessage} options={{headerShown: true}}/>
+        <ChatStack.Screen name="ChatMessage" component={ChatMessage} options={{
+          title: 'Troca de Senha',
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }}/>
     </ChatStack.Navigator>
   );
 }

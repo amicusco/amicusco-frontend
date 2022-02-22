@@ -6,18 +6,19 @@ import { chatSend, getMessages } from '../../../../firebase';
 
 
 
-export default function ChatMessage(){
-
+export default function ChatMessage({ route }){
+  const likeId = route.params.likeId;
+  console.log(route.params);
   const [messages, setMessages] = React.useState([]);
 
   React.useEffect(()=>{
    // console.log("CHATMESSAGE");
-    getMessages(messages, setMessages);
+    getMessages(messages, setMessages, likeId);
   }, []);
 
   const onSend = React.useCallback((newMessages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
-    chatSend(newMessages[0])
+    chatSend(newMessages[0], likeId);
   }, [])
 
     return (

@@ -102,9 +102,9 @@ export default function ProfilePass({ navigation }){
 
             <View style={{flex: 0.9}}>  
                 <ScrollView>
-                    <View>
+                    {/* <View>
                         <Text style={styles.headerText}>Perfil do Dono</Text>
-                    </View>
+                    </View> */}
 
                     <View style={styles.containerInput}>
                         <Text style={styles.txt}>Senha atual:</Text>

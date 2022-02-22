@@ -108,32 +108,25 @@ export default function Main({ navigation }) {
       try{
         // PetlikeId = Pet que recebeu
         let petLikeId = pets[indexPet].id;
-        await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`, { petLikeId, superLike });
-        console.log("AQUUI PASSOU00");
+        const likeNow = await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`, { petLikeId, superLike });
+        setLikes([...likes, likeNow.data]);
         for (var i  = 0; i < likes.length; i++){
           if (likes[i].petId == petLikeId){
-            console.log("IP1: ",indexPet);
             setIdx(indexPet);
             if (likes[i].superLike){
-              console.log("IP2: ",indexPet);
               setSuperMatchPet(true);
             } else{
               setMatchPet(true);
             }
             await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
-            console.log("IP3: ",indexPet);
             // Não funcionou
-            for (var j = 0; j < likes.length; j++){
-              if (likes[j].petLikeId == petLikeId && likes[j].petId == myPet.id){
-                await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[j].id}`, { 'match': true });
-                break;
-              }
-            }
+            var likeData = likeNow.data;
+            axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likeData.id}`, { 'match': true });
             break;
           }
         }; 
       }catch(err){
-        console.log(err);
+        console.error(err);
       }
     }
 
@@ -271,7 +264,7 @@ export default function Main({ navigation }) {
       
       </View>
 
-      <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+      <View style={{alignSelf:'center', width:'100%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
       
       <View style={{flex: 0.12, flexDirection: "row", justifyContent:"space-between", paddingTop:'1%'}}>
         <TouchableOpacity 

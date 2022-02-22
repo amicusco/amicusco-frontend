@@ -184,19 +184,19 @@ export default function ProfileOwner({ navigation }) {
         {!loadingUser && !loadingPet && <>
         <View style={{flex: 0.9}}>
             <ScrollView>
-                <View>
+                {/* <View>
                     <Text style={styles.headerText}>Perfil do Dono</Text>
-                </View>
+                </View> */}
 
-                <View style={styles.imagePerfil}>
+                {/* <View style={styles.imagePerfil}>
                     <ImageBackground source={image === null ? Place_Holder : image} style={{ resizeMode:"contain", width: 240, height: 240}}>
-                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
+                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage} disabled>
                             <Image source={Camera} style={{ resizeMode:"contain", width:'60%', height:'60%' }}/>       
                         </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
                     </ImageBackground>
-                </View>
+                </View> */}
                 
                 <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 

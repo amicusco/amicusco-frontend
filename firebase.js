@@ -48,19 +48,20 @@ async function uploadImage(singleFile) {
     return uploadedFile;
 };
 
-async function chatSend(message){
+async function chatSend(message, docName){
   const { _id, text, user, createdAt } = message;
   //console.log("CHATSEND:", message);
 
   const db = firebase.default.firestore();
-  await db.collection("chats").add({
+  await db.collection("chats").doc(`${docName}`).collection('messages').add({
     _id, createdAt, text, user
-  })
+  });
 }
 
-async function getMessages(messages, setMessages){
+async function getMessages(messages, setMessages, docName){
   const db = firebase.default.firestore();
-  await db.collection("chats").orderBy("createdAt", 'desc').get()
+  //await db.collection("chats").doc(`${docName}`).collection('messages').add({_id: v4(), text: "Bem-vindo ao chat!"});
+  await db.collection("chats").doc(`${docName}`).collection('messages').orderBy("createdAt", 'desc').get()
   .then(resp => {
     var newMessages = [];
     resp.forEach(doc => {

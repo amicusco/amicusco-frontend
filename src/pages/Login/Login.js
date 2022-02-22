@@ -91,16 +91,18 @@ export default function Login({navigation}){
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputGoogle}
-        onPress={()=>SubmitGoogle(navigation) }>        
+        onPress={()=>SubmitGoogle(navigation)}
+        disabled>        
             <Image source={google} style={[styles.icon,{ width: 35, height: 35 }]}/>
-            <Text style={styles.text}>Entrar Com Google</Text>
+            <Text style={styles.text}>Entrar Com Google (Em breve)</Text>
             <Text style={styles.text}></Text>      
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.inputFace}
-        onPress={()=>{Linking.openURL('https://amicusco-auth.herokuapp.com/auth/facebook');navigation.navigate('StackMain', {screen: 'PetLogin'})}}>
+        onPress={()=>{Linking.openURL('https://amicusco-auth.herokuapp.com/auth/facebook');navigation.navigate('StackMain', {screen: 'PetLogin'})}}
+        disabled>
             <Image source={face} style={[styles.icon,{ width: 35, height: 40 , marginTop: 4 }]} />
-            <Text style={styles.text}>Entrar Com Facebook</Text>  
+            <Text style={styles.text}>Entrar Com Facebook (Em breve)</Text>  
             <Text style={styles.text}></Text>   
         </TouchableOpacity>
 
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     inputFace: {
         height: 46,
         alignSelf: 'stretch',
-        backgroundColor: '#3B5998',
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
         borderRadius: 40,
         marginTop: '3%',
         justifyContent: 'space-between',
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     inputGoogle: {
         height: 46,
         alignSelf: 'stretch',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
         borderRadius: 40,
         marginTop: '4%',
         justifyContent: 'space-between',

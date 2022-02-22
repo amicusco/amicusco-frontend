@@ -26,6 +26,7 @@ import axios from 'axios';
 //Import Images
 import Pen from '../../../assets/pen.png'; 
 import Place_Holder from '../../../assets/Place_Holder.png';
+import petcare from '../../../assets/petcare.png';
 
 import { GetImageOrder } from '../../../Components/GetImages.js'
 
@@ -305,7 +306,7 @@ export default function PetPerfil({ navigation }) {
                     <TouchableOpacity 
                         style={styles.inputOwner}
                         onPress={()=>navigation.navigate('ProfileOwner')}>
-                        <Image source={Place_Holder} style={[styles.icon,{ width: 35, height: 35 }]}/>
+                        <Image source={petcare} style={[styles.icon,{ width: 35, height: 35 }]}/>
                         <Text style={styles.text, {fontFamily: 'Nunito_700Bold', color:"white", fontSize: 20, textAlign:'left', paddingLeft:'5%', alignSelf:'center'}}>{user['name'].split(" ")[0]}</Text>
                     </TouchableOpacity>
                 </View>
@@ -327,7 +328,7 @@ export default function PetPerfil({ navigation }) {
             </ScrollView>
         </View>     
 
-        <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+        <View style={{alignSelf:'center', width:'100%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
         <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
             <TouchableOpacity 
@@ -364,7 +365,7 @@ const styles = StyleSheet.create({
 
     containerInput: {
         justifyContent: 'flex-end',
-        marginBottom: '5%',
+        marginBottom: '4%',
         paddingHorizontal: '2%'
     },
 

@@ -7,7 +7,10 @@ import { Tag } from '../../Components/Tags'
 
 import Camera from '../../assets/camera.png';
 import Place_Holder from '../../assets/Place_Holder.png';
-import logo from '../../assets/logo.png';  
+import logo from '../../assets/logo.png'; 
+import { GetImageOrder } from '../../Components/GetImages';
+import { uploadImage } from '../../../firebase';
+
 
 import { useFonts } from 'expo-font';
 import { 
@@ -16,8 +19,13 @@ import {
     Nunito_700Bold,
 } from '@expo-google-fonts/nunito'
 
-async function Submit (petId, data, tags, navigation) {
+async function Submit (petId, data, tags, navigation, image = null, setImageUploaded = null) {
     data = {...data, tags}; 
+    if (!!image){
+        const uploadedFile = await uploadImage(image);
+        await axios.post(`https://amicusco-pet-api.herokuapp.com/media/firebase/${petid}`, uploadedFile);
+        setImageUploaded(uploadedFile.url);
+    }
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => navigation.navigate('StackMain', {screen: 'Main'})).catch(err => console.log(err));
 }
 
@@ -41,6 +49,7 @@ export default function PetAdd({ navigation }) {
     
     //Funções para adicionar imagens
     const [image, setImage] = useState(null);
+    const [imageUploaded, setImageUploaded] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [loadingInterests, setLoadingInterests] = useState(false);
@@ -58,7 +67,9 @@ export default function PetAdd({ navigation }) {
 
     useEffect(() => {
         const getPet = async () => {
-            setPet(JSON.parse(await AsyncStorage.getItem('pet')));
+            const myPet = JSON.parse(await AsyncStorage.getItem('pet'));
+            setPet(myPet);
+            setImageUploaded(GetImageOrder(myPet['pet_media']));
             setLoading(true);
         }
         getPet()
@@ -73,15 +84,15 @@ export default function PetAdd({ navigation }) {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
         });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
+        if (!result.cancelled) {
+            setImage(result);
+        }
     };
 
     return(
@@ -92,12 +103,14 @@ export default function PetAdd({ navigation }) {
         </View>
         
         <View style={styles.imagePerfil}>
-            <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 180,height: 180}}>
+            <ImageBackground source={image ? image.uri : ( imageUploaded ? imageUploaded : Place_Holder )} style={{ resizeMode:"contain", width: 180,height: 180}}>
                 <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
                     <View/>      
                 </TouchableOpacity>
             {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
+            {imageUploaded && <Image source={{ uri: imageUploaded }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
             </ImageBackground>
         </View>
@@ -140,7 +153,7 @@ export default function PetAdd({ navigation }) {
         <View style={[styles.containerInput, {paddingBottom: '5%'}]}>
         <TouchableOpacity 
             style={styles.inputSubmitButton}
-            onPress={() => Submit(pet['id'], data, selectedInterests, navigation)}>
+            onPress={() => Submit(pet['id'], data, selectedInterests, navigation, image, setImageUploaded)}>
             <Image source={logo} style={[styles.icon,{ width: 35, height: 35 }]}/>
             <Text style={styles.inputSubmitButtonTxt}>Cadastrar Informações Adicionais</Text> 
             <Text style={styles.txt}></Text>     
