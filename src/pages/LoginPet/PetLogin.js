@@ -9,6 +9,8 @@ import plus from '../../assets/plus.png';
 import logo from '../../assets/logo.png';
 import Place_Holder from '../../assets/Place_Holder.png'; 
 
+import { GetImageOrder } from '../../Components/GetImages'
+
 //Import Fonts
 import { useFonts } from 'expo-font';
 import { 
@@ -61,9 +63,10 @@ export default function PetLogin({navigation}){
         </View>
 
         {pets.map((pet, index) => {
+            var image = GetImageOrder(pet['pet_media']); 
             return(
             <TouchableOpacity style={styles.input} key={index} onPress={() => setPetData(pet)}>
-                <Image source={Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35 }]}/>
+                <Image source={image ? {uri: image} : Place_Holder} style={[styles.icon,{ resizeMode:"contain", width: 35, height: 35, borderRadius: 180 }]}/>
                 <Text style={styles.text}>{pet.name}</Text>
                 <Text style={styles.text}></Text>      
             </TouchableOpacity>
