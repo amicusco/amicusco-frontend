@@ -11,8 +11,9 @@ import { Entypo } from '@expo/vector-icons';
 import Place_Holder from '../../assets/Place_Holder.png';
 import itsamatch from '../../assets/itsamatch.png';
 import axios from 'axios';
+import {v4} from 'uuid';
 
-import { GetImageOrder } from '../../Components/GetImages.js'
+import { GetImageOrder } from '../../Components/GetImages.js';
 
 
 export default function Main({ navigation }) {
@@ -107,8 +108,9 @@ export default function Main({ navigation }) {
     async function LikeDislike (indexPet, superLike = false) {
       try{
         // PetlikeId = Pet que recebeu
+        var chatId = v4();
         let petLikeId = pets[indexPet].id;
-        const likeNow = await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`, { petLikeId, superLike });
+        const likeNow = await axios.post(`https://amicusco-pet-api.herokuapp.com/like/${myPet.id}`, { petLikeId, superLike,chatId });
         setLikes([...likes, likeNow.data]);
         for (var i  = 0; i < likes.length; i++){
           if (likes[i].petId == petLikeId){
@@ -118,10 +120,10 @@ export default function Main({ navigation }) {
             } else{
               setMatchPet(true);
             }
-            await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true });
+            await axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likes[i].id}`, { 'match': true, chatId });
             // Não funcionou
             var likeData = likeNow.data;
-            axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likeData.id}`, { 'match': true });
+            axios.put(`https://amicusco-pet-api.herokuapp.com/like/${likeData.id}`, { 'match': true, chatId });
             break;
           }
         }; 

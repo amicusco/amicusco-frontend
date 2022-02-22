@@ -130,7 +130,7 @@ function StackChat(){
     <ChatStack.Navigator initialRouteName="ChatMain">
         <ChatStack.Screen name="ChatMain" component={Chat} options={{headerShown: false}}/>
         <ChatStack.Screen name="ChatMessage" component={ChatMessage} options={{
-          title: 'Troca de Senha',
+          title: 'Conversa',
           headerStyle: {
             backgroundColor: '#E8C9AE',
           },

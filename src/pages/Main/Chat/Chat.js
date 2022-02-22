@@ -19,6 +19,7 @@ import {
 export default function Chat({ navigation }) {
   
   const [matchs, setMatchs] = React.useState([]);
+  const [myPet, setMyPet] = React.useState(null);
 
   //Import Fonts
   let [fontsLoaded]=useFonts({
@@ -32,13 +33,23 @@ export default function Chat({ navigation }) {
     const getLikes = async() => {
       let likesData = JSON.parse(await AsyncStorage.getItem('likes'));
       var petsData = JSON.parse(await AsyncStorage.getItem('pets'));
-      var likesId = likesData.map(el => {
+      var likeList = likesData.filter(el => el.match);
+      var likesId = likeList.map(el => {
         if(el.match){
           return el.petId
         }
       });
-      petsData = petsData.filter(el => likesId.includes(el.id))
+      petsData = petsData.filter(el => likesId.includes(el.id));
+      petsData = petsData.map(element => {
+        var indexLike = likesId.indexOf(element.id);
+        return {...element, "chatId": likeList[indexLike]['chatId']}
+      });
+      
+      console.log(petsData);  
+      
+        
       setMatchs(petsData);
+      setMyPet(JSON.parse(await AsyncStorage.getItem('pet')));
     }
     getLikes();
   }, []);
@@ -52,11 +63,12 @@ export default function Chat({ navigation }) {
           <ScrollView>
               {matchs.map(el => {
                 var image = GetImageOrder(el['pet_media']);
+                console.log(el);
                 return(
                 <View style={{alignItems: "flex-start", justifyContent:"flex-start", paddingTop: '15%', padding: '1%'}}>
                   <TouchableOpacity 
                     style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"flex-start", width:"100%", height:50, paddingLeft:"1%"}}
-                    onPress={() => navigation.navigate('ChatMessage', { likeId: el.id })}>   
+                    onPress={() => navigation.navigate('ChatMessage', { likeId: el.chatId, petId: myPet.id })}>   
                     <Image source={ image === null ? Place_Holder : { uri: image }} style={{width: 60, height: 60, borderRadius: 180, paddingLeft:"5%"}} />
                     <Text style={{paddingLeft:"10%", fontFamily: 'Nunito_600SemiBold', fontSize: 25}}>{el.name}</Text> 
                   </TouchableOpacity>
