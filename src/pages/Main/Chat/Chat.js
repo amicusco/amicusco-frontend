@@ -68,7 +68,7 @@ export default function Chat({ navigation }) {
                 <View style={{alignItems: "flex-start", justifyContent:"flex-start", paddingTop: '15%', padding: '1%'}}>
                   <TouchableOpacity 
                     style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"flex-start", width:"100%", height:50, paddingLeft:"1%"}}
-                    onPress={() => navigation.navigate('ChatMessage', { likeId: el.chatId, petId: myPet.id })}>   
+                    onPress={() => navigation.navigate('ChatMessage', { likeId: el.chatId, petId: myPet.id, image })}>   
                     <Image source={ image === null ? Place_Holder : { uri: image }} style={{width: 60, height: 60, borderRadius: 180, paddingLeft:"5%"}} />
                     <Text style={{paddingLeft:"10%", fontFamily: 'Nunito_600SemiBold', fontSize: 25}}>{el.name}</Text> 
                   </TouchableOpacity>

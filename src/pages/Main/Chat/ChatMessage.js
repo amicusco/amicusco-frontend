@@ -9,8 +9,10 @@ import { chatSend, getMessages } from '../../../../firebase';
 export default function ChatMessage({ route }){
   const likeId = route.params.likeId;
   const petId = route.params.petId;
+  const image = route.params.image;
   const [messages, setMessages] = React.useState([]);
 
+  console.log(image);
   React.useEffect(()=>{
    // console.log("CHATMESSAGE");
     getMessages(messages, setMessages, likeId);
@@ -24,6 +26,7 @@ export default function ChatMessage({ route }){
     return (
       <GiftedChat
         messages={messages}
+        avatar={{uri: image}}
         //onSend={message => {chatSend(GiftedChat.append(messages, message))}}
         onSend={newMessages => onSend(newMessages)}
         user={{
