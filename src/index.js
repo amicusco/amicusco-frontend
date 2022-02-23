@@ -105,7 +105,13 @@ function StackProfile(){
   return(
     <ProfileStack.Navigator initialRouteName="ProfileMain">
         <ProfileStack.Screen name="ProfileMain" component={Profile} options={{headerShown: false}}/>
-        <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{headerShown: true}}/>
+        <ProfileStack.Screen name="ProfileAdd" component={ProfileAdd} options={{ 
+          title: 'Informações Adicionais',
+          headerStyle: {
+            backgroundColor: '#E8C9AE',
+          },
+          headerTintColor: '#111',
+        }}/>
         <ProfileStack.Screen name="ProfileOwner" component={ProfileOwner} options={{
           title: 'Perfil do Dono',
           headerStyle: {
@@ -130,7 +136,7 @@ function StackChat(){
     <ChatStack.Navigator initialRouteName="ChatMain">
         <ChatStack.Screen name="ChatMain" component={Chat} options={{headerShown: false}}/>
         <ChatStack.Screen name="ChatMessage" component={ChatMessage} options={{
-          title: 'Conversa',
+          title:'Conversas',
           headerStyle: {
             backgroundColor: '#E8C9AE',
           },

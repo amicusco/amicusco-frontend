@@ -421,11 +421,10 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-        fontFamily: 'Nunito_400Regular',
-        fontSize:40,
-        fontWeight:'bold',
-        paddingLeft: '3%',
-        paddingTop:'5%'
+        fontFamily: 'Nunito_700Bold',
+        fontSize:30,
+        paddingLeft: '5%',
+        paddingTop:'10%'
     },
     
     switch:{

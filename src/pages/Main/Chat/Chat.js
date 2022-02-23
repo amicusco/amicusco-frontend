@@ -45,11 +45,12 @@ export default function Chat({ navigation }) {
         return {...element, "chatId": likeList[indexLike]['chatId']}
       });
       
-      console.log(petsData);  
+      //console.log(petsData);  
       
         
       setMatchs(petsData);
       setMyPet(JSON.parse(await AsyncStorage.getItem('pet')));
+      console.log(myPet);
     }
     getLikes();
   }, []);
@@ -58,22 +59,25 @@ export default function Chat({ navigation }) {
     return (
 
       <View style={[{height:screenHeight},styles.container]}>
-
+         <View>
+            <Text style={styles.headerText}>Chat</Text>
+         </View>
         <View style={{flex: 0.9}}>
           <ScrollView>
               {matchs.map(el => {
                 var image = GetImageOrder(el['pet_media']);
-                console.log(el);
+                var myImage = GetImageOrder(myPet['pet_media']);
+                console.log("aqui",myImage);
                 return(
-                <View style={{alignItems: "flex-start", justifyContent:"flex-start", paddingTop: '15%', padding: '1%'}}>
+                <View style={{alignItems: "flex-start", justifyContent:"flex-start", paddingTop: '5%', padding: '1%'}}>
                   <TouchableOpacity 
                     style={{borderRadius:50, flexDirection:"row", alignItems: "center", justifyContent:"flex-start", width:"100%", height:50, paddingLeft:"1%"}}
-                    onPress={() => navigation.navigate('ChatMessage', { likeId: el.chatId, petId: myPet.id, image })}>   
+                    onPress={() => navigation.navigate('ChatMessage', { likeId: el.chatId, petId: myPet.id, myImage })}>   
                     <Image source={ image === null ? Place_Holder : { uri: image }} style={{width: 60, height: 60, borderRadius: 180, paddingLeft:"5%"}} />
                     <Text style={{paddingLeft:"10%", fontFamily: 'Nunito_600SemiBold', fontSize: 25}}>{el.name}</Text> 
                   </TouchableOpacity>
 
-                  <View style={{alignSelf:'center', width:'100%', paddingTop:'10%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
+                  <View style={{alignSelf:'center', width:'100%', paddingTop:'5%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
               </View>
               )}
               )}
@@ -83,7 +87,7 @@ export default function Chat({ navigation }) {
 
         <View style={{alignSelf:'center', width:'100%', paddingHorizontal:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
         
-        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'1%'}}>
+        <View style={{flex: 0.1, flexDirection: "row", justifyContent:"space-between", padding:'3%'}}>
         <TouchableOpacity 
               style={{borderRadius:50, alignItems: "center",justifyContent:"center", width:40, height:40}}
               onPress={() => navigation.navigate('Main')}>   
@@ -114,5 +118,11 @@ export default function Chat({ navigation }) {
       backgroundColor:'#ffffff'
 
     },
+    headerText:{
+      fontFamily: 'Nunito_700Bold',
+      fontSize:30,
+      paddingLeft: '5%',
+      paddingTop:'10%'
+  },
 
 });
