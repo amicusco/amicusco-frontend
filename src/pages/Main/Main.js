@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, StatusBar, TouchableOpacityBase } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
+import * as Location from 'expo-location';
+
 
 import logo from '../../assets/logo.png'
 import {Ionicons} from "@expo/vector-icons";
@@ -13,10 +15,26 @@ import itsamatch from '../../assets/itsamatch.png';
 import axios from 'axios';
 import {v4} from 'uuid';
 
+//import fonts
+import { useFonts } from 'expo-font';
+import { 
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_600SemiBold,
+    Nunito_700Bold,
+  } from '@expo-google-fonts/nunito'
+
+
 import { GetImageOrder } from '../../Components/GetImages.js';
 
 
 export default function Main({ navigation }) {
+    let [fontsLoaded]=useFonts({
+      Nunito_300Light,
+      Nunito_400Regular,
+      Nunito_600SemiBold,
+      Nunito_700Bold,
+    })
 
     const screenHeight = Dimensions.get('window').height + StatusBar.currentHeight;
     // const id = navigation.getParam('user');
@@ -28,7 +46,6 @@ export default function Main({ navigation }) {
     const [matchPet, setMatchPet] = React.useState(false);
     const [superMatchPet, setSuperMatchPet] = React.useState(false);
     const [petLike, setPetLike] = React.useState(null);
-    const [pet, setPet] = React.useState(null);
     const [myPet, setMyPet] = React.useState(null);
     const [idx, setIdx] = React.useState(null);
  
@@ -132,21 +149,32 @@ export default function Main({ navigation }) {
       }
     }
 
-
     useEffect(() => {
-      async function Location() {
-        navigator.geolocation.getCurrentPosition(async function(position) {
-          var pet = JSON.parse(await AsyncStorage.getItem('pet'));
-          var data = {'latitude':position.coords.latitude, 'longitude':position.coords.longitude}
-          try{
-            const resp = await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${pet.id}`, data);
-          }
-          catch(err){
-            console.log(err);
-          }
-        })}
-        Location();
-      }, []);
+        if (myPet){    
+          (async () => {
+                  let permissionStatus = null;
+                  if (Platform.OS === 'ios') {
+                      let {status} = await Permissions.askAsync(Permissions.LOCATION);
+                      permissionStatus = status;
+                  } else {
+                      let {status} = await Location.requestBackgroundPermissionsAsync();
+                      permissionStatus = status;
+                  }
+                  if (permissionStatus !== 'granted') {
+                    alert("É necessario autorizar a geolocalização");  
+                    return;
+                  }
+                  let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+
+                  var data = {'latitude':location.coords.latitude, 'longitude':location.coords.longitude}
+                  try{
+                    const resp = await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${myPet.id}`, data);
+                  }
+                  catch(err){
+                    console.log(err);
+                  }
+              })();}
+        }, [myPet]);
 
     return (
       <View style={[{height:screenHeight},styles.container]}>
@@ -161,10 +189,10 @@ export default function Main({ navigation }) {
           </TouchableOpacity> 
           : 
           null}
-           
+          
+          
           {!swipedAll && pets.length > 0 ?
           <View style={[styles.cardContainer,{marginTop:1}]}>
-          
             {/* //  Depois de integrar as imagens : <Image style={styles.avatar} source={{ uri: pet.avatar }} />  */}
             <Swiper
             stackSize={3}
@@ -242,29 +270,33 @@ export default function Main({ navigation }) {
             }}/>
 
           </View>
-          : <Text style={styles.name}> Acabou!! </Text> }
+          :  <Text style={styles.headerText}> Nenhum Pet nas proximidades </Text> }
             
         </View>}
-      
-      <View style={styles.buttonsContainer}>
 
-        <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBack()}>
-          <Entypo name="back" size={24} color="#FF9601" />
-        </TouchableOpacity>
+        <View style={styles.buttonsContainer}>
 
-        <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()} > 
-          <Entypo name="cross" size={50} color="#fe5167" />
-        </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBack()}
+            disabled = {!swipedAll}>
+            <Entypo name="back" size={24} color={!swipedAll ? "#d3d3d3" :"#FF9601"} />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}>
-          <AntDesign name="heart" size={28} color="#36e8b8" />
-        </TouchableOpacity>
-      
-        <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBottom()}  >
-          <AntDesign name="star" size={24} color="#65D2EB" />
-        </TouchableOpacity>
-      
-      </View>
+          <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()}
+            disabled = {!swipedAll} > 
+            <Entypo name="cross" size={50} color={!swipedAll ? "#d3d3d3" : "#fe5167"} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}
+            disabled = {!swipedAll}>
+            <AntDesign name="heart" size={28} color={!swipedAll ? "#d3d3d3" :"#36e8b8"} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBottom()}
+            disabled = {!swipedAll} >
+            <AntDesign name="star" size={24} color={!swipedAll ? "#d3d3d3" :"#65D2EB"} />
+          </TouchableOpacity>
+
+        </View>
 
       <View style={{alignSelf:'center', width:'100%', paddingVertical:'2%' ,borderBottomColor: '#999999', borderBottomWidth: 1}}/>  
       
@@ -400,7 +432,13 @@ export default function Main({ navigation }) {
       zIndex: -1
 
     },
-  
+    headerText:{
+      fontFamily: 'Nunito_700Bold',
+      textAlign: 'center',
+      fontSize:20,
+      paddingTop:'60%'
+  },
+    
     button: {
       width: 50,
       height: 50,
