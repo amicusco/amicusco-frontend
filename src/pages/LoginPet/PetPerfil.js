@@ -172,7 +172,7 @@ export default function PetPerfil({ navigation }) {
             <Text style={styles.headerText}>Perfil</Text>
         </View>
 
-        <View style={styles.imagePerfil}>
+        {/* <View style={styles.imagePerfil}>
             <ImageBackground source={image === null ? Place_Holder: image} style={{ resizeMode:"contain", width: 120, height: 120}}>
                 <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
                     <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/>       
@@ -180,7 +180,7 @@ export default function PetPerfil({ navigation }) {
             {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
   borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
             </ImageBackground>
-        </View>
+        </View> */}
         
         <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/> 
 
@@ -409,8 +409,7 @@ const styles = StyleSheet.create({
     headerText:{
         paddingTop:'10%',
         fontSize:40,
-        fontWeight:'bold',
-        fontFamily:'Nunito_300Light',
+        fontFamily:'Nunito_600SemiBold',
         paddingLeft: '5%'
     },
     

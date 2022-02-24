@@ -275,25 +275,24 @@ export default function Main({ navigation }) {
         </View>}
 
         <View style={styles.buttonsContainer}>
-
           <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBack()}
-            disabled = {!swipedAll}>
-            <Entypo name="back" size={24} color={!swipedAll ? "#d3d3d3" :"#FF9601"} />
+            disabled = {swipedAll}>
+            <Entypo name="back" size={24} color={swipedAll ? "#d3d3d3" :"#FF9601"} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeLeft()}
-            disabled = {!swipedAll} > 
-            <Entypo name="cross" size={50} color={!swipedAll ? "#d3d3d3" : "#fe5167"} />
+            disabled = {swipedAll} > 
+            <Entypo name="cross" size={50} color={swipedAll ? "#d3d3d3" : "#fe5167"} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={() => deck.current.swipeRight()}
-            disabled = {!swipedAll}>
-            <AntDesign name="heart" size={28} color={!swipedAll ? "#d3d3d3" :"#36e8b8"} />
+            disabled = {swipedAll}>
+            <AntDesign name="heart" size={28} color={swipedAll ? "#d3d3d3" :"#36e8b8"} />
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.button, {width:40, height:40}]} onPress={() => deck.current.swipeBottom()}
-            disabled = {!swipedAll} >
-            <AntDesign name="star" size={24} color={!swipedAll ? "#d3d3d3" :"#65D2EB"} />
+            disabled = {swipedAll} >
+            <AntDesign name="star" size={24} color={swipedAll ? "#d3d3d3" :"#65D2EB"} />
           </TouchableOpacity>
 
         </View>
@@ -341,7 +340,7 @@ export default function Main({ navigation }) {
 
         <View style={styles.superMatchContainer}>
           <Image style={styles.matchImage} source={itsamatch}/>
-          <Image style={styles.matchAvatar} source={Place_Holder}/>
+          <Image style={styles.matchAvatar} source={{uri: GetImageOrder(pets[idx]['pet_media'])}}/>
           {/* {console.log(idx)} */}
           <Text style={styles.matchName}>Você recebeu um Super-Like do </Text>
           <Text style={styles.matchName}>{pets[idx].name}</Text>

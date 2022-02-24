@@ -23,7 +23,7 @@ async function Submit (petId, data, tags, navigation, image = null, setImageUplo
     data = {...data, tags}; 
     if (!!image){
         const uploadedFile = await uploadImage(image);
-        await axios.post(`https://amicusco-pet-api.herokuapp.com/media/firebase/${petid}`, uploadedFile);
+        await axios.post(`https://amicusco-pet-api.herokuapp.com/media/firebase/${petId}`, uploadedFile);
         setImageUploaded(uploadedFile.url);
     }
     await axios.put(`https://amicusco-pet-api.herokuapp.com/pets/${petId}`, data).then(resp => navigation.navigate('StackMain', {screen: 'Main'})).catch(err => console.log(err));
@@ -69,7 +69,8 @@ export default function PetAdd({ navigation }) {
         const getPet = async () => {
             const myPet = JSON.parse(await AsyncStorage.getItem('pet'));
             setPet(myPet);
-            setImageUploaded(GetImageOrder(myPet['pet_media']));
+            //setImageUploaded(GetImageOrder(myPet['pet_media']));
+            //console.log("loading false");
             setLoading(true);
         }
         getPet()
@@ -77,6 +78,7 @@ export default function PetAdd({ navigation }) {
         const getInterests = async () => {
             let tags = await axios.get("https://amicusco-pet-api.herokuapp.com/tag");
             setInterests(tags.data);
+            //console.log("loading interests false");
             setLoadingInterests(true);
         }
         getInterests();
@@ -103,16 +105,16 @@ export default function PetAdd({ navigation }) {
         </View>
         
         <View style={styles.imagePerfil}>
-            <ImageBackground source={image ? image.uri : ( imageUploaded ? imageUploaded : Place_Holder )} style={{ resizeMode:"contain", width: 180,height: 180}}>
-                <TouchableOpacity style={ styles.inputImage} onPress={pickImage}>
-                    <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
-                    <View/>      
-                </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
-  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
-            {imageUploaded && <Image source={{ uri: imageUploaded }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
-  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden' }} />}
-            </ImageBackground>
+                    <ImageBackground source={ image ? image.uri : ( imageUploaded ? imageUploaded : Place_Holder ) } style={{ resizeMode:"contain", width: 180,height: 180}}>
+                        <TouchableOpacity style={ styles.inputImage } onPress={pickImage}>
+                            <Image source={Camera} style={{ resizeMode:"contain", width:'75%', height:'75%' }}/> 
+                            <View/>      
+                        </TouchableOpacity>
+                        {imageUploaded && <Image source={{ uri: imageUploaded }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
+                        {image && <Image source={{ uri: image.uri }} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, borderBottomLeftRadius: 180, borderBottomRightRadius: 180,
+  borderTopRightRadius: 180, borderTopLeftRadius: 180, overflow: 'hidden'}} />}
+                    </ImageBackground>
         </View>
         
         <View style={{paddingTop:20, alignSelf:'center', width:'100%',borderBottomColor: '#E8C9AE', borderBottomWidth: 5}}/>  
