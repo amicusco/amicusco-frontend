@@ -301,7 +301,7 @@ export default function PetPerfil({ navigation }) {
                   initial={2}
                   animation={true}
                   formHorizontal={true}
-                  onPress={(value) => setData({...data, 'preference': value})}
+                  onPress={(value) => { setData({...data, 'preference': value}); setPreference(value)}}
                 />
         </View>
 
