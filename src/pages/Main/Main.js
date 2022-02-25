@@ -51,7 +51,7 @@ export default function Main({ navigation }) {
  
     const [limit, setLimit] = React.useState(10);
     const [preference, setPreference] = React.useState(0);
-    const [species, setSpecies] = React.useState(1); //0- 1-cachorro 2-gato 3-cavalo
+    //const [species, setSpecies] = React.useState(1); //0- 1-cachorro 2-gato 3-cavalo
 
     const [swipedAll, setSwipedAll] = React.useState(false);
     const [loading, setLoading] = useState(true); 
@@ -62,10 +62,12 @@ export default function Main({ navigation }) {
         try{
           let myPet = JSON.parse(await AsyncStorage.getItem('pet'));
           setMyPet(myPet);
-          setPreference(myPet['Preference']);
-          setSpecies(myPet['Specie']);
+          setPreference(myPet['preference']);
+          //setSpecies(myPet['specie_pet']['specie']);
+          console.log(preference);
 
-          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/pets?limit=${limit}&preference=${preference}&latitude=${myPet.latitude}&longitude=${myPet.longitude}&distance=${myPet.distance}`);
+          const resp = await axios.get(`https://amicusco-pet-api.herokuapp.com/pets?limit=${limit}&preference=${myPet.preference}&latitude=${myPet.latitude}&longitude=${myPet.longitude}&distance=${myPet.distance}`);
+          console.log(resp.data);
 
          
           setPets(resp.data.filter(el => el.id != myPet.id));
