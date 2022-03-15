@@ -1,17 +1,15 @@
-#Comandos básicos para iniciar um projeto:
+#Comandos básicos para iniciar um projeto em React Native:
 # npm install -g expo-cli
 # expo init AwesomeProject
 # cd AwesomeProject
 # npm start # you can also use: expo start
 
-
-#Vamos começar a usar --save (ai quando atualizar ou qualquer um baixar é só dar npm install que ele instala todas as bib), basicamente fica salvo no package-json e vai instalar 
-as bib instanciadas ali
+# Dependências:
 
 # npm install @react-navigation/native --save
 # expo install expo-linear-gradient --save
 # npm install react-native-screens react-native-safe-area-context --save
-#npm install axios --save
+# npm install axios --save
 # npm install @react-navigation/native-stack --save
 # npm install @react-navigation/bottom-tabs --save
 # npm install @react-navigation/elements@1.0.1 --save
