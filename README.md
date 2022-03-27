@@ -1,8 +1,9 @@
 # Tinder Clone App
 > The objective of this work was develop a Tinder Clone App with other context, the context choosed is crossing/friendship between Pets.
+
 > Conclusion: 7-8 Months.
+
 > Agile Methodology: Scrum.
-> 
 
 > Five members composed the team:
  - Manager/Scrum Master : Igor Oliveira
