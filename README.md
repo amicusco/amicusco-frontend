@@ -32,6 +32,7 @@
 
 <br>
 
+
 <p><b>Conclusion</b>: 7-8 Months.</p>
 
 <p><b>Agile Methodology</b>: Scrum.</p>
@@ -48,6 +49,14 @@ https://user-images.githubusercontent.com/38335297/160295119-8fc81bd4-21ee-46e7-
         <img src="https://user-images.githubusercontent.com/38335297/161117931-699ddbe5-7e53-45cb-a834-bcb3bb48eb10.png" width="100px;" alt="Math Picture"/><br>
         <sub>
           <b>Matheus Macedo</b>
+        </sub>
+      </a>
+    </td>
+   <td align="center">
+      <a href="https://github.com/jhppires">
+        <img src="https://user-images.githubusercontent.com/38335297/161123253-a51d1a2b-a41e-476c-a249-a39256a4db90.png" width="110px;" alt="Johann Picture"/><br>
+        <sub>
+          <b>Johann Pires</b>
         </sub>
       </a>
     </td>
