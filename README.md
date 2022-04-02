@@ -28,7 +28,8 @@
 <p>Five members composed the team:</p>
 <li><b>Manager/Scrum Master</b>: Igor Oliveira</li>
 <li><b>Front-End</b>: Johann Pires and Matheus Macedo</li>
-<li><b>Back-End</b>: Augusto César, Bruno Lobell and Maickel Alves</li>
+<li><b>Full-Stack</b>: Bruno Lobell</li>
+<li><b>Back-End</b>: Augusto César and Maickel Alves</li>
 
 <br>
 
@@ -60,6 +61,14 @@ https://user-images.githubusercontent.com/38335297/160295119-8fc81bd4-21ee-46e7-
         </sub>
       </a>
     </td>
+   <td align="center">
+     <a href="https://github.com/brunolobell">
+       <img src="https://user-images.githubusercontent.com/38335297/161174052-477dc548-67c7-4453-ba2d-38f94ea665fa.png" width="100px;" alt="Bruno Picture"/><br>
+       <sub>
+         <b>Bruno Lobell</b>
+       </sub>
+     </a>
+   </td>
   </tr>
 </table>
 
