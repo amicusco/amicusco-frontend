@@ -25,7 +25,7 @@
 <p>The objective of this work was develop a Tinder Clone App with other context, the context choosed is crossing/friendship between Pets.</p>
 
 <h2>:clipboard: Details</h2>
-<p>Five members composed the team:</p>
+<p>Six members composed the team:</p>
 <li><b>Manager/Scrum Master</b>: Igor Oliveira</li>
 <li><b>Front-End</b>: Johann Pires and Matheus Macedo</li>
 <li><b>Full-Stack</b>: Bruno Lobell</li>
